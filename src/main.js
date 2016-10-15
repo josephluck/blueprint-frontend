@@ -2,29 +2,14 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import routes from './routes'
 
 Vue.use(VueRouter)
 
 /* eslint-disable no-new */
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
-      path: '/todos',
-      component: { render (h) { return h('router-view') } },
-      children: [
-        {
-          path: '',
-          component: require('./pages/Todos.vue')
-        },
-        {
-          name: 'todo',
-          path: ':todoId',
-          component: require('./pages/Todo.vue')
-        }
-      ]
-    }
-  ]
+  routes
 })
 
 import store from './store/Store'
