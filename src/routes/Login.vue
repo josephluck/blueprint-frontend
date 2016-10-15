@@ -9,6 +9,7 @@
 
     <button
       type="submit"
+      v-bind:disabled="submitting"
     >
       Login
     </button>
@@ -24,7 +25,10 @@
     },
     methods: {
       submitLogin () {
-        this.$store.dispatch('login/SUBMIT_LOGIN')
+        this.$store.dispatch('login/ON_SUBMIT', {
+          email: 'joseph.luck@local.co',
+          password: '12345678'
+        })
       }
     }
   }

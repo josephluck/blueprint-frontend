@@ -3,11 +3,11 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import todos from './modules/todos'
-
 const Store = new Vuex.Store({
   modules: {
-    todos
+    todos: require('./modules/todos').default,
+    login: require('./modules/login').default,
+    user: require('./modules/user').default
   },
   strict: process.env.NODE_ENV !== 'production'
 })
