@@ -10,7 +10,7 @@ const TodosModule = {
     ]
   },
   mutations: {
-    ADD_NEW_TODO (state, text) {
+    'todos/ADD_NEW_TODO' (state, text) {
       state.todos.push({
         text,
         id: new Date().getTime(),
@@ -18,16 +18,16 @@ const TodosModule = {
         comments: []
       })
     },
-    TOGGLE_TODO (state, todo) {
+    'todos/TOGGLE_TODO' (state, todo) {
       todo.completed = !todo.completed
     }
   },
   actions: {
-    addNewTodo ({commit}, text) {
-      commit('ADD_NEW_TODO', text)
+    'todos/ADD_NEW_TODO' ({commit}, text) {
+      commit('todos/ADD_NEW_TODO', text)
     },
-    toggleTodo ({commit}, todo) {
-      commit('TOGGLE_TODO', todo)
+    'todos/TOGGLE_TODO' ({commit}, todo) {
+      commit('todos/TOGGLE_TODO', todo)
     }
   }
 }

@@ -21,10 +21,10 @@
     },
     methods: {
       addNewTodo (text) {
-        this.$store.dispatch('addNewTodo', text)
+        this.$store.dispatch('todos/ADD_NEW_TODO', text)
       },
       toggleTodo (todo) {
-        this.$store.dispatch('toggleTodo', todo)
+        this.$store.dispatch('todos/TOGGLE_TODO', todo)
       }
     },
     components: {

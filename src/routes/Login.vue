@@ -17,9 +17,14 @@
 
 <script>
   export default {
+    computed: {
+      submitting () {
+        return this.$store.state.login.submitting
+      }
+    },
     methods: {
       submitLogin () {
-        console.log('Fire login')
+        this.$store.dispatch('login/SUBMIT_LOGIN')
       }
     }
   }

@@ -28,7 +28,7 @@
     },
     methods: {
       toggleTodo () {
-        this.$store.dispatch('toggleTodo', this.todo)
+        this.$store.dispatch('todos/TOGGLE_TODO', this.todo)
       }
     }
   }
