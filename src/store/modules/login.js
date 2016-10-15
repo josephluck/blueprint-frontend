@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Vue from 'vue'
 import Urls from '../../api/urls'
 
 const LoginModule = {
@@ -19,7 +19,7 @@ const LoginModule = {
   actions: {
     'login/ON_SUBMIT' ({commit}, payload) {
       commit('login/ON_SUBMIT')
-      Axios.post(Urls.login(), payload).then((response) => {
+      Vue.http.post(Urls.login(), payload).then((response) => {
         commit('login/ON_SUCCESS')
         commit('user/ON_LOGIN', response.data)
         window.localStorage.setItem('token', response.token)
