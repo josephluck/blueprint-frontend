@@ -23,7 +23,7 @@
     computed: {
       todo () {
         const todoId = parseInt(this.$route.params.todoId, 10)
-        return this.$store.state.todos.find(todo => todo.id === todoId)
+        return this.$store.state.todos.todos.find(todo => todo.id === todoId)
       }
     },
     methods: {

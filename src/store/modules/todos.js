@@ -1,10 +1,4 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
-
-const Store = new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
+const TodosModule = {
   state: {
     todos: [
       {
@@ -36,6 +30,6 @@ const Store = new Vuex.Store({
       commit('TOGGLE_TODO', todo)
     }
   }
-})
+}
 
-export default Store
+export default TodosModule

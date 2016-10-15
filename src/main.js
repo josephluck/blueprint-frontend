@@ -12,7 +12,7 @@ const router = new VueRouter({
   routes
 })
 
-import store from './store/Store'
+import store from './store'
 
 new Vue({
   router,
