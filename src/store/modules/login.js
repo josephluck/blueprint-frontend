@@ -29,12 +29,10 @@ const LoginModule = {
         Vue.http.post(Urls.login(), payload)
         .then((response) => {
           commit('login/ON_SUCCESS')
-          commit('user/ON_LOGIN', response.data)
-          // Set token on all requests by default
-          Vue.http.headers.common['Authorization'] = response.token
+          commit('user/ON_LOGIN', response.body.data)
           // Persist token in localStorage so the user doesn't have
           // to log in every time they open the app
-          window.localStorage.setItem('token', response.token)
+          window.localStorage.setItem('token', response.body.token)
           resolve()
         })
         .catch((response) => {

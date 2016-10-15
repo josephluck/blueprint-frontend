@@ -1,33 +1,31 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-
 import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-
 import VueResource from 'vue-resource'
+import Interceptors from './api/interceptors'
+import Routes from './routes'
+import { sync } from 'vuex-router-sync'
+import AppStore from './store'
+
+Vue.use(VueRouter)
 Vue.use(VueResource)
 
-import routes from './routes'
-const router = new VueRouter({
+const AppRouter = new VueRouter({
   mode: 'history',
-  routes
+  routes: Routes
 })
 
-import { sync } from 'vuex-router-sync'
-import store from './store'
-sync(store, router)
+sync(AppStore, AppRouter)
 
-new Vue({
-  http: {
-    headers: {
-      Authorization: window.localStorage.getItem('token') || null
-    }
-  },
-  router,
-  store,
+const App = new Vue({
+  router: AppRouter,
+  store: AppStore,
   render: h => h(require('./App.vue'))
-}).$mount('#app')
+})
 
-import interceptors from './api/interceptors'
-interceptors.init()
+Interceptors.init(App)
+
+App.$mount('#app')
+
+export default App

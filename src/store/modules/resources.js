@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import Urls from '../../api/urls'
+
 const TodosModule = {
   state: {
     resources: [],
@@ -15,13 +18,11 @@ const TodosModule = {
   actions: {
     'resources/GET_RESOURCES' ({commit}) {
       commit('resources/GET_RESOURCES')
-      setTimeout(() => {
-        commit('resources/RECEIVE_RESOURCES', [
-          {
-            name: 'Resource name'
-          }
-        ])
-      }, 2000)
+      Vue.http.get(Urls.resources())
+      .then((response) => {
+        console.log(response)
+        commit('resources/RECEIVE_RESOURCES', response.body.data)
+      })
     }
   }
 }
