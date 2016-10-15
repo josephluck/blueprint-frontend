@@ -50,7 +50,7 @@
           password: this.password
         }).then(() => {
           this.$router.replace({
-            path: 'todos'
+            path: 'resources'
           })
         })
       }

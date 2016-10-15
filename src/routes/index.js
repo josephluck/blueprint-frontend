@@ -23,6 +23,10 @@ export default [
             component: require('./Todo.vue')
           }
         ]
+      },
+      {
+        path: '/resources',
+        component: require('./Resources.vue')
       }
     ]
   }
