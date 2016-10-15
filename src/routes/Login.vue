@@ -7,6 +7,20 @@
       Login to Blueprint
     </h1>
 
+    <div v-if="error">
+      {{ errorMessage }}
+    </div>
+
+    <input
+      type="email"
+      v-model="email"
+    />
+
+    <input
+      type="password"
+      v-model="password"
+    />
+
     <button
       type="submit"
       v-bind:disabled="submitting"
@@ -18,16 +32,22 @@
 
 <script>
   export default {
-    computed: {
-      submitting () {
-        return this.$store.state.login.submitting
+    data () {
+      return {
+        email: 'hey',
+        password: ''
       }
+    },
+    computed: {
+      submitting () { return this.$store.state.login.submitting },
+      error () { return this.$store.state.login.error },
+      errorMessage () { return this.$store.state.login.errorMessage }
     },
     methods: {
       submitLogin () {
         this.$store.dispatch('login/ON_SUBMIT', {
-          email: 'joseph.luck@local.co',
-          password: '12345678'
+          email: this.email,
+          password: this.password
         })
       }
     }
