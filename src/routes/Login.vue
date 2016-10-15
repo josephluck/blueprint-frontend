@@ -34,8 +34,8 @@
   export default {
     data () {
       return {
-        email: 'hey',
-        password: ''
+        email: 'joseph.luck@local.co',
+        password: '12345678'
       }
     },
     computed: {
@@ -48,6 +48,10 @@
         this.$store.dispatch('login/ON_SUBMIT', {
           email: this.email,
           password: this.password
+        }).then(() => {
+          this.$router.replace({
+            path: 'todos'
+          })
         })
       }
     }

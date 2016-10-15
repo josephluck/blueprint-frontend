@@ -24,8 +24,9 @@ const LoginModule = {
   },
   actions: {
     'login/ON_SUBMIT' ({commit}, payload) {
-      commit('login/ON_SUBMIT')
-      Vue.http.post(Urls.login(), payload)
+      return new Promise((resolve, reject) => {
+        commit('login/ON_SUBMIT')
+        Vue.http.post(Urls.login(), payload)
         .then((response) => {
           commit('login/ON_SUCCESS')
           commit('user/ON_LOGIN', response.data)
@@ -34,10 +35,13 @@ const LoginModule = {
           // Persist token in localStorage so the user doesn't have
           // to log in every time they open the app
           window.localStorage.setItem('token', response.token)
+          resolve()
         })
         .catch((response) => {
           commit('login/ON_ERROR', response.body)
+          reject()
         })
+      })
     }
   }
 }
