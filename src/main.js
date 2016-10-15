@@ -19,6 +19,11 @@ import store from './store'
 sync(store, router)
 
 new Vue({
+  http: {
+    headers: {
+      Authorization: window.localStorage.getItem('token') || null
+    }
+  },
   router,
   store,
   render: h => h(require('./App.vue'))
