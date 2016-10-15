@@ -28,3 +28,6 @@ new Vue({
   store,
   render: h => h(require('./App.vue'))
 }).$mount('#app')
+
+import interceptors from './api/interceptors'
+interceptors.init()
