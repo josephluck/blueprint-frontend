@@ -14,6 +14,10 @@ const router = new VueRouter({
 
 import store from './store'
 
+import { sync } from 'vuex-router-sync'
+
+sync(store, router)
+
 new Vue({
   router,
   store,

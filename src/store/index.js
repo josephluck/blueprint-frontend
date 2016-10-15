@@ -5,8 +5,8 @@ Vue.use(Vuex)
 
 const Store = new Vuex.Store({
   modules: {
-    todos: require('./modules/todos').default,
     login: require('./modules/login').default,
+    todos: require('./modules/todos').default,
     user: require('./modules/user').default
   },
   strict: process.env.NODE_ENV !== 'production'
