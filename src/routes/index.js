@@ -2,6 +2,10 @@ const noop = { render: h => h('router-view') }
 
 export default [
   {
+    path: '/login',
+    component: require('./Login.vue')
+  },
+  {
     path: '/todos',
     component: noop,
     children: [
