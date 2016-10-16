@@ -33,6 +33,9 @@ const TodosModule = {
     },
     'resources/SETUP_SOCKETS' ({commit}) {
       Sockets.on('resources created', resource => commit('resources/RECEIVE_RESOURCE', resource))
+    },
+    'resources/SAVE_NEW_RESOURCE' ({commit}, payload) {
+      Vue.http.post(Urls.resources(), payload)
     }
   }
 }
