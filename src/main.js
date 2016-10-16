@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Interceptors from './api/interceptors'
+import Sockets from './api/sockets'
 import Routes from './routes'
 import { sync } from 'vuex-router-sync'
 import AppStore from './store'
@@ -25,6 +26,7 @@ const App = new Vue({
 })
 
 Interceptors.init(App)
+Sockets.init()
 
 App.$mount('#app')
 

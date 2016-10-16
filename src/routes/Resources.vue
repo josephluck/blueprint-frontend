@@ -26,6 +26,7 @@
     methods: {
       getResources () {
         this.$store.dispatch('resources/GET_RESOURCES')
+        this.$store.dispatch('resources/SETUP_SOCKETS')
       }
     }
   }

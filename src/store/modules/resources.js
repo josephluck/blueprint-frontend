@@ -1,6 +1,6 @@
-// import Vue from 'vue'
-// import Urls from '../../api/urls'
-import io from 'socket.io-client'
+import Vue from 'vue'
+import Urls from '../../api/urls'
+import Sockets from '../../api/sockets'
 
 const TodosModule = {
   state: {
@@ -27,18 +27,12 @@ const TodosModule = {
   actions: {
     'resources/GET_RESOURCES' ({commit}) {
       commit('resources/GET_RESOURCES')
-      const socket = io('http://localhost:3030/')
-      socket.on('resources created', (resource) => {
-        commit('resources/RECEIVE_RESOURCE', resource)
-      })
-      // Vue.http.get(Urls.resources())
-      // .then((response) => {
-      //   console.log(response)
-      //   commit('resources/RECEIVE_RESOURCES', response.body.data)
-      // })
-      // .catch((response) => {
-      //   commit('resources/ERROR', response.body)
-      // })
+      Vue.http.get(Urls.resources())
+        .then(response => commit('resources/RECEIVE_RESOURCES', response.body.data))
+        .catch(response => commit('resources/ERROR', response.body))
+    },
+    'resources/SETUP_SOCKETS' ({commit}) {
+      Sockets.on('resources created', resource => commit('resources/RECEIVE_RESOURCE', resource))
     }
   }
 }
