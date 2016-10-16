@@ -1,23 +1,30 @@
 <template>
-  <div class="projects pl2 pr2">
+  <div class="mt2 mb2 pl2 pr2 border-right h100 flex flex-column flex-1">
     {{ loading ? 'Loading' : null }}
-    <div v-for="project in projects">
-      <router-link
-        v-bind:to="{
-          name: 'project',
-          params: {
-            projectId: project._id
-          }
-        }"
+    <div
+      class="flex-1"
+    >
+      <div
+        class="pb1"
+        v-for="project in projects"
       >
-        {{ project.name }}
-      </router-link>
+        <router-link
+          v-bind:to="{
+            name: 'project',
+            params: {
+              projectId: project._id
+            }
+          }"
+        >
+          {{ project.name }}
+        </router-link>
+      </div>
     </div>
-    <button
+    <a
       v-on:click="newProjectFormShowing = true"
     >
       New project
-    </button>
+    </a>
     <div v-if="newProjectFormShowing">
       <form
         v-on:submit.prevent="saveNewProject"
@@ -71,6 +78,7 @@
         this.$store.dispatch('projects/ADD_NEW', {
           name: this.newProjectName
         }).then((projectId) => {
+          this.newProjectFormShowing = false
           this.$router.replace({
             name: 'project',
             params: {

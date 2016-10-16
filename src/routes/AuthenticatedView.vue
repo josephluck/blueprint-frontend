@@ -1,6 +1,6 @@
 <template>
-  <div class="flex">
-    <div class="mr2">
+  <div class="flex h-100">
+    <div class="flex h-100 flex-vertical mr2">
       <projects-list></projects-list>
     </div>
     <div>

@@ -9,6 +9,8 @@ import Routes from './routes'
 import { sync } from 'vuex-router-sync'
 import AppStore from './store'
 
+require('./less/index.less')
+
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
