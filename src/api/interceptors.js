@@ -6,7 +6,7 @@ export default {
       const token = window.localStorage.getItem('token')
       if (token) {
         request.headers.set('Authorization', token)
-      } else if (!request.url.includes('auth')) {
+      } else if (!request.url.includes('auth') && !request.url.includes('signup')) {
         // Redirect user to login screen if they aren't authenticated
         window.location.pathname = '/login'
       }

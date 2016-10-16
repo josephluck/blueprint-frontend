@@ -6,6 +6,10 @@ export default [
     component: require('./Login.vue')
   },
   {
+    path: '/signup',
+    component: require('./Signup.vue')
+  },
+  {
     path: '',
     component: require('./AuthenticatedView.vue'),
     children: [

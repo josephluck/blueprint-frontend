@@ -1,15 +1,20 @@
 <template>
   <form
-    class="login-form"
+    class="signup-form"
     v-on:submit.prevent="submitLogin"
   >
     <h1>
-      Login to Blueprint
+      Signup for Blueprint
     </h1>
 
     <div v-if="error">
       {{ errorMessage }}
     </div>
+
+    <input
+      type="company_name"
+      v-model="company_name"
+    />
 
     <input
       type="email"
@@ -25,7 +30,7 @@
       type="submit"
       v-bind:disabled="submitting"
     >
-      Login
+      Signup
     </button>
   </form>
 </template>
@@ -35,22 +40,24 @@
     data () {
       return {
         email: 'joseph@local.co',
-        password: '12345678'
+        password: '12345678',
+        company_name: 'Joseph Luck LTD'
       }
     },
     computed: {
-      submitting () { return this.$store.state.login.submitting },
-      error () { return this.$store.state.login.error },
-      errorMessage () { return this.$store.state.login.errorMessage }
+      submitting () { return this.$store.state.signup.submitting },
+      error () { return this.$store.state.signup.error },
+      errorMessage () { return this.$store.state.signup.errorMessage }
     },
     methods: {
       submitLogin () {
-        this.$store.dispatch('login/ON_SUBMIT', {
+        this.$store.dispatch('signup/ON_SUBMIT', {
           email: this.email,
-          password: this.password
+          password: this.password,
+          company_name: this.company_name
         }).then(() => {
           this.$router.replace({
-            path: 'resources'
+            path: 'login'
           })
         })
       }

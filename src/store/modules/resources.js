@@ -17,7 +17,7 @@ const TodosModule = {
     },
     'resources/ERROR' (state, error) {
       state.loading = false
-      console.warn(error)
+      console.error(error)
     },
     'resources/RECEIVE_RESOURCE' (state, resource) {
       state.resources.push(resource)
