@@ -38,10 +38,13 @@
     },
     created () {
       this.getResources()
+      this.setUpSockets()
     },
     methods: {
       getResources () {
         this.$store.dispatch('resources/GET_RESOURCES')
+      },
+      setUpSockets () {
         this.$store.dispatch('resources/SETUP_SOCKETS')
       },
       saveNewResource () {

@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "basscss": "^8.0.2",
     "socket.io-client": "^1.5.0",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
