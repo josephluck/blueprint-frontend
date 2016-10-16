@@ -14,15 +14,40 @@
       </router-link>
     </div>
     <button
-      v-on:click="addNewProject"
+      v-on:click="newProjectFormShowing = true"
     >
       New project
     </button>
+    <div v-if="newProjectFormShowing">
+      <form
+        v-on:submit.prevent="saveNewProject"
+      >
+        <input
+          v-model="newProjectName"
+        />
+        <a
+          v-on:click.prevent="newProjectFormShowing = false"
+        >
+          Cancel
+        </a>
+        <button
+          type="submit"
+        >
+          Save
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        newProjectFormShowing: false,
+        newProjectName: ''
+      }
+    },
     computed: {
       projects () {
         return this.$store.state.projects.projects
@@ -42,8 +67,17 @@
       setUpSockets () {
         this.$store.dispatch('projects/SETUP_SOCKETS')
       },
-      addNewProject () {
-        this.$store.dispatch('projects/ADD_NEW')
+      saveNewProject () {
+        this.$store.dispatch('projects/ADD_NEW', {
+          name: this.newProjectName
+        }).then((projectId) => {
+          this.$router.replace({
+            name: 'project',
+            params: {
+              projectId
+            }
+          })
+        })
       }
     }
   }

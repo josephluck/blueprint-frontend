@@ -1,6 +1,5 @@
 <template>
   <div class="project">
-    Project
     {{ loading ? 'Loading' : null }}
     <span>
       {{ project.name }}

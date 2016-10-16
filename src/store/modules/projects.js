@@ -33,9 +33,13 @@ const ProjectsModule = {
     'projects/SETUP_SOCKETS' ({commit}) {
       Sockets.on('projects created', project => commit('projects/RECEIVE_PROJECT', project))
     },
-    'projects/ADD_NEW' ({commit}) {
-      Vue.http.post(Urls.projects(), {
-        name: 'Blueprint project'
+    'projects/ADD_NEW' ({commit}, payload) {
+      return new Promise((resolve, reject) => {
+        Vue.http.post(Urls.projects(), payload).then((response) => {
+          resolve(response.body._id)
+        }).catch(() => {
+          reject()
+        })
       })
     }
   }
