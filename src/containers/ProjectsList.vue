@@ -1,16 +1,23 @@
 <template>
   <div class="projects pl2 pr2">
+    {{ loading ? 'Loading' : null }}
+    <div v-for="project in projects">
+      <router-link
+        v-bind:to="{
+          name: 'project',
+          params: {
+            projectId: project._id
+          }
+        }"
+      >
+        {{ project.name }}
+      </router-link>
+    </div>
     <button
       v-on:click="addNewProject"
     >
       New project
     </button>
-    {{ loading ? 'Loading' : null }}
-    <div v-for="project in projects">
-      <span>
-        {{ project.name }}
-      </span>
-    </div>
   </div>
 </template>
 

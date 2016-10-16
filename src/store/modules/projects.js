@@ -35,7 +35,7 @@ const ProjectsModule = {
     },
     'projects/ADD_NEW' ({commit}) {
       Vue.http.post(Urls.projects(), {
-        name: 'Change me :-)'
+        name: 'Blueprint project'
       })
     }
   }

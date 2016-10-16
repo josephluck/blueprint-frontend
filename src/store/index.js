@@ -7,6 +7,7 @@ const Store = new Vuex.Store({
   modules: {
     login: require('./modules/login').default,
     projects: require('./modules/projects').default,
+    project: require('./modules/project').default,
     resources: require('./modules/resources').default,
     signup: require('./modules/signup').default,
     todos: require('./modules/todos').default,
