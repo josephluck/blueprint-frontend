@@ -1,18 +1,16 @@
 <template>
-  <div class="flex h-100">
-    <div class="flex h-100 flex-vertical mr2">
-      <projects-list></projects-list>
+  <div class="ph4">
+    <div class="top-bar mv4">
+      <breadcrumbs></breadcrumbs>
     </div>
-    <div>
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
   export default {
     components: {
-      ProjectsList: require('../containers/ProjectsList.vue')
+      Breadcrumbs: require('../containers/Breadcrumbs.vue')
     }
   }
 </script>

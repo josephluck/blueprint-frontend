@@ -1,9 +1,20 @@
 <template>
-  <div class="mt2 mb2 pl2 pr2 border-right h100 flex flex-column flex-1">
+  <div>
+    <div class="flex items-center">
+      <h1 class="flex-1">
+        Projects
+      </h1>
+      <div>
+        <a
+          class="button"
+          v-on:click="newProjectFormShowing = true"
+        >
+          New project
+        </a>
+      </div>
+    </div>
     {{ loading ? 'Loading' : null }}
-    <div
-      class="flex-1"
-    >
+    <div>
       <div
         class="pb1"
         v-for="project in projects"
@@ -20,11 +31,7 @@
         </router-link>
       </div>
     </div>
-    <a
-      v-on:click="newProjectFormShowing = true"
-    >
-      New project
-    </a>
+
     <div v-if="newProjectFormShowing">
       <form
         v-on:submit.prevent="saveNewProject"
@@ -66,8 +73,14 @@
     created () {
       this.getResources()
       this.setUpSockets()
+      this.setBreadcrumbs()
     },
     methods: {
+      setBreadcrumbs () {
+        this.$store.dispatch('breadcrumbs/SET', [
+          { name: 'Projects' }
+        ])
+      },
       getResources () {
         this.$store.dispatch('projects/GET_PROJECTS')
       },

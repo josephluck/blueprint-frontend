@@ -31,7 +31,12 @@
     },
     methods: {
       getProject (projectId) {
-        this.$store.dispatch('project/GET_PROJECT', projectId)
+        this.$store.dispatch('project/GET_PROJECT', projectId).then((project) => {
+          this.$store.dispatch('breadcrumbs/SET', [
+            { name: 'Projects', to: '/projects' },
+            { name: project.name }
+          ])
+        })
       },
       setUpSockets (projectId) {
         this.$store.dispatch('project/SETUP_SOCKETS', projectId)

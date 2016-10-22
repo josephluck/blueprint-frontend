@@ -26,9 +26,16 @@ const ProjectsModule = {
   actions: {
     'project/GET_PROJECT' ({commit}, projectId) {
       commit('project/GET_PROJECT')
-      Vue.http.get(Urls.project(projectId))
-        .then(response => commit('project/RECEIVE_PROJECT', response.body))
-        .catch(response => commit('project/ERROR', response.body))
+
+      return new Promise((resolve, reject) => {
+        Vue.http.get(Urls.project(projectId)).then(response => {
+          commit('project/RECEIVE_PROJECT', response.body)
+          resolve(response.body)
+        }).catch(response => {
+          commit('project/ERROR', response.body)
+          reject(response.body)
+        })
+      })
     },
     'project/SETUP_SOCKETS' ({commit}, projectId) {
       Sockets.on('project updated', project => {

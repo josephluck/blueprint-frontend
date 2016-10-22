@@ -18,6 +18,10 @@ export default [
         component: none,
         children: [
           {
+            path: '',
+            component: require('./ProjectsList.vue')
+          },
+          {
             name: 'project',
             path: ':projectId',
             component: require('./Project.vue')

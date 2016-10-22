@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const Store = new Vuex.Store({
   modules: {
+    breadcrumbs: require('./modules/breadcrumbs').default,
     login: require('./modules/login').default,
     projects: require('./modules/projects').default,
     project: require('./modules/project').default,

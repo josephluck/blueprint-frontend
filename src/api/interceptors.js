@@ -12,7 +12,9 @@ export default {
       }
       next((response) => {
         if (response.status === 401) {
-          console.info('Log the user out, they arent authenticated')
+          // Redirect user to login screen if they aren't authenticated
+          window.location.pathname = '/login'
+          window.localStorage.removeItem('token')
         }
       })
     })
