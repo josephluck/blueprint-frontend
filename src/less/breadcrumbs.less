@@ -4,6 +4,14 @@
     align-items: center;
   }
   .icon {
-    font-size: 0.6rem;
+    transform: scale(0.6, 0.6);
+  }
+
+  .breadcrumb-enter-active, .breadcrumb-leave-active {
+    transition: all 0.2s ease-in-out;
+  }
+  .breadcrumb-enter, .breadcrumb-leave-active {
+    opacity: 0;
+    transform: translateX(5px);
   }
 }
