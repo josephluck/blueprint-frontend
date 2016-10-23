@@ -1,0 +1,43 @@
+.VuePagination {
+  .pagination {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    border-radius: @radius;
+    display: inline-block;
+    li {
+      display: inline-block;
+      a {
+        display: inline-block;
+        text-align: center;
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        border: solid @borderWidth transparent;
+        border-radius: @radius;
+      }
+      // Remove the << and >> icons
+      &:first-of-type,
+      &:last-of-type {
+        display: none;
+      }
+      &.active {
+        a {
+          cursor: default;
+          background: @pureWhite;
+          border-color: @lightBlue;
+        }
+      }
+      &.disabled {
+        a {
+          color: #aaaaaa;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+  // Remove the "showing 10 of 100 records" text
+  p {
+    display: none;
+  }
+}

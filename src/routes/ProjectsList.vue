@@ -14,7 +14,7 @@
 
     {{ loading ? 'Loading' : null }}
 
-    <div class="mt3 list">
+    <div class="mt3 list mb3">
       <div class="list-item"
         v-for="project in projects">
         <router-link
@@ -28,8 +28,10 @@
         </router-link>
       </div>
     </div>
-
-    <pagination for="projects" :records="count" :per-page="5"></pagination>
+    <div class="flex">
+      <div class="flex-1"></div>
+      <pagination for="projects" :records="count" :per-page="5"></pagination>
+    </div>
 
     <form v-on:submit.prevent="saveNewProject">
       <modal v-if="newProjectFormShowing">
