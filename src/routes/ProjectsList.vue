@@ -40,7 +40,7 @@
         </div>
 
         <div slot="content" class="pa3">
-          <label class="dib w-100 mb2">
+          <label class="dib w-100 mb1">
             Project name
           </label>
           <input class="w-100"

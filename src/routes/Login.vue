@@ -13,7 +13,7 @@
           {{ errorMessage }}
         </div>
 
-        <label>
+        <label class="mb1">
           Email
         </label>
         <input
@@ -22,7 +22,7 @@
           v-model="email"
         />
 
-        <label>
+        <label class="mb1">
           Password
         </label>
         <input
