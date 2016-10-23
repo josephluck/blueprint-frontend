@@ -1,3 +1,4 @@
+button,
 .button {
   display: inline-block;
   border-radius: @radius;
@@ -7,4 +8,9 @@
   color: @fontColor;
   cursor: pointer;
   background: @pureWhite;
+  transition: @quickTransition;
+  &:focus {
+    outline: none;
+    border-color: @lightBlue;
+  }
 }
