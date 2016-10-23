@@ -14,9 +14,9 @@
       </div>
     </div>
     {{ loading ? 'Loading' : null }}
-    <div>
+    <div class="mt4 list">
       <div
-        class="pb1"
+        class="list-item"
         v-for="project in projects"
       >
         <router-link
@@ -32,30 +32,26 @@
       </div>
     </div>
 
-    <div v-if="newProjectFormShowing">
-      <form
-        v-on:submit.prevent="saveNewProject"
-      >
-        <input
-          v-model="newProjectName"
-        />
-        <a
-          v-on:click.prevent="newProjectFormShowing = false"
-        >
+    <form v-on:submit.prevent="saveNewProject">
+      <modal v-if="newProjectFormShowing" @close="newProjectFormShowing = false">
+        <input v-model="newProjectName" />
+
+        <a v-on:click.prevent="newProjectFormShowing = false">
           Cancel
         </a>
-        <button
-          type="submit"
-        >
+        <button type="submit">
           Save
         </button>
-      </form>
-    </div>
+      </modal>
+    </form>
   </div>
 </template>
 
 <script>
   export default {
+    components: {
+      Modal: require('../components/Modal.vue')
+    },
     data () {
       return {
         newProjectFormShowing: false,
@@ -88,17 +84,19 @@
         this.$store.dispatch('projects/SETUP_SOCKETS')
       },
       saveNewProject () {
-        this.$store.dispatch('projects/ADD_NEW', {
-          name: this.newProjectName
-        }).then((projectId) => {
-          this.newProjectFormShowing = false
-          this.$router.replace({
-            name: 'project',
-            params: {
-              projectId
-            }
+        if (this.newProjectName) {
+          this.$store.dispatch('projects/ADD_NEW', {
+            name: this.newProjectName
+          }).then((projectId) => {
+            this.newProjectFormShowing = false
+            this.$router.replace({
+              name: 'project',
+              params: {
+                projectId
+              }
+            })
           })
-        })
+        }
       }
     }
   }
