@@ -3,15 +3,15 @@ const none = { render: h => h('router-view') }
 export default [
   {
     path: '/login',
-    component: require('./Login.vue')
+    component: require('../containers/Login.vue')
   },
   {
     path: '/signup',
-    component: require('./Signup.vue')
+    component: require('../containers/Signup.vue')
   },
   {
     path: '',
-    component: require('./AuthenticatedView.vue'),
+    component: require('../containers/AuthenticatedView.vue'),
     children: [
       {
         path: '/projects',
@@ -19,18 +19,18 @@ export default [
         children: [
           {
             path: '',
-            component: require('./ProjectsList.vue')
+            component: require('../containers/ProjectsList.vue')
           },
           {
             name: 'project',
             path: ':projectId',
-            component: require('./Project.vue')
+            component: require('../containers/Project.vue')
           }
         ]
       },
       {
         path: '/resources',
-        component: require('./Resources.vue')
+        component: require('../containers/Resources.vue')
       }
     ]
   }

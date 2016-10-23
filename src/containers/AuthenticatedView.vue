@@ -1,36 +1,29 @@
 <template>
-  <div>
-    <div class="flex items-center">
-      <h2 class="flex-1">
-        Projects
-      </h2>
-      <div>
-        <a class="button"
-          v-on:click="newProjectFormShowing = true">
-          New project
+  <div class="flex h-100">
+    <div class="left-bar flex flex-column">
+      <div class="flex-1 pv4">
+        <div class="flex items-center mb3 mr3">
+          <h2 class="ph3 white db flex-1">
+            Projects
+          </h2>
+          <a class="add-new-button"
+            v-on:click="newProjectFormShowing = true">
+            <span class="icon ss-plus"></span>
+          </a>
+        </div>
+        <projects-list class="section active"></projects-list>
+      </div>
+    </div>
+    <div class="flex-1 pt4 mh4">
+      <div class="flex mb4">
+        <breadcrumbs class="flex-1"></breadcrumbs>
+        <a v-on:click.prevent="logout">
+          Logout
         </a>
       </div>
-    </div>
-
-    {{ loading ? 'Loading' : null }}
-
-    <div class="mt3 list mb3">
-      <div class="list-item"
-        v-for="project in projects">
-        <router-link
-          v-bind:to="{
-            name: 'project',
-            params: {
-              projectId: project._id
-            }
-          }">
-          {{ project.name }}
-        </router-link>
-      </div>
-    </div>
-    <div class="flex">
-      <div class="flex-1"></div>
-      <pagination for="projects" :records="count" :per-page="5"></pagination>
+      <transition v-bind:name="transitionName">
+        <router-view class="child-view"></router-view>
+      </transition>
     </div>
 
     <form v-on:submit.prevent="saveNewProject">
@@ -67,42 +60,32 @@
 
 <script>
   export default {
-    components: {
-      Modal: require('../components/Modal.vue')
-    },
     data () {
       return {
+        transitionName: 'slide-left',
         newProjectFormShowing: false,
         newProjectName: ''
       }
     },
-    computed: {
-      projects () {
-        return this.$store.state.projects.projects
-      },
-      count () {
-        return this.$store.state.projects.count
-      },
-      loading () {
-        return this.$store.state.projects.loading
+    components: {
+      ProjectsList: require('../containers/ProjectsList.vue'),
+      Breadcrumbs: require('../containers/Breadcrumbs.vue'),
+      Modal: require('../components/Modal.vue')
+    },
+    watch: {
+      '$route' (to, from) {
+        const toDepth = to.path.split('/').length
+        const fromDepth = from.path.split('/').length
+        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
     },
-    created () {
-      this.getProjects()
-      this.setUpSockets()
-      this.setBreadcrumbs()
-    },
     methods: {
-      setBreadcrumbs () {
-        this.$store.dispatch('breadcrumbs/SET', [
-          { name: 'Projects' }
-        ])
-      },
-      getProjects () {
-        this.$store.dispatch('projects/PAGINATE', 1)
-      },
-      setUpSockets () {
-        this.$store.dispatch('projects/SETUP_SOCKETS')
+      logout () {
+        this.$store.dispatch('logout/ON_SUBMIT').then(() => {
+          this.$router.replace({
+            path: 'login'
+          })
+        })
       },
       saveNewProject () {
         if (this.newProjectName) {
