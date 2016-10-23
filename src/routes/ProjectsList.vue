@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="flex items-center">
-      <h1 class="flex-1">
+      <h2 class="flex-1">
         Projects
-      </h1>
+      </h2>
       <div>
         <a
           class="button"
@@ -14,7 +14,7 @@
       </div>
     </div>
     {{ loading ? 'Loading' : null }}
-    <div class="mt4 list">
+    <div class="mt3 list">
       <div
         class="list-item"
         v-for="project in projects"
@@ -34,14 +34,29 @@
 
     <form v-on:submit.prevent="saveNewProject">
       <modal v-if="newProjectFormShowing" @close="newProjectFormShowing = false">
-        <input v-model="newProjectName" />
 
-        <a v-on:click.prevent="newProjectFormShowing = false">
-          Cancel
-        </a>
-        <button type="submit">
-          Save
-        </button>
+        <div slot="header" class="pa3 bb b--black-20 bg-white">
+          New project
+        </div>
+
+        <div slot="content" class="pa3">
+          <label class="dib w-100 mb2">
+            Project name
+          </label>
+          <input class="w-100"
+            v-model="newProjectName" />
+        </div>
+
+        <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
+          <div class="flex-1"></div>
+          <a v-on:click.prevent="newProjectFormShowing = false"
+            class="mr3">
+            Close
+          </a>
+          <button type="submit" class="button">
+            Save
+          </button>
+        </div>
       </modal>
     </form>
   </div>

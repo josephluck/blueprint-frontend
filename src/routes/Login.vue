@@ -3,35 +3,50 @@
     class="login-form"
     v-on:submit.prevent="submitLogin"
   >
-    <h1>
-      Login to Blueprint
-    </h1>
+    <modal>
+      <div slot="header" class="pa3 bb b--black-20 bg-white">
+        Login
+      </div>
 
-    <div v-if="error">
-      {{ errorMessage }}
-    </div>
+      <div slot="content" class="pa3">
+        <div v-if="error">
+          {{ errorMessage }}
+        </div>
 
-    <input
-      type="email"
-      v-model="email"
-    />
+        <label>
+          Email
+        </label>
+        <input
+          class="w-100 mb3"
+          type="email"
+          v-model="email"
+        />
 
-    <input
-      type="password"
-      v-model="password"
-    />
+        <label>
+          Password
+        </label>
+        <input
+          class="w-100"
+          type="password"
+          v-model="password"
+        />
+      </div>
 
-    <button
-      type="submit"
-      v-bind:disabled="submitting"
-    >
-      Login
-    </button>
+      <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
+        <div class="flex-1"></div>
+        <button type="submit" class="button" v-bind:disabled="submitting">
+          Login
+        </button>
+      </div>
+    </modal>
   </form>
 </template>
 
 <script>
   export default {
+    components: {
+      Modal: require('../components/Modal.vue')
+    },
     data () {
       return {
         email: 'joseph@local.co',
@@ -50,7 +65,7 @@
           password: this.password
         }).then(() => {
           this.$router.replace({
-            path: 'resources'
+            path: 'projects'
           })
         })
       }
