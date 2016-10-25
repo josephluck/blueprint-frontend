@@ -30,14 +30,8 @@
     created () {
       this.getProjects()
       this.setUpSockets()
-      this.setBreadcrumbs()
     },
     methods: {
-      setBreadcrumbs () {
-        this.$store.dispatch('breadcrumbs/SET', [
-          { name: 'Projects' }
-        ])
-      },
       getProjects () {
         this.$store.dispatch('projects/PAGINATE', 1)
       },

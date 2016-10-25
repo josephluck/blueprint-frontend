@@ -3,7 +3,8 @@
     <div class="left-bar flex flex-column">
       <div class="flex-1 pv4">
         <div class="flex items-center mb3 mr3">
-          <h2 class="ph3 white db flex-1">
+          <h2 class="ph3 white db flex-1"
+            v-on:click="toggleMenuItem('showProjectsList')">
             Projects
           </h2>
           <a class="add-new-button"
@@ -11,7 +12,10 @@
             <span class="icon ss-plus"></span>
           </a>
         </div>
-        <projects-list class="section active"></projects-list>
+        <transition-height
+          v-if="showProjectsList">
+          <projects-list class="section active"></projects-list>
+        </transition-height>
       </div>
     </div>
     <div class="flex-1 pt4 mh4">
@@ -64,13 +68,15 @@
       return {
         transitionName: 'slide-left',
         newProjectFormShowing: false,
-        newProjectName: ''
+        newProjectName: '',
+        showProjectsList: true
       }
     },
     components: {
       ProjectsList: require('../containers/ProjectsList.vue'),
       Breadcrumbs: require('../containers/Breadcrumbs.vue'),
-      Modal: require('../components/Modal.vue')
+      Modal: require('../components/Modal.vue'),
+      TransitionHeight: require('../components/TransitionHeight.vue')
     },
     watch: {
       '$route' (to, from) {
@@ -80,6 +86,9 @@
       }
     },
     methods: {
+      toggleMenuItem (name) {
+        this[name] = !this[name]
+      },
       logout () {
         this.$store.dispatch('logout/ON_SUBMIT').then(() => {
           this.$router.replace({

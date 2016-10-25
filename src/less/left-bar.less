@@ -10,12 +10,11 @@
     transition: @transition;
   }
   .router-link-active {
-    box-shadow: inset 2px 0px 0px 0px white;
+    box-shadow: inset @borderWidth * 2 0px 0px 0px @white;
   }
   .add-new-button {
     border: solid 1px rgba(0,0,0,0.8);
     color: rgba(0,0,0,0.8);
-    // color: @white;
     border-radius: 100%;
     background: rgba(255, 255, 255, 0.3);
     width: 1.5rem;
