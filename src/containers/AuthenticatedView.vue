@@ -21,7 +21,8 @@
     </div>
 
     <form v-on:submit.prevent="saveNewProject">
-      <modal v-if="newProjectFormShowing">
+      <modal v-if="newProjectFormShowing"
+        v-on:close="newProjectFormShowing = false">
         <div slot="header"
           class="pa3 bb b--black-20 bg-white">
           New project

@@ -1,13 +1,17 @@
 <template>
   <div>
-    <div v-for="project in projects">
-      <a class="white mb3 db"
+    <div v-for="project in projects"
+      class="mb3">
+      <a class="white db pb0 transition pointer"
+        v-bind:class="{
+          'pb2 b': projectMenuItemOpen === project._id
+        }"
         v-on:click.prevent="toggleProjectMenuOpen(project)">
         {{ project.name }}
       </a>
       <transition-height
-        v-if="project.menuOpened === true">
-        <div>
+        v-if="projectMenuItemOpen === project._id">
+        <div class="silver pl2">
           Resources list
         </div>
       </transition-height>
@@ -19,6 +23,11 @@
   export default {
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue')
+    },
+    data: () => {
+      return {
+        projectMenuItemOpen: null
+      }
     },
     computed: {
       projects () {
@@ -37,7 +46,11 @@
     },
     methods: {
       toggleProjectMenuOpen (project) {
-        this.$store.commit('projects/TOGGLE_MENU_SHOWING', project._id)
+        if (this.projectMenuItemOpen === project._id) {
+          this.projectMenuItemOpen = null
+        } else {
+          this.projectMenuItemOpen = project._id
+        }
       },
       getProjects () {
         this.$store.dispatch('projects/PAGINATE', 1)

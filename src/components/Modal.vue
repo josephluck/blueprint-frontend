@@ -1,6 +1,7 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask"
+      v-on:click="handleModalMaskClicked($event)">
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
@@ -31,5 +32,15 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    methods: {
+      handleModalMaskClicked (e) {
+        const modalInnerElm = this.$el.querySelector('.modal-container')
+        const shouldCloseModal = e.target.contains(modalInnerElm)
+        if (shouldCloseModal) {
+          this.$emit('close')
+        }
+      }
+    }
+  }
 </script>

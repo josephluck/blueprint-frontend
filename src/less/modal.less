@@ -5,9 +5,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(10, 10, 10, .3);
+  background-color: fade(@leftBarBackground, 40%);
   display: table;
   transition: @transition;
+
+  &.modal--solid {
+    background: @leftBarBackground;
+    .modal-container {
+      border: 0px;
+      box-shadow: none;
+    }
+  }
 }
 
 .modal-wrapper {

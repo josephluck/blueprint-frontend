@@ -3,7 +3,7 @@
     class="login-form"
     v-on:submit.prevent="submitLogin"
   >
-    <modal>
+    <modal class="modal--solid">
       <div slot="header" class="pa3 bb b--black-20 bg-white">
         Login
       </div>
