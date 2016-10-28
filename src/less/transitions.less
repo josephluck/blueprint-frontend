@@ -1,5 +1,5 @@
 .child-view {
-  transition: all .3s cubic-bezier(.55,0,.1,1);
+  transition: @transition;
 }
 .slide-left-enter, .slide-right-leave-active {
   opacity: 0;
@@ -13,7 +13,7 @@
 }
 
 .transition-height-enter-active, .transition-height-leave-active {
-  transition: all .3s cubic-bezier(.55,0,.1,1);
+  transition: @transition;
   overflow: hidden;
 }
 .transition-height-enter, .transition-height-leave-active {

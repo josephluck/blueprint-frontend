@@ -1,26 +1,21 @@
+// text colours
 @fontColor: rgba(1, 31, 39, 1);
 @lightFontColor: lighten(rgba(1, 31, 39, 1), 20%);
+@blue: rgb(88, 54, 228);
+@lightBlue: lighten(rgb(88, 54, 228), 20%);
 
+// borders
 @borderWidth: 1px;
 @radius: 4px;
 
+// backgrounds
 @pureWhite: rgb(255, 255, 255);
 @white: rgb(252, 252, 252);
 @appBackground: rgba(249,248,253,1);
-
-@lighterGray: rgb(247, 247, 247);
-@lightGray: rgb(240, 240, 240);
-@midGray: rgb(230, 230, 230);
 @darkGray: rgb(205, 205, 205);
 @darkerGray: rgb(170, 170, 170);
-@black: rgb(30, 30, 30);
-@leftBarBackground: rgba(36, 40, 51, 1);
+@leftBarBackground: rgba(40, 50, 55, 1);
 
-@blue: rgb(88, 54, 228);
-@lightBlue: lighten(rgb(88, 54, 228), 20%);
-@blueHover: darken(@blue, 20%);
-
-@red: rgb(288, 88, 54);
-
-@transition: all 0.3s ease-in-out;
-@quickTransition: all 0.15s ease-in-out;
+// transitions
+@transition: all 0.3s cubic-bezier(.55,0,.1,1);
+@quickTransition: all 0.15s cubic-bezier(.55,0,.1,1);

@@ -1,15 +1,11 @@
 <template>
   <div class="flex h-100">
     <div class="left-bar flex flex-column">
-      <div class="flex-1 pv4">
-        <div class="flex items-center mb3 mr3">
-          <div class="flex-1"></div>
-          <a class="add-new-button"
-            v-on:click="newProjectFormShowing = true">
-            <span class="icon ss-plus"></span>
-          </a>
-        </div>
+      <div class="flex-1 pv4 ph3">
         <projects-list></projects-list>
+        <a class="white" v-on:click="newProjectFormShowing = true">
+          New project
+        </a>
       </div>
     </div>
     <div class="flex-1 pt4 mh4">

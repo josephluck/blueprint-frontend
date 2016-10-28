@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="project in projects">
-      <a class="white pv2 db ph3"
+      <a class="white mb3 db"
         v-on:click.prevent="toggleProjectMenuOpen(project)">
         {{ project.name }}
       </a>
