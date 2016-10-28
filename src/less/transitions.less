@@ -19,3 +19,15 @@
 .transition-height-enter, .transition-height-leave-active {
   opacity: 0;
 }
+
+.list-transition-item {
+  transition: @transition;
+  display: block;
+}
+.list-transition-enter, .list-transition-leave-active {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.list-transition-leave-active {
+  position: absolute;
+}

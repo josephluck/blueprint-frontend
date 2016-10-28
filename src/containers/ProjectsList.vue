@@ -1,21 +1,31 @@
 <template>
   <div>
-    <div v-for="project in projects"
-      class="mb3">
-      <a class="white db pb0 transition pointer"
-        v-bind:class="{
-          'pb2 b': projectMenuItemOpen === project._id
-        }"
-        v-on:click.prevent="toggleProjectMenuOpen(project)">
-        {{ project.name }}
-      </a>
-      <transition-height
-        v-if="projectMenuItemOpen === project._id">
-        <div class="silver pl2">
-          Resources list
-        </div>
-      </transition-height>
-    </div>
+    <transition-group name="list-transition">
+      <div v-for="project in projects"
+        v-bind:key="project._id"
+        class="list-transition-item pb3">
+        <a class="white db pb0 transition pointer"
+          v-bind:class="{
+            'pb2': projectMenuItemOpen === project._id
+          }"
+          v-on:click.prevent="toggleProjectMenuOpen(project)">
+          {{ project.name }}
+        </a>
+        <transition-height
+          v-if="projectMenuItemOpen === project._id">
+          <div class="silver pl2">
+            <transition-group name="list-transition">
+              <div class="list-transition-item mb2">
+                customers
+              </div>
+              <div>
+                invoices
+              </div>
+            </transition-group>
+          </div>
+        </transition-height>
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -23,11 +33,6 @@
   export default {
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue')
-    },
-    data: () => {
-      return {
-        projectMenuItemOpen: null
-      }
     },
     computed: {
       projects () {
@@ -38,6 +43,9 @@
       },
       loading () {
         return this.$store.state.projects.loading
+      },
+      projectMenuItemOpen () {
+        return this.$store.state.projects.projectMenuItemOpen
       }
     },
     created () {
@@ -46,11 +54,7 @@
     },
     methods: {
       toggleProjectMenuOpen (project) {
-        if (this.projectMenuItemOpen === project._id) {
-          this.projectMenuItemOpen = null
-        } else {
-          this.projectMenuItemOpen = project._id
-        }
+        this.$store.commit('projects/TOGGLE_MENU_SHOWING', project._id)
       },
       getProjects () {
         this.$store.dispatch('projects/PAGINATE', 1)

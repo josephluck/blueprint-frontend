@@ -7,7 +7,8 @@ const ProjectsModule = {
     projects: [],
     count: 0,
     page: 1,
-    loading: false
+    loading: false,
+    projectMenuItemOpen: null
   },
   mutations: {
     'projects/GET_PROJECTS' (state, page) {
@@ -20,15 +21,20 @@ const ProjectsModule = {
     'projects/RECEIVE_PROJECTS' (state, payload) {
       state.projects = payload.data
       state.count = payload.total
+      state.projectMenuItemOpen = payload.data[0]._id
       state.loading = false
     },
     'projects/RECEIVE_PROJECT' (state, project) {
       state.projects.unshift(project)
+      state.projectMenuItemOpen = project._id
       state.loading = false
     },
     'projects/TOGGLE_MENU_SHOWING' (state, projectId) {
-      let project = state.projects.find((project) => project._id === projectId)
-      project.menuOpened = !project.menuOpened
+      if (state.projectMenuItemOpen === projectId) {
+        state.projectMenuItemOpen = null
+      } else {
+        state.projectMenuItemOpen = projectId
+      }
     }
   },
   actions: {

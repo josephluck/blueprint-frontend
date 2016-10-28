@@ -92,6 +92,7 @@
           this.$store.dispatch('projects/ADD_NEW', {
             name: this.newProjectName
           }).then((projectId) => {
+            this.newProjectName = '' // Reset the form
             this.newProjectFormShowing = false
             this.$router.replace({
               name: 'project',
