@@ -1,42 +1,58 @@
 <template>
-  <form
-    class="signup-form"
-    v-on:submit.prevent="submitLogin"
-  >
-    <h1>
-      Signup for Blueprint
-    </h1>
+  <form v-on:submit.prevent="submitLogin">
+    <modal class="modal--solid">
+      <div slot="header" class="pa3 bb b--black-20 bg-white">
+        Sign up
+      </div>
 
-    <div v-if="error">
-      {{ errorMessage }}
-    </div>
+      <div slot="content" class="pa3">
+        <div v-if="error">
+          {{ errorMessage }}
+        </div>
 
-    <input
-      type="company_name"
-      v-model="company_name"
-    />
+        <label class="mb1">
+          Company name
+        </label>
+        <input
+          class="w-100 mb3"
+          type="text"
+          v-model="company_name"
+        />
 
-    <input
-      type="email"
-      v-model="email"
-    />
+        <label class="mb1">
+          Email
+        </label>
+        <input
+          class="w-100 mb3"
+          type="email"
+          v-model="email"
+        />
 
-    <input
-      type="password"
-      v-model="password"
-    />
+        <label class="mb1">
+          Password
+        </label>
+        <input
+          class="w-100"
+          type="password"
+          v-model="password"
+        />
+      </div>
 
-    <button
-      type="submit"
-      v-bind:disabled="submitting"
-    >
-      Signup
-    </button>
+      <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
+        <div class="flex-1"></div>
+        <button type="submit" class="button" v-bind:disabled="submitting">
+          Sign up
+        </button>
+      </div>
+    </modal>
   </form>
 </template>
 
 <script>
   export default {
+    components: {
+      Modal: require('../components/Modal.vue')
+    },
     data () {
       return {
         email: 'joseph@local.co',

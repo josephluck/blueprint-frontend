@@ -25,7 +25,10 @@ const ProjectsModule = {
       state.loading = false
     },
     'projects/RECEIVE_PROJECT' (state, project) {
-      state.projects.unshift(project)
+      const projectAlreadyExists = state.projects.find((proj) => proj._id === project._id)
+      if (!projectAlreadyExists) {
+        state.projects.unshift(project)
+      }
       state.projectMenuItemOpen = project._id
       state.loading = false
     },
