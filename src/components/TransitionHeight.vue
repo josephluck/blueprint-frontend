@@ -13,7 +13,6 @@
   export default {
     methods: {
       enter: function (el) {
-        console.log(el)
         el.style.height = 'auto'
         var endHeight = window.getComputedStyle(el).height
         el.style.height = '1px'

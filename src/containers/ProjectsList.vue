@@ -1,21 +1,25 @@
 <template>
   <div>
     <div v-for="project in projects">
-      <router-link class="white pv3 db ph3"
-        v-bind:to="{
-          name: 'project',
-          params: {
-            projectId: project._id
-          }
-        }">
+      <a class="white pv2 db ph3"
+        v-on:click.prevent="toggleProjectMenuOpen(project)">
         {{ project.name }}
-      </router-link>
+      </a>
+      <transition-height
+        v-if="project.menuOpened === true">
+        <div>
+          Resources list
+        </div>
+      </transition-height>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    components: {
+      TransitionHeight: require('../components/TransitionHeight.vue')
+    },
     computed: {
       projects () {
         return this.$store.state.projects.projects
@@ -32,6 +36,9 @@
       this.setUpSockets()
     },
     methods: {
+      toggleProjectMenuOpen (project) {
+        this.$store.commit('projects/TOGGLE_MENU_SHOWING', project._id)
+      },
       getProjects () {
         this.$store.dispatch('projects/PAGINATE', 1)
       },

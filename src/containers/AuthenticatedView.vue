@@ -3,19 +3,13 @@
     <div class="left-bar flex flex-column">
       <div class="flex-1 pv4">
         <div class="flex items-center mb3 mr3">
-          <h2 class="ph3 white db flex-1"
-            v-on:click="toggleMenuItem('showProjectsList')">
-            Projects
-          </h2>
+          <div class="flex-1"></div>
           <a class="add-new-button"
             v-on:click="newProjectFormShowing = true">
             <span class="icon ss-plus"></span>
           </a>
         </div>
-        <transition-height
-          v-if="showProjectsList">
-          <projects-list class="section active"></projects-list>
-        </transition-height>
+        <projects-list></projects-list>
       </div>
     </div>
     <div class="flex-1 pt4 mh4">

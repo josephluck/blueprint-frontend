@@ -25,6 +25,10 @@ const ProjectsModule = {
     'projects/RECEIVE_PROJECT' (state, project) {
       state.projects.unshift(project)
       state.loading = false
+    },
+    'projects/TOGGLE_MENU_SHOWING' (state, projectId) {
+      let project = state.projects.find((project) => project._id === projectId)
+      project.menuOpened = !project.menuOpened
     }
   },
   actions: {
