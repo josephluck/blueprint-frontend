@@ -1,4 +1,8 @@
-input {
+input, select {
+  &:not([type="checkbox"]) {
+    appearance: none;
+    -webkit-appearance: none;
+  }
   padding: 0.5rem;
   border-radius: @radius;
   border: solid @borderWidth @darkGray;

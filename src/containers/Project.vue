@@ -1,32 +1,28 @@
 <template>
-  <div class="project">
-    <div v-if="loading">
-      Loading
-    </div>
-    <div v-if="!loading">
-      <div>
-        <router-link
-          active-class="bb dib"
-          :to="{
-            name: 'projectEdit',
-            params: {
-              projectId: this.project._id
-            }
-          }"
-        >
-          Edit
+  <div class="flex flex-1 flex-column">
+    <div v-if="!loading"
+      class="flex flex-1 flex-column">
+      <div class="flex-0 ph4 flex items-center">
+        <div class="flex-1 f2">
+          {{project.name}}
+        </div>
+        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+          :to="{ name: 'projectEdit', params: {projectId: this.project._id} }">
+          Resources
         </router-link>
-        <router-link
-          active-class="bb dib"
-          :to="{
-            name: 'projectDocs',
-            params: {
-              projectId: this.project._id
-            }
-          }"
-        >
+        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+          :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
           Docs
         </router-link>
+        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+          :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
+          Settings
+        </router-link>
+      </div>
+      <div class="flex-1 overflow-auto pt4 ph4">
+        <transition name="slide-right" mode="out-in">
+          <router-view class="child-view"></router-view>
+        </transition>
       </div>
     </div>
   </div>

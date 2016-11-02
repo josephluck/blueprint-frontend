@@ -21,12 +21,12 @@ export default [
           {
             name: 'projectEdit',
             path: 'edit',
-            component: require('../containers/Project.vue')
+            component: require('../containers/ProjectEdit.vue')
           },
           {
             name: 'projectDocs',
             path: 'docs',
-            component: require('../containers/Project.vue')
+            component: require('../containers/ProjectDocs.vue')
           }
         ]
       },
