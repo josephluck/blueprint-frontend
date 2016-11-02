@@ -1,9 +1,14 @@
 <template>
   <div>
     <div v-for="resource in project.resources"
-      class="mb6">
-      <div class="f3 mb3">
-        {{resource.name}}
+      class="mb3 pa3 ba b--black-20 bg-white br2">
+      <div class="mb3 flex items-center">
+        <div class="f3 flex-1">
+          {{resource.name}}
+        </div>
+        <a class="button">
+          Delete
+        </a>
       </div>
       <div>
         <div class="form-input mb3">
