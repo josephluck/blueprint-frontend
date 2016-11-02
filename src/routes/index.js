@@ -19,10 +19,12 @@ export default [
         component: require('../containers/Project.vue'),
         children: [
           {
+            name: 'projectEdit',
             path: 'edit',
             component: require('../containers/Project.vue')
           },
           {
+            name: 'projectDocs',
             path: 'docs',
             component: require('../containers/Project.vue')
           }

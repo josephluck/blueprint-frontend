@@ -1,9 +1,34 @@
 <template>
   <div class="project">
-    {{ loading ? 'Loading' : null }}
-    <span>
-      {{ project.name }}
-    </span>
+    <div v-if="loading">
+      Loading
+    </div>
+    <div v-if="!loading">
+      <div>
+        <router-link
+          active-class="bb dib"
+          :to="{
+            name: 'projectEdit',
+            params: {
+              projectId: this.project._id
+            }
+          }"
+        >
+          Edit
+        </router-link>
+        <router-link
+          active-class="bb dib"
+          :to="{
+            name: 'projectDocs',
+            params: {
+              projectId: this.project._id
+            }
+          }"
+        >
+          Docs
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,7 +44,7 @@
     },
     watch: {
       '$route' (to, from) {
-        if (to.matched[1].name === 'project' && to.path !== from.path) {
+        if (to.matched[1].name === 'project' && to.params.projectId !== from.params.projectId) {
           this.getProject(to.params.projectId)
           this.setUpSockets(to.params.projectId)
         }
