@@ -3,12 +3,12 @@
     <div v-for="resource in project.resources"
       class="mb3 pa3 ba b--black-20 bg-white br2">
       <div class="mb3 flex items-center">
-        <div class="f3 flex-1">
-          {{resource.name}}
+        <a class="dib silver mr2 icon ss-gridlines"></a>
+        <div class="flex-1">
+          <span v-if="resource.showing">{{resource.name}}</span>
         </div>
-        <a class="button">
-          Delete
-        </a>
+        <a class="dib silver ml2 icon ss-hyphen"></a>
+        <a class="dib silver ml2 icon ss-delete"></a>
       </div>
       <div>
         <div class="form-input mb3">
