@@ -7,8 +7,7 @@ const ProjectsModule = {
     projects: [],
     count: 0,
     page: 1,
-    loading: false,
-    projectMenuItemOpen: null
+    loading: false
   },
   mutations: {
     'projects/GET_PROJECTS' (state, page) {
@@ -30,13 +29,6 @@ const ProjectsModule = {
       state.loading = false
       if (!projectAlreadyExists) {
         state.projects.unshift(project)
-      }
-    },
-    'projects/TOGGLE_MENU_SHOWING' (state, projectId) {
-      if (state.projectMenuItemOpen === projectId) {
-        state.projectMenuItemOpen = null
-      } else {
-        state.projectMenuItemOpen = projectId
       }
     }
   },

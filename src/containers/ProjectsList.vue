@@ -8,8 +8,7 @@
           v-bind:to="getProjectLink(project._id)"
           v-bind:class="{
             'pb2': projectMenuItemOpen === project._id
-          }"
-          v-on:click.prevent="toggleProjectMenuOpen(project)">
+          }">
           {{ project.name }}
         </router-link>
         <transition-height
@@ -35,11 +34,6 @@
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue')
     },
-    data () {
-      return {
-        currentTab: 'edit'
-      }
-    },
     computed: {
       projects () {
         return this.$store.state.projects.projects
@@ -51,7 +45,14 @@
         return this.$store.state.projects.loading
       },
       projectMenuItemOpen () {
-        return this.$store.state.projects.projectMenuItemOpen
+        return this.$route.params.projectId
+      },
+      currentTab () {
+        let currentTab = 'edit'
+        if (this.$route.matched[2].name === 'projectDocs') {
+          currentTab = 'docs'
+        }
+        return currentTab
       }
     },
     created () {
@@ -61,9 +62,6 @@
     methods: {
       getProjectLink (projectId) {
         return `/${projectId}/${this.currentTab}`
-      },
-      toggleProjectMenuOpen (project) {
-        this.$store.commit('projects/TOGGLE_MENU_SHOWING', project._id)
       },
       getProjects () {
         this.$store.dispatch('projects/PAGINATE', 1)
