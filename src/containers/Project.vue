@@ -19,7 +19,7 @@
     },
     watch: {
       '$route' (to, from) {
-        if (to.name === 'project' && to.path !== from.path) {
+        if (to.matched[1].name === 'project' && to.path !== from.path) {
           this.getProject(to.params.projectId)
           this.setUpSockets(to.params.projectId)
         }

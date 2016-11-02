@@ -3,18 +3,15 @@
     <div class="left-bar flex flex-column">
       <div class="flex-1 pv4 ph3">
         <projects-list></projects-list>
-        <a class="white" v-on:click="newProjectFormShowing = true">
+        <a class="white db mb3 mt3" v-on:click="newProjectFormShowing = true">
           New project
+        </a>
+        <a class="white db" v-on:click.prevent="logout">
+          Logout
         </a>
       </div>
     </div>
     <div class="flex-1 pt4 mh4">
-      <div class="flex mb4">
-        <breadcrumbs class="flex-1"></breadcrumbs>
-        <a v-on:click.prevent="logout">
-          Logout
-        </a>
-      </div>
       <transition v-bind:name="transitionName">
         <router-view class="child-view"></router-view>
       </transition>
@@ -65,7 +62,6 @@
     },
     components: {
       ProjectsList: require('../containers/ProjectsList.vue'),
-      Breadcrumbs: require('../containers/Breadcrumbs.vue'),
       Modal: require('../components/Modal.vue'),
       TransitionHeight: require('../components/TransitionHeight.vue')
     },

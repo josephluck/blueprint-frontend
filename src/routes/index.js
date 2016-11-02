@@ -1,4 +1,4 @@
-const none = { render: h => h('router-view') }
+// const none = { render: h => h('router-view') }
 
 export default [
   {
@@ -14,16 +14,16 @@ export default [
     component: require('../containers/AuthenticatedView.vue'),
     children: [
       {
-        path: '/projects',
-        component: none,
+        name: 'project',
+        path: ':projectId',
+        component: require('../containers/Project.vue'),
         children: [
           {
-            path: '',
-            component: require('../containers/ProjectsList.vue')
+            path: 'edit',
+            component: require('../containers/Project.vue')
           },
           {
-            name: 'project',
-            path: ':projectId',
+            path: 'docs',
             component: require('../containers/Project.vue')
           }
         ]

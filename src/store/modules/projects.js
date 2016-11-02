@@ -26,11 +26,11 @@ const ProjectsModule = {
     },
     'projects/RECEIVE_PROJECT' (state, project) {
       const projectAlreadyExists = state.projects.find((proj) => proj._id === project._id)
+      state.projectMenuItemOpen = project._id
+      state.loading = false
       if (!projectAlreadyExists) {
         state.projects.unshift(project)
       }
-      state.projectMenuItemOpen = project._id
-      state.loading = false
     },
     'projects/TOGGLE_MENU_SHOWING' (state, projectId) {
       if (state.projectMenuItemOpen === projectId) {

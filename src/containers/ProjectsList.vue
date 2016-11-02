@@ -4,13 +4,14 @@
       <div v-for="project in projects"
         v-bind:key="project._id"
         class="list-transition-item pb3">
-        <a class="white db pb0 transition pointer"
+        <router-link class="white db pb0 transition pointer"
+          v-bind:to="getProjectLink(project._id)"
           v-bind:class="{
             'pb2': projectMenuItemOpen === project._id
           }"
           v-on:click.prevent="toggleProjectMenuOpen(project)">
           {{ project.name }}
-        </a>
+        </router-link>
         <transition-height
           v-if="projectMenuItemOpen === project._id">
           <div class="silver pl2">
@@ -34,6 +35,11 @@
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue')
     },
+    data () {
+      return {
+        currentTab: 'edit'
+      }
+    },
     computed: {
       projects () {
         return this.$store.state.projects.projects
@@ -53,6 +59,9 @@
       this.setUpSockets()
     },
     methods: {
+      getProjectLink (projectId) {
+        return `/${projectId}/${this.currentTab}`
+      },
       toggleProjectMenuOpen (project) {
         this.$store.commit('projects/TOGGLE_MENU_SHOWING', project._id)
       },
