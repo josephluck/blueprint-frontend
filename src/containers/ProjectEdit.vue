@@ -55,56 +55,59 @@
             </div>
             <div>
               <label class="db mb1">Model</label>
-              <div v-for="(model, modelIndex) in resource.model"
-                class="bg-near-white ba b--black-10 pa3 br2"
-                v-bind:class="{
-                  'mb3': modelIndex !== resource.model.length - 1
-                }">
-                <div class="flex items-center">
-                  <a class="dib silver mr2 icon ss-gridlines"></a>
-                  <div class="flex-1">
-                    <span v-if="model.hidden">{{model.key}}</span>
+              <transition-group name="list-transition">
+                <div v-for="(model, modelIndex) in resource.model"
+                  v-bind:key="modelIndex"
+                  class="list-transition-item bg-near-white ba b--black-10 pa3 br2"
+                  v-bind:class="{
+                    'mb3': modelIndex !== resource.model.length - 1
+                  }">
+                  <div class="flex items-center">
+                    <a class="dib silver mr2 icon ss-gridlines"></a>
+                    <div class="flex-1">
+                      <span v-if="model.hidden">{{model.key}}</span>
+                    </div>
+                    <a class="dib silver ml2 icon ss-hyphen pointer"
+                      v-on:click.prevent="toggleModelHidden(resourceIndex, modelIndex)"></a>
+                    <a class="dib silver ml2 icon ss-delete pointer"
+                      v-on:click.prevent="removeModelKey(resourceIndex, modelIndex)"></a>
                   </div>
-                  <a class="dib silver ml2 icon ss-hyphen pointer"
-                    v-on:click.prevent="toggleModelHidden(resourceIndex, modelIndex)"></a>
-                  <a class="dib silver ml2 icon ss-delete pointer"
-                    v-on:click.prevent="removeModelKey(resourceIndex, modelIndex)"></a>
+                  <transition-height v-if="!model.hidden">
+                    <div>
+                      <div class="mt3 form-input mb3">
+                        <label class="db mb1">Key</label>
+                        <input type="text" class="w-100" v-bind:value="model.key" v-on:input="updateModel(resourceIndex, modelIndex, 'key', $event)" />
+                      </div>
+                      <div class="form-input mb3">
+                        <label class="db mb1">Type</label>
+                        <select class="w-100" v-bind:value="model.type" v-on:input="updateModel(resourceIndex, modelIndex, 'type', $event)">
+                          <option></option>
+                          <option value="random">Random</option>
+                          <option value="preDefined">Pre defined</option>
+                          <option value="nestedJson">JSON</option>
+                          <option value="anotherResource">From another resource</option>
+                        </select>
+                      </div>
+                      <div class="form-input mb3" v-if="model.type === 'random'">
+                        <label class="db mb1">Category</label>
+                        <select class="w-100" v-bind:value="model.randomCategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomCategory', $event)">
+                          <option></option>
+                          <option v-for="category in randomCategories"
+                            v-bind:value="category.value">{{category.name}}</option>
+                        </select>
+                      </div>
+                      <div class="form-input mb3" v-if="model.type === 'random'">
+                        <label class="db mb1">Sub category</label>
+                        <select class="w-100" v-bind:value="model.randomSubcategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomSubcategory', $event)">
+                          <option></option>
+                          <option v-for="subcategory in randomSubcategories[model.randomCategory]"
+                            v-bind:value="subcategory.value">{{subcategory.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </transition-height>
                 </div>
-                <transition-height v-if="!model.hidden">
-                  <div>
-                    <div class="mt3 form-input mb3">
-                      <label class="db mb1">Key</label>
-                      <input type="text" class="w-100" v-bind:value="model.key" v-on:input="updateModel(resourceIndex, modelIndex, 'key', $event)" />
-                    </div>
-                    <div class="form-input mb3">
-                      <label class="db mb1">Type</label>
-                      <select class="w-100" v-bind:value="model.type" v-on:input="updateModel(resourceIndex, modelIndex, 'type', $event)">
-                        <option></option>
-                        <option value="random">Random</option>
-                        <option value="preDefined">Pre defined</option>
-                        <option value="nestedJson">JSON</option>
-                        <option value="anotherResource">From another resource</option>
-                      </select>
-                    </div>
-                    <div class="form-input mb3" v-if="model.type === 'random'">
-                      <label class="db mb1">Category</label>
-                      <select class="w-100" v-bind:value="model.randomCategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomCategory', $event)">
-                        <option></option>
-                        <option v-for="category in randomCategories"
-                          v-bind:value="category.value">{{category.name}}</option>
-                      </select>
-                    </div>
-                    <div class="form-input mb3" v-if="model.type === 'random'">
-                      <label class="db mb1">Sub category</label>
-                      <select class="w-100" v-bind:value="model.randomSubcategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomSubcategory', $event)">
-                        <option></option>
-                        <option v-for="subcategory in randomSubcategories[model.randomCategory]"
-                          v-bind:value="subcategory.value">{{subcategory.name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </transition-height>
-              </div>
+              </transition-group>
               <div class="flex mt3">
                 <div class="flex-1"></div>
                 <a class="button" v-on:click.prevent="addModelKey(resourceIndex)">
