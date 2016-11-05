@@ -86,7 +86,11 @@
       saveNewProject () {
         if (this.newProjectName) {
           this.$store.dispatch('projects/ADD_NEW', {
-            name: this.newProjectName
+            name: this.newProjectName,
+            resources: [{
+              supportedMethods: {},
+              model: [{}]
+            }]
           }).then((projectId) => {
             this.newProjectName = '' // Reset the form
             this.newProjectFormShowing = false

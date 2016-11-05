@@ -13,7 +13,9 @@ const ProjectsModule = {
       state.loading = true
     },
     'project/RECEIVE_PROJECT' (state, project) {
-      state.project = project
+      state.project = {
+        ...project
+      }
       state.loading = false
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
@@ -58,6 +60,15 @@ const ProjectsModule = {
     },
     'project/form/REMOVE_MODEL_KEY' (state, {resourceIndex, modelIndex}) {
       state.project.resources[resourceIndex].model.splice(modelIndex, 1)
+    },
+    'project/form/ADD_RESOURCE' (state) {
+      state.project.resources.push({
+        supportedMethods: {},
+        model: []
+      })
+    },
+    'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
+      state.project.resources.splice(resourceIndex, 1)
     }
   },
   actions: {

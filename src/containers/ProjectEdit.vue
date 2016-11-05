@@ -10,7 +10,8 @@
           </div>
           <a class="dib silver ml2 icon ss-hyphen pointer"
             v-on:click.prevent="toggleResourceHidden(resourceIndex)"></a>
-          <a class="dib silver ml2 icon ss-delete pointer"></a>
+          <a class="dib silver ml2 icon ss-delete pointer"
+            v-on:click.prevent="removeResource(resourceIndex)"></a>
         </div>
         <transition-height v-if="!resource.hidden">
           <div>
@@ -55,10 +56,10 @@
             </div>
             <div>
               <label class="db mb1">Model</label>
-              <transition-group name="list-transition">
+              <div>
                 <div v-for="(model, modelIndex) in resource.model"
                   v-bind:key="modelIndex"
-                  class="list-transition-item bg-near-white ba b--black-10 pa3 br2"
+                  class="bg-near-white ba b--black-10 pa3 br2"
                   v-bind:class="{
                     'mb3': modelIndex !== resource.model.length - 1
                   }">
@@ -107,7 +108,7 @@
                     </div>
                   </transition-height>
                 </div>
-              </transition-group>
+              </div>
               <div class="flex mt3">
                 <div class="flex-1"></div>
                 <a class="button" v-on:click.prevent="addModelKey(resourceIndex)">
@@ -117,6 +118,12 @@
             </div>
           </div>
         </transition-height>
+      </div>
+      <div class="flex mv3">
+        <div class="flex-1"></div>
+        <a class="button" v-on:click.prevent="addResource()">
+          Add new resource
+        </a>
       </div>
     </div>
   </div>
@@ -182,6 +189,16 @@
         this.$store.commit('project/form/ADD_MODEL_KEY', {
           resourceIndex
         })
+        this.saveProject()
+      },
+      removeResource (resourceIndex) {
+        this.$store.commit('project/form/REMOVE_RESOURCE', {
+          resourceIndex
+        })
+        this.saveProject()
+      },
+      addResource () {
+        this.$store.commit('project/form/ADD_RESOURCE')
         this.saveProject()
       }
     }
