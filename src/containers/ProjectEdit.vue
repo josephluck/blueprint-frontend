@@ -34,21 +34,21 @@
             <div class="form-input flex">
               <div class="flex-1 mr3">
                 <label class="mb3 db">
-                  <input type="checkbox" class="mr1" v-bind:value="resource.supportedMethods.get" v-on:change="updateResourceSupportedMethods(resourceIndex, 'get', $event)" />
+                  <input type="checkbox" class="mr1" v-bind:checked="resource.supportedMethods.get" v-on:change="updateResourceSupportedMethods(resourceIndex, 'get', $event)" />
                   Supports GET method
                 </label>
                 <label class="mb3 db" v-if="resource.type === 'collection'">
-                  <input type="checkbox" class="mr1" v-bind:value="resource.supportedMethods.post" v-on:change="updateResourceSupportedMethods(resourceIndex, 'post', $event)" />
+                  <input type="checkbox" class="mr1" v-bind:checked="resource.supportedMethods.post" v-on:change="updateResourceSupportedMethods(resourceIndex, 'post', $event)" />
                   Supports POST method
                 </label>
               </div>
               <div class="flex-1">
                 <label class="mb3 db">
-                  <input type="checkbox" class="mr1" v-bind:value="resource.supportedMethods.put" v-on:change="updateResourceSupportedMethods(resourceIndex, 'put', $event)" />
+                  <input type="checkbox" class="mr1" v-bind:checked="resource.supportedMethods.put" v-on:change="updateResourceSupportedMethods(resourceIndex, 'put', $event)" />
                   Supports PUT method
                 </label>
                 <label class="mb3 db" v-if="resource.type === 'collection'">
-                  <input type="checkbox" class="mr1" v-bind:value="resource.supportedMethods.delete" v-on:change="updateResourceSupportedMethods(resourceIndex, 'delete', $event)" />
+                  <input type="checkbox" class="mr1" v-bind:checked="resource.supportedMethods.delete" v-on:change="updateResourceSupportedMethods(resourceIndex, 'delete', $event)" />
                   Supports DELETE method
                 </label>
               </div>
@@ -152,7 +152,7 @@
       },
       updateResourceSupportedMethods (resourceIndex, name, e) {
         this.$store.commit('project/form/UPDATE_RESOURCE_SUPPORTED_METHODS', {
-          resourceIndex, name, value: e.target.value
+          resourceIndex, name, value: e.target.checked
         })
         this.saveProject()
       },
