@@ -1,6 +1,6 @@
 <template>
   <form v-on:submit.prevent="submitLogin">
-    <modal class="modal--solid">
+    <modal>
       <div slot="header" class="pa3 bb b--black-20 bg-white">
         Sign up
       </div>

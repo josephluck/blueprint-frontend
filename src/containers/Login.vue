@@ -1,9 +1,6 @@
 <template>
-  <form
-    class="login-form"
-    v-on:submit.prevent="submitLogin"
-  >
-    <modal class="modal--solid">
+  <form v-on:submit.prevent="submitLogin">
+    <modal>
       <div slot="header" class="pa3 bb b--black-20 bg-white">
         Login
       </div>
@@ -65,7 +62,7 @@
           password: this.password
         }).then(() => {
           this.$router.replace({
-            path: 'projects'
+            path: '/'
           })
         })
       }

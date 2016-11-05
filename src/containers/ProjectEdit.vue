@@ -67,7 +67,8 @@
                   </div>
                   <a class="dib silver ml2 icon ss-hyphen pointer"
                     v-on:click.prevent="toggleModelHidden(resourceIndex, modelIndex)"></a>
-                  <a class="dib silver ml2 icon ss-delete pointer"></a>
+                  <a class="dib silver ml2 icon ss-delete pointer"
+                    v-on:click.prevent="removeModelKey(resourceIndex, modelIndex)"></a>
                 </div>
                 <transition-height v-if="!model.hidden">
                   <div>
@@ -103,6 +104,12 @@
                     </div>
                   </div>
                 </transition-height>
+              </div>
+              <div class="flex mt3">
+                <div class="flex-1"></div>
+                <a class="button" v-on:click.prevent="addModelKey(resourceIndex)">
+                  Add new key
+                </a>
               </div>
             </div>
           </div>
@@ -159,6 +166,18 @@
       updateModel (resourceIndex, modelIndex, name, e) {
         this.$store.commit('project/form/UPDATE_MODEL', {
           resourceIndex, modelIndex, name, value: e.target.value
+        })
+        this.saveProject()
+      },
+      removeModelKey (resourceIndex, modelIndex) {
+        this.$store.commit('project/form/REMOVE_MODEL_KEY', {
+          resourceIndex, modelIndex
+        })
+        this.saveProject()
+      },
+      addModelKey (resourceIndex) {
+        this.$store.commit('project/form/ADD_MODEL_KEY', {
+          resourceIndex
         })
         this.saveProject()
       }

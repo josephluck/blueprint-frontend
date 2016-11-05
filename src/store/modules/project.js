@@ -12,17 +12,6 @@ const ProjectsModule = {
     'project/GET_PROJECT' (state) {
       state.loading = true
     },
-    'project/SAVE_STARTED' (state) {
-      state.saving = true
-      state.saveError = null
-    },
-    'project/SAVE_SUCCESSFUL' (state) {
-      state.saving = false
-    },
-    'project/SAVE_ERROR' (state, payload) {
-      state.saving = false
-      state.saveError = payload
-    },
     'project/RECEIVE_PROJECT' (state, project) {
       state.project = project
       state.loading = false
@@ -35,6 +24,17 @@ const ProjectsModule = {
     },
     'project/ERROR' (state, error) {
       state.loading = false
+    },
+    'project/SAVE_STARTED' (state) {
+      state.saving = true
+      state.saveError = null
+    },
+    'project/SAVE_SUCCESSFUL' (state) {
+      state.saving = false
+    },
+    'project/SAVE_ERROR' (state, payload) {
+      state.saving = false
+      state.saveError = payload
     },
     'project/form/TOGGLE_RESOURCE_HIDDEN' (state, resourceIndex) {
       // We have to use Vue.set here since 'hidden' is a key that does not exist on the object
@@ -52,6 +52,12 @@ const ProjectsModule = {
     },
     'project/form/UPDATE_MODEL' (state, {resourceIndex, modelIndex, name, value}) {
       state.project.resources[resourceIndex].model[modelIndex][name] = value
+    },
+    'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
+      state.project.resources[resourceIndex].model.push({})
+    },
+    'project/form/REMOVE_MODEL_KEY' (state, {resourceIndex, modelIndex}) {
+      state.project.resources[resourceIndex].model.splice(modelIndex, 1)
     }
   },
   actions: {

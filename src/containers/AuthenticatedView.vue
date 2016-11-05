@@ -3,10 +3,10 @@
     <div class="bg-white w-20 br b--black-10 flex flex-column overflow-auto">
       <div class="flex-1 pa3">
         <projects-list></projects-list>
-        <a class="white db mb3 mt3" v-on:click="newProjectFormShowing = true">
+        <a class="db mb3 mt3" v-on:click="newProjectFormShowing = true">
           New project
         </a>
-        <a class="white db" v-on:click.prevent="logout">
+        <a class="db" v-on:click.prevent="logout">
           Logout
         </a>
       </div>
