@@ -6,7 +6,9 @@ const ProjectsModule = {
   state: {
     project: {},
     loading: false,
-    saveError: null
+    saveError: null,
+    hiddenResources: {},
+    hiddenModels: {}
   },
   mutations: {
     'project/GET_PROJECT' (state) {
@@ -39,12 +41,13 @@ const ProjectsModule = {
       state.saveError = payload
     },
     'project/form/TOGGLE_RESOURCE_HIDDEN' (state, resourceIndex) {
-      // We have to use Vue.set here since 'hidden' is a key that does not exist on the object
-      Vue.set(state.project.resources[resourceIndex], 'hidden', !state.project.resources[resourceIndex].hidden)
+      // We have to use Vue.set here since the resourceIndex may not exist in the store
+      Vue.set(state.hiddenResources, resourceIndex, !state.hiddenResources[resourceIndex])
     },
     'project/form/TOGGLE_MODEL_HIDDEN' (state, {resourceIndex, modelIndex}) {
-      // We have to use Vue.set here since 'hidden' is a key that does not exist on the object
-      Vue.set(state.project.resources[resourceIndex].model[modelIndex], 'hidden', !state.project.resources[resourceIndex].model[modelIndex].hidden)
+      // We have to use Vue.set here since the resourceIndex / modelIndex may not exist in the store
+      const key = `${resourceIndex}-${modelIndex}`
+      Vue.set(state.hiddenModels, key, !state.hiddenModels[key])
     },
     'project/form/UPDATE_RESOURCE' (state, {resourceIndex, name, value}) {
       state.project.resources[resourceIndex][name] = value
@@ -92,6 +95,7 @@ const ProjectsModule = {
       })
     },
     'project/SAVE' ({state, commit}, projectId) {
+      console.log('Saving')
       commit('project/SAVE_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.put(Urls.project(projectId), state.project).then(response => {

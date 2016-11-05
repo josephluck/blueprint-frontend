@@ -6,14 +6,14 @@
         <div class="flex items-center">
           <a class="dib silver mr2 icon ss-gridlines"></a>
           <div class="flex-1">
-            <span v-if="resource.hidden">{{resource.name}}</span>
+            <span v-if="hiddenResources[resourceIndex]">{{resource.name}}</span>
           </div>
           <a class="dib silver ml2 icon ss-hyphen pointer"
             v-on:click.prevent="toggleResourceHidden(resourceIndex)"></a>
           <a class="dib silver ml2 icon ss-delete pointer"
             v-on:click.prevent="removeResource(resourceIndex)"></a>
         </div>
-        <transition-height v-if="!resource.hidden">
+        <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
             <div class="mt3 form-input mb3">
               <label class="db mb1">Name</label>
@@ -66,14 +66,14 @@
                   <div class="flex items-center">
                     <a class="dib silver mr2 icon ss-gridlines"></a>
                     <div class="flex-1">
-                      <span v-if="model.hidden">{{model.key}}</span>
+                      <span v-if="isModelHidden(resourceIndex, modelIndex)">{{model.key}}</span>
                     </div>
                     <a class="dib silver ml2 icon ss-hyphen pointer"
                       v-on:click.prevent="toggleModelHidden(resourceIndex, modelIndex)"></a>
                     <a class="dib silver ml2 icon ss-delete pointer"
                       v-on:click.prevent="removeModelKey(resourceIndex, modelIndex)"></a>
                   </div>
-                  <transition-height v-if="!model.hidden">
+                  <transition-height v-if="!isModelHidden(resourceIndex, modelIndex)">
                     <div>
                       <div class="mt3 form-input mb3">
                         <label class="db mb1">Key</label>
@@ -130,6 +130,7 @@
 </template>
 
 <script>
+  const Utils = require('../utils')
   export default {
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue')
@@ -143,6 +144,15 @@
     computed: {
       project () {
         return this.$store.state.project.project
+      },
+      throttledSaveProject () {
+        return Utils.throttle(this.saveProject, 2000)
+      },
+      hiddenResources () {
+        return this.$store.state.project.hiddenResources
+      },
+      hiddenModels () {
+        return this.$store.state.project.hiddenModels
       }
     },
     created () {
@@ -158,6 +168,9 @@
           modelIndex
         })
       },
+      isModelHidden (resourceIndex, modelIndex) {
+        return this.hiddenModels[`${resourceIndex}-${modelIndex}`]
+      },
       saveProject () {
         this.$store.dispatch('project/SAVE', this.$route.params.projectId)
       },
@@ -165,41 +178,41 @@
         this.$store.commit('project/form/UPDATE_RESOURCE', {
           resourceIndex, name, value: e.target.value
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       updateResourceSupportedMethods (resourceIndex, name, e) {
         this.$store.commit('project/form/UPDATE_RESOURCE_SUPPORTED_METHODS', {
           resourceIndex, name, value: e.target.checked
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       updateModel (resourceIndex, modelIndex, name, e) {
         this.$store.commit('project/form/UPDATE_MODEL', {
           resourceIndex, modelIndex, name, value: e.target.value
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       removeModelKey (resourceIndex, modelIndex) {
         this.$store.commit('project/form/REMOVE_MODEL_KEY', {
           resourceIndex, modelIndex
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       addModelKey (resourceIndex) {
         this.$store.commit('project/form/ADD_MODEL_KEY', {
           resourceIndex
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       removeResource (resourceIndex) {
         this.$store.commit('project/form/REMOVE_RESOURCE', {
           resourceIndex
         })
-        this.saveProject()
+        this.throttledSaveProject()
       },
       addResource () {
         this.$store.commit('project/form/ADD_RESOURCE')
-        this.saveProject()
+        this.throttledSaveProject()
       }
     }
   }
