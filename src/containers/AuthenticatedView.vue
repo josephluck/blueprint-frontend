@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-100">
-    <div class="left-bar flex flex-column overflow-auto">
+    <div class="bg-white w-20 br b--black-10 flex flex-column overflow-auto">
       <div class="flex-1 pv4 ph3">
         <projects-list></projects-list>
         <a class="white db mb3 mt3" v-on:click="newProjectFormShowing = true">

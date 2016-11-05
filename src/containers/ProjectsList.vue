@@ -4,7 +4,7 @@
       <div v-for="project in projects"
         v-bind:key="project._id"
         class="list-transition-item pb3">
-        <router-link class="white db pb0 transition pointer"
+        <router-link class="gray db pb0 transition pointer"
           v-bind:to="getProjectLink(project._id)"
           v-bind:class="{
             'pb2': projectMenuItemOpen === project._id
@@ -13,7 +13,7 @@
         </router-link>
         <transition-height
           v-if="projectMenuItemOpen === project._id">
-          <div class="silver">
+          <div class="light-silver">
             <transition-group name="list-transition">
               <div class="list-transition-item mb2">
                 customers
