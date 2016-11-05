@@ -29,7 +29,6 @@ const ProjectsModule = {
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
       state.project = {
-        ...state.project,
         ...project
       }
       state.loading = false
@@ -47,6 +46,12 @@ const ProjectsModule = {
     },
     'project/form/UPDATE_RESOURCE' (state, {resourceIndex, name, value}) {
       state.project.resources[resourceIndex][name] = value
+    },
+    'project/form/UPDATE_RESOURCE_SUPPORTED_METHODS' (state, {resourceIndex, name, value}) {
+      state.project.resources[resourceIndex].supportedMethods[name] = value
+    },
+    'project/form/UPDATE_MODEL' (state, {resourceIndex, modelIndex, name, value}) {
+      state.project.resources[resourceIndex].model[modelIndex][name] = value
     }
   },
   actions: {
@@ -63,8 +68,8 @@ const ProjectsModule = {
       })
     },
     'project/SETUP_SOCKETS' ({commit}, projectId) {
-      Sockets.on('project updated', project => {
-        if (project.id === projectId) {
+      Sockets.on('projects updated', project => {
+        if (project._id === projectId) {
           commit('project/RECEIVE_PROJECT_UPDATE', project)
         }
       })
