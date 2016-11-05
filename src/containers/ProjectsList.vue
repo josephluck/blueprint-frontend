@@ -13,7 +13,7 @@
         </router-link>
         <transition-height
           v-if="projectMenuItemOpen === project._id">
-          <div class="silver pl2">
+          <div class="silver">
             <transition-group name="list-transition">
               <div class="list-transition-item mb2">
                 customers
@@ -49,8 +49,10 @@
       },
       currentTab () {
         let currentTab = 'edit'
-        if (this.$route.matched[2].name === 'projectDocs') {
-          currentTab = 'docs'
+        if (this.$route.matched.length > 1) {
+          if (this.$route.matched[2].name === 'projectDocs') {
+            currentTab = 'docs'
+          }
         }
         return currentTab
       }

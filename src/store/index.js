@@ -15,7 +15,9 @@ const Store = new Vuex.Store({
     todos: require('./modules/todos').default,
     user: require('./modules/user').default
   },
-  strict: process.env.NODE_ENV !== 'production'
+  strict: true
 })
+
+// process.env.NODE_ENV !== 'production'
 
 export default Store

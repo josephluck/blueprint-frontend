@@ -12,15 +12,58 @@ const ProjectsModule = {
       state.loading = true
     },
     'project/RECEIVE_PROJECT' (state, project) {
-      state.project = project
+      state.project = {
+        name: 'goodlord',
+        resources: [
+          {
+            name: 'customers',
+            type: 'collection',
+            numberOfRecords: 10,
+            supportedMethods: {
+              get: true,
+              post: true,
+              put: false,
+              delete: false
+            },
+            model: [
+              {
+                key: 'first_name',
+                type: 'random',
+                randomCategory: 'name',
+                randomSubcategory: 'firstName'
+              },
+              {
+                key: 'first_name',
+                type: 'random',
+                randomCategory: 'name',
+                randomSubcategory: 'firstName'
+              }
+            ]
+          },
+          {
+            name: 'settings',
+            type: 'record',
+            model: [],
+            supportedMethods: {}
+          }
+        ],
+        ...project
+      }
       state.loading = false
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
-      state.project = project
+      state.project = {
+        ...state.project,
+        ...project
+      }
       state.loading = false
     },
     'project/ERROR' (state, error) {
       state.loading = false
+    },
+    'project/TOGGLE_RESOURCE_SHOWING' (state, resourceIndex) {
+      // We have to use Vue.set here since 'showing' is a key that does not exist on the object
+      Vue.set(state.project.resources[resourceIndex], 'showing', !state.project.resources[resourceIndex].showing)
     }
   },
   actions: {
