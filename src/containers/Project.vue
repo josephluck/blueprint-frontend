@@ -6,15 +6,15 @@
         <div class="flex-1 f2">
           {{project.name}}
         </div>
-        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+        <router-link class="b--black-20 dib ml3" active-class="b"
           :to="{ name: 'projectEdit', params: {projectId: this.project._id} }">
           Resources
         </router-link>
-        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+        <router-link class="b--black-20 dib ml3" active-class="b"
           :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
           Docs
         </router-link>
-        <router-link class="pb2 b--black-20 dib ml3" active-class="bb"
+        <router-link class="b--black-20 dib ml3" active-class="b"
           :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
           Settings
         </router-link>
