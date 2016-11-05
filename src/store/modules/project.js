@@ -5,50 +5,26 @@ import Sockets from '../../api/sockets'
 const ProjectsModule = {
   state: {
     project: {},
-    loading: false
+    loading: false,
+    saveError: null
   },
   mutations: {
     'project/GET_PROJECT' (state) {
       state.loading = true
     },
+    'project/SAVE_STARTED' (state) {
+      state.saving = true
+      state.saveError = null
+    },
+    'project/SAVE_SUCCESSFUL' (state) {
+      state.saving = false
+    },
+    'project/SAVE_ERROR' (state, payload) {
+      state.saving = false
+      state.saveError = payload
+    },
     'project/RECEIVE_PROJECT' (state, project) {
-      state.project = {
-        name: 'goodlord',
-        resources: [
-          {
-            name: 'customers',
-            type: 'collection',
-            numberOfRecords: 10,
-            supportedMethods: {
-              get: true,
-              post: true,
-              put: false,
-              delete: false
-            },
-            model: [
-              {
-                key: 'first_name',
-                type: 'random',
-                randomCategory: 'name',
-                randomSubcategory: 'firstName'
-              },
-              {
-                key: 'first_name',
-                type: 'random',
-                randomCategory: 'name',
-                randomSubcategory: 'firstName'
-              }
-            ]
-          },
-          {
-            name: 'settings',
-            type: 'record',
-            model: [],
-            supportedMethods: {}
-          }
-        ],
-        ...project
-      }
+      state.project = project
       state.loading = false
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
@@ -61,19 +37,21 @@ const ProjectsModule = {
     'project/ERROR' (state, error) {
       state.loading = false
     },
-    'project/TOGGLE_RESOURCE_SHOWING' (state, resourceIndex) {
-      // We have to use Vue.set here since 'showing' is a key that does not exist on the object
-      Vue.set(state.project.resources[resourceIndex], 'showing', !state.project.resources[resourceIndex].showing)
+    'project/form/TOGGLE_RESOURCE_HIDDEN' (state, resourceIndex) {
+      // We have to use Vue.set here since 'hidden' is a key that does not exist on the object
+      Vue.set(state.project.resources[resourceIndex], 'hidden', !state.project.resources[resourceIndex].hidden)
     },
-    'project/TOGGLE_MODEL_SHOWING' (state, {resourceIndex, modelIndex}) {
-      // We have to use Vue.set here since 'showing' is a key that does not exist on the object
-      Vue.set(state.project.resources[resourceIndex].model[modelIndex], 'showing', !state.project.resources[resourceIndex].model[modelIndex].showing)
+    'project/form/TOGGLE_MODEL_HIDDEN' (state, {resourceIndex, modelIndex}) {
+      // We have to use Vue.set here since 'hidden' is a key that does not exist on the object
+      Vue.set(state.project.resources[resourceIndex].model[modelIndex], 'hidden', !state.project.resources[resourceIndex].model[modelIndex].hidden)
+    },
+    'project/form/UPDATE_RESOURCE' (state, {resourceIndex, name, value}) {
+      state.project.resources[resourceIndex][name] = value
     }
   },
   actions: {
     'project/GET_PROJECT' ({commit}, projectId) {
       commit('project/GET_PROJECT')
-
       return new Promise((resolve, reject) => {
         Vue.http.get(Urls.project(projectId)).then(response => {
           commit('project/RECEIVE_PROJECT', response.body)
@@ -89,6 +67,18 @@ const ProjectsModule = {
         if (project.id === projectId) {
           commit('project/RECEIVE_PROJECT_UPDATE', project)
         }
+      })
+    },
+    'project/SAVE' ({state, commit}, projectId) {
+      commit('project/SAVE_STARTED')
+      return new Promise((resolve, reject) => {
+        Vue.http.put(Urls.project(projectId), state.project).then(response => {
+          commit('project/SAVE_SUCCESSFUL')
+          resolve(response.body)
+        }).catch(response => {
+          commit('project/SAVE_ERROR', response.body)
+          reject(response.body)
+        })
       })
     }
   }

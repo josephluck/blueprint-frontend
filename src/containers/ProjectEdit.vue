@@ -6,21 +6,21 @@
         <div class="flex items-center">
           <a class="dib silver mr2 icon ss-gridlines"></a>
           <div class="flex-1">
-            <span v-if="!resource.showing">{{resource.name}}</span>
+            <span v-if="resource.hidden">{{resource.name}}</span>
           </div>
           <a class="dib silver ml2 icon ss-hyphen pointer"
-            v-on:click.prevent="toggleResourceShowing(resourceIndex)"></a>
+            v-on:click.prevent="toggleResourceHidden(resourceIndex)"></a>
           <a class="dib silver ml2 icon ss-delete pointer"></a>
         </div>
-        <transition-height v-if="resource.showing">
+        <transition-height v-if="!resource.hidden">
           <div>
             <div class="mt3 form-input mb3">
               <label class="db mb1">Name</label>
-              <input type="text" class="w-100" v-bind:value="resource.name" />
+              <input type="text" class="w-100" v-bind:value="resource.name" v-on:input="updateResource(resourceIndex, 'name', $event)" />
             </div>
             <div class="form-input mb3">
               <label class="db mb1">Type</label>
-              <select class="w-100" v-bind:value="resource.type">
+              <select class="w-100" v-bind:value="resource.type" v-on:change="updateResource(resourceIndex, 'type', $event)">
                 <option></option>
                 <option value="collection">Collection</option>
                 <option value="record">Single record</option>
@@ -63,13 +63,13 @@
                 <div class="flex items-center">
                   <a class="dib silver mr2 icon ss-gridlines"></a>
                   <div class="flex-1">
-                    <span v-if="!model.showing">{{model.key}}</span>
+                    <span v-if="model.hidden">{{model.key}}</span>
                   </div>
                   <a class="dib silver ml2 icon ss-hyphen pointer"
-                    v-on:click.prevent="toggleModelShowing(resourceIndex, modelIndex)"></a>
+                    v-on:click.prevent="toggleModelHidden(resourceIndex, modelIndex)"></a>
                   <a class="dib silver ml2 icon ss-delete pointer"></a>
                 </div>
-                <transition-height v-if="model.showing">
+                <transition-height v-if="!model.hidden">
                   <div>
                     <div class="mt3 form-input mb3">
                       <label class="db mb1">Key</label>
@@ -109,13 +109,6 @@
         </transition-height>
       </div>
     </div>
-    <div class="pv3 flex">
-      <div class="flex-1"></div>
-      <a class="button"
-        v-on:click.prevent="saveProject()">
-        Save
-      </a>
-    </div>
   </div>
 </template>
 
@@ -136,18 +129,22 @@
       }
     },
     methods: {
-      toggleResourceShowing (resourceIndex) {
-        console.log('Fired toggleResourceShowing')
-        this.$store.commit('project/TOGGLE_RESOURCE_SHOWING', resourceIndex)
+      toggleResourceHidden (resourceIndex) {
+        this.$store.commit('project/form/TOGGLE_RESOURCE_HIDDEN', resourceIndex)
       },
-      toggleModelShowing (resourceIndex, modelIndex) {
-        this.$store.commit('project/TOGGLE_MODEL_SHOWING', {
+      toggleModelHidden (resourceIndex, modelIndex) {
+        this.$store.commit('project/form/TOGGLE_MODEL_HIDDEN', {
           resourceIndex,
           modelIndex
         })
       },
       saveProject () {
-        this.$store.dispatch('project/SAVE')
+        this.$store.dispatch('project/SAVE', this.$route.params.projectId)
+      },
+      updateResource (resourceIndex, name, e) {
+        this.$store.commit('project/form/UPDATE_RESOURCE', {
+          resourceIndex, name, value: e.target.value
+        })
       }
     }
   }
