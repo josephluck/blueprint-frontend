@@ -64,6 +64,10 @@ const ProjectsModule = {
     'project/TOGGLE_RESOURCE_SHOWING' (state, resourceIndex) {
       // We have to use Vue.set here since 'showing' is a key that does not exist on the object
       Vue.set(state.project.resources[resourceIndex], 'showing', !state.project.resources[resourceIndex].showing)
+    },
+    'project/TOGGLE_MODEL_SHOWING' (state, {resourceIndex, modelIndex}) {
+      // We have to use Vue.set here since 'showing' is a key that does not exist on the object
+      Vue.set(state.project.resources[resourceIndex].model[modelIndex], 'showing', !state.project.resources[resourceIndex].model[modelIndex].showing)
     }
   },
   actions: {

@@ -54,51 +54,54 @@
           </div>
           <div>
             <label class="db mb1">Model</label>
-            <div v-for="(model, index) in resource.model"
+            <div v-for="(model, modelIndex) in resource.model"
               class="bg-near-white ba b--black-10 pa3 br2"
               v-bind:class="{
-                'mb3': index !== resource.model.length - 1
+                'mb3': modelIndex !== resource.model.length - 1
               }">
-              <div class="mb3 flex items-center">
+              <div class="flex items-center">
                 <a class="dib silver mr2 icon ss-gridlines"></a>
                 <div class="flex-1">
-                  <span v-if="model.showing">{{model.key}}</span>
+                  <span v-if="!model.showing">{{model.key}}</span>
                 </div>
-                <a class="dib silver ml2 icon ss-hyphen"></a>
+                <a class="dib silver ml2 icon ss-hyphen"
+                  v-on:click.prevent="toggleModelShowing(resourceIndex, modelIndex)"></a>
                 <a class="dib silver ml2 icon ss-delete"></a>
               </div>
-              <div>
-                <div class="form-input mb3">
-                  <label class="db mb1">Key</label>
-                  <input type="text" class="w-100" v-bind:value="model.key" />
+              <transition-height v-if="model.showing">
+                <div>
+                  <div class="mt3 form-input mb3">
+                    <label class="db mb1">Key</label>
+                    <input type="text" class="w-100" v-bind:value="model.key" />
+                  </div>
+                  <div class="form-input mb3">
+                    <label class="db mb1">Type</label>
+                    <select class="w-100" v-bind:value="model.type">
+                      <option></option>
+                      <option value="random">Random</option>
+                      <option value="preDefined">Pre defined</option>
+                      <option value="nestedJson">JSON</option>
+                      <option value="anotherResource">From another resource</option>
+                    </select>
+                  </div>
+                  <div class="form-input mb3">
+                    <label class="db mb1">Category</label>
+                    <select class="w-100" v-bind:value="model.randomCategory">
+                      <option></option>
+                      <option v-for="category in randomCategories"
+                        v-bind:value="category.value">{{category.name}}</option>
+                    </select>
+                  </div>
+                  <div class="form-input mb3">
+                    <label class="db mb1">Sub category</label>
+                    <select class="w-100" v-bind:value="model.randomSubcategory">
+                      <option></option>
+                      <option v-for="subcategory in randomSubcategories[model.randomCategory]"
+                        v-bind:value="subcategory.value">{{subcategory.name}}</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="form-input mb3">
-                  <label class="db mb1">Type</label>
-                  <select class="w-100" v-bind:value="model.type">
-                    <option></option>
-                    <option value="random">Random</option>
-                    <option value="preDefined">Pre defined</option>
-                    <option value="nestedJson">JSON</option>
-                    <option value="anotherResource">From another resource</option>
-                  </select>
-                </div>
-                <div class="form-input mb3">
-                  <label class="db mb1">Category</label>
-                  <select class="w-100" v-bind:value="model.randomCategory">
-                    <option></option>
-                    <option v-for="category in randomCategories"
-                      v-bind:value="category.value">{{category.name}}</option>
-                  </select>
-                </div>
-                <div class="form-input mb3">
-                  <label class="db mb1">Sub category</label>
-                  <select class="w-100" v-bind:value="model.randomSubcategory">
-                    <option></option>
-                    <option v-for="subcategory in randomSubcategories[model.randomCategory]"
-                      v-bind:value="subcategory.value">{{subcategory.name}}</option>
-                  </select>
-                </div>
-              </div>
+              </transition-height>
             </div>
           </div>
         </div>
@@ -120,13 +123,19 @@
     },
     computed: {
       project () {
-        console.log('Fired')
         return this.$store.state.project.project
       }
     },
     methods: {
       toggleResourceShowing (resourceIndex) {
+        console.log('Fired toggleResourceShowing')
         this.$store.commit('project/TOGGLE_RESOURCE_SHOWING', resourceIndex)
+      },
+      toggleModelShowing (resourceIndex, modelIndex) {
+        this.$store.commit('project/TOGGLE_MODEL_SHOWING', {
+          resourceIndex,
+          modelIndex
+        })
       }
     }
   }
