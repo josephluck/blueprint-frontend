@@ -19,7 +19,7 @@
           Settings
         </router-link>
       </div>
-      <div class="flex-1 overflow-auto pt4 ph4">
+      <div class="flex flex-column flex-1 pt3 ph4">
         <transition name="slide-right" mode="out-in">
           <router-view class="child-view"></router-view>
         </transition>

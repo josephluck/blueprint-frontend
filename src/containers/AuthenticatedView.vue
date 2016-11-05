@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-100">
     <div class="bg-white w-20 br b--black-10 flex flex-column overflow-auto">
-      <div class="flex-1 pv4 ph3">
+      <div class="flex-1 pa3">
         <projects-list></projects-list>
         <a class="white db mb3 mt3" v-on:click="newProjectFormShowing = true">
           New project
@@ -11,7 +11,7 @@
         </a>
       </div>
     </div>
-    <div class="flex flex-column flex-1 pt4 overflow-auto">
+    <div class="flex flex-column flex-1 pt3 overflow-auto">
       <transition v-bind:name="transitionName" mode="out-in">
         <router-view class="child-view"></router-view>
       </transition>
