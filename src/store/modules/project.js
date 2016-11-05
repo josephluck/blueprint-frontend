@@ -95,11 +95,10 @@ const ProjectsModule = {
       })
     },
     'project/SAVE' ({state, commit}, projectId) {
-      console.log('Saving')
       commit('project/SAVE_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.put(Urls.project(projectId), state.project).then(response => {
-          commit('project/SAVE_SUCCESSFUL')
+          commit('project/SAVE_SUCCESSFUL', response.body)
           resolve(response.body)
         }).catch(response => {
           commit('project/SAVE_ERROR', response.body)

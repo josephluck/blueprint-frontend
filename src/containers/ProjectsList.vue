@@ -15,11 +15,10 @@
           v-if="projectMenuItemOpen === project._id">
           <div class="light-silver">
             <transition-group name="list-transition">
-              <div class="list-transition-item mb2">
-                customers
-              </div>
-              <div>
-                invoices
+              <div class="list-transition-item"
+                v-for="(resource, resourceIndex) in project.resources"
+                v-bind:key="resourceIndex">
+                {{resource.name}}
               </div>
             </transition-group>
           </div>

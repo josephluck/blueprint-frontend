@@ -30,6 +30,14 @@ const ProjectsModule = {
       if (!projectAlreadyExists) {
         state.projects.unshift(project)
       }
+    },
+    'project/SAVE_SUCCESSFUL' (state, project) {
+      state.projects = state.projects.map((proj) => {
+        if (proj._id === project._id) {
+          proj = project
+        }
+        return proj
+      })
     }
   },
   actions: {
