@@ -3,8 +3,12 @@
     <div v-if="!loading"
       class="flex flex-1 flex-column">
       <div class="flex-0 ph4 flex items-center">
-        <div class="flex-1 f2">
-          {{project.name}}
+        <div class="flex flex-1 items-center">
+          <span class="f3 mr3">{{project.name}}</span>
+          <span class="f6 green" v-if="project.updated_by">
+            <span class="icon ss-check"></span>
+            Last edit was {{formatDate(project.updated_at)}}
+          </span>
         </div>
         <router-link class="b--black-20 dib ml3" active-class="gray"
           :to="{ name: 'projectEdit', params: {projectId: this.project._id} }">
@@ -29,6 +33,7 @@
 </template>
 
 <script>
+  const moment = require('moment')
   export default {
     computed: {
       project () {
@@ -36,6 +41,10 @@
       },
       loading () {
         return this.$store.state.project.loading
+      },
+      currentTab () {
+        console.log(this.$route)
+        return this.$route.name
       }
     },
     watch: {
@@ -61,6 +70,9 @@
       },
       setUpSockets (projectId) {
         this.$store.dispatch('project/SETUP_SOCKETS', projectId)
+      },
+      formatDate (date) {
+        return moment(date).format('Do MMM YY')
       }
     }
   }

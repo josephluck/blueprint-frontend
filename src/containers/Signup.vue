@@ -20,6 +20,15 @@
         />
 
         <label class="mb1">
+          Your name
+        </label>
+        <input
+          class="w-100 mb3"
+          type="text"
+          v-model="name"
+        />
+
+        <label class="mb1">
           Email
         </label>
         <input
@@ -56,6 +65,7 @@
     data () {
       return {
         email: 'joseph@local.co',
+        name: 'Joseph Luck',
         password: '12345678',
         company_name: 'Joseph Luck LTD'
       }
@@ -70,6 +80,7 @@
         this.$store.dispatch('signup/ON_SUBMIT', {
           email: this.email,
           password: this.password,
+          name: this.name,
           company_name: this.company_name
         }).then(() => {
           this.$router.replace({
