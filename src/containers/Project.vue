@@ -6,10 +6,10 @@
         <div class="flex flex-1 items-center">
           <span class="f3 mr3">{{project.name}}</span>
           <span class="f6 tooltip-bottom" v-if="project.updated_by"
-            v-bind:data-tooltip="`Updated by ` + project.updated_by.name">
+            v-bind:data-tooltip="project.updated_by.name + ` at ` + formatDate(project.updated_at, 'hh:mma on Do MMMM YYYY')">
             <div class="green">
               <span class="icon ss-check"></span>
-              Last edit was {{formatDate(project.updated_at)}}
+              Last edit was {{formatDate(project.updated_at, 'MMM Do YY')}}
             </div>
           </span>
         </div>
@@ -74,8 +74,8 @@
       setUpSockets (projectId) {
         this.$store.dispatch('project/SETUP_SOCKETS', projectId)
       },
-      formatDate (date) {
-        return moment(date).format('Do MMM YY')
+      formatDate (date, format) {
+        return moment(date).format(format)
       }
     }
   }
