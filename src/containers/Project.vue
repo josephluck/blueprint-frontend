@@ -5,9 +5,12 @@
       <div class="flex-0 ph4 flex items-center">
         <div class="flex flex-1 items-center">
           <span class="f3 mr3">{{project.name}}</span>
-          <span class="f6 green" v-if="project.updated_by">
-            <span class="icon ss-check"></span>
-            Last edit was {{formatDate(project.updated_at)}}
+          <span class="f6 tooltip-bottom" v-if="project.updated_by"
+            v-bind:data-tooltip="`Updated by ` + project.updated_by.name">
+            <div class="green">
+              <span class="icon ss-check"></span>
+              Last edit was {{formatDate(project.updated_at)}}
+            </div>
           </span>
         </div>
         <router-link class="b--black-20 dib ml3" active-class="gray"
