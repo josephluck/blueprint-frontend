@@ -15,7 +15,7 @@
         </div>
         <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
-            <div class="mt3 form-input mb3">
+            <div class="pt3 form-input mb3">
               <label class="db mb1">Name</label>
               <input type="text" class="w-100" v-bind:value="resource.name" v-on:input="updateResource(resourceIndex, 'name', $event)" />
             </div>
@@ -146,7 +146,7 @@
         return this.$store.state.project.project
       },
       throttledSaveProject () {
-        return Utils.throttle(this.saveProject, 2000)
+        return Utils.throttle(this.saveProject, 500)
       },
       hiddenResources () {
         return this.$store.state.project.hiddenResources

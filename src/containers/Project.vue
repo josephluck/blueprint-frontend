@@ -44,10 +44,6 @@
       },
       loading () {
         return this.$store.state.project.loading
-      },
-      currentTab () {
-        console.log(this.$route)
-        return this.$route.name
       }
     },
     watch: {

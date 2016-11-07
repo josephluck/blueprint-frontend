@@ -1,4 +1,4 @@
-const API_ROOT = 'http://localhost:3030'
+const API_ROOT = 'http://localhost:3030/admin'
 
 export default {
   login () { return `${API_ROOT}/auth/local` },

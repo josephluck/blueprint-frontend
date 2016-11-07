@@ -50,13 +50,16 @@ const ProjectsModule = {
       Vue.set(state.hiddenModels, key, !state.hiddenModels[key])
     },
     'project/form/UPDATE_RESOURCE' (state, {resourceIndex, name, value}) {
-      state.project.resources[resourceIndex][name] = value
+      let objToUpdate = state.project.resources[resourceIndex]
+      Vue.set(objToUpdate, name, value)
     },
     'project/form/UPDATE_RESOURCE_SUPPORTED_METHODS' (state, {resourceIndex, name, value}) {
-      state.project.resources[resourceIndex].supportedMethods[name] = value
+      let objToUpdate = state.project.resources[resourceIndex].supportedMethods
+      Vue.set(objToUpdate, name, value)
     },
     'project/form/UPDATE_MODEL' (state, {resourceIndex, modelIndex, name, value}) {
-      state.project.resources[resourceIndex].model[modelIndex][name] = value
+      let objToUpdate = state.project.resources[resourceIndex].model[modelIndex]
+      Vue.set(objToUpdate, name, value)
     },
     'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
       state.project.resources[resourceIndex].model.push({})
