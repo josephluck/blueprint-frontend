@@ -141,6 +141,7 @@
                           <input type="date" class="w-100" v-bind:value="model.predefinedValue" v-on:input="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)" />
                         </div>
                       </div>
+
                       <div v-if="model.type === 'anotherResource'">
                         <div class="form-input mb3">
                           <label class="db mb1">Resource</label>
@@ -152,6 +153,23 @@
                               v-if="nestedResource.name !== resource.name"
                               v-bind:value="nestedResource.name">
                               {{nestedResource.name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="form-input mb3">
+                          <label class="db mb1">Method</label>
+                          <select class="w-100"
+                            v-bind:value="model.anotherResourceMethod"
+                            v-on:change="updateModel(resourceIndex, modelIndex, 'anotherResourceMethod', $event)">
+                            <option></option>
+                            <option value="collection">
+                              Array of {{model.otherResourceName}}
+                            </option>
+                            <option value="record">
+                              Single, randomly selected object from {{model.otherResourceName}}
+                            </option>
+                            <option value="id">
+                              Single, randomly selected id from {{model.otherResourceName}}
                             </option>
                           </select>
                         </div>
