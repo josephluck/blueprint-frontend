@@ -84,27 +84,77 @@
                         <select class="w-100" v-bind:value="model.type" v-on:input="updateModel(resourceIndex, modelIndex, 'type', $event)">
                           <option></option>
                           <option value="random">Random</option>
-                          <option value="preDefined">Pre defined</option>
+                          <option value="predefined">Pre defined</option>
                           <option value="nestedJson">JSON</option>
                           <option value="anotherResource">From another resource</option>
                         </select>
                       </div>
-                      <div class="form-input mb3" v-if="model.type === 'random'">
-                        <label class="db mb1">Category</label>
-                        <select class="w-100" v-bind:value="model.randomCategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomCategory', $event)">
-                          <option></option>
-                          <option v-for="category in randomCategories"
-                            v-bind:value="category.value">{{category.name}}</option>
-                        </select>
+                      <div v-if="model.type === 'random'">
+                        <div class="form-input mb3">
+                          <label class="db mb1">Category</label>
+                          <select class="w-100" v-bind:value="model.randomCategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomCategory', $event)">
+                            <option></option>
+                            <option v-for="category in randomCategories"
+                              v-bind:value="category.value">{{category.name}}</option>
+                          </select>
+                        </div>
+                        <div class="form-input mb3">
+                          <label class="db mb1">Sub category</label>
+                          <select class="w-100" v-bind:value="model.randomSubcategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomSubcategory', $event)">
+                            <option></option>
+                            <option v-for="subcategory in randomSubcategories[model.randomCategory]"
+                              v-bind:value="subcategory.value">{{subcategory.name}}</option>
+                          </select>
+                        </div>
                       </div>
-                      <div class="form-input mb3" v-if="model.type === 'random'">
-                        <label class="db mb1">Sub category</label>
-                        <select class="w-100" v-bind:value="model.randomSubcategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomSubcategory', $event)">
-                          <option></option>
-                          <option v-for="subcategory in randomSubcategories[model.randomCategory]"
-                            v-bind:value="subcategory.value">{{subcategory.name}}</option>
-                        </select>
+                      <div v-if="model.type === 'predefined'">
+                        <div class="form-input mb3">
+                          <label class="db mb1">Type</label>
+                          <select class="w-100"
+                            v-bind:value="model.predefinedType"
+                            v-on:change="updateModel(resourceIndex, modelIndex, 'predefinedType', $event)">
+                            <option value="string">String</option>
+                            <option value="number">Number</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="date">Date</option>
+                          </select>
+                        </div>
+                        <div class="form-input mb3" v-if="model.predefinedType === 'string'">
+                          <label class="db mb1">Value</label>
+                          <input type="text" class="w-100" v-bind:value="model.predefinedValue" v-on:input="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)" />
+                        </div>
+                        <div class="form-input mb3" v-if="model.predefinedType === 'number'">
+                          <label class="db mb1">Value</label>
+                          <input type="number" class="w-100" v-bind:value="model.predefinedValue" v-on:input="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)" />
+                        </div>
+                        <div class="form-input mb3" v-if="model.predefinedType === 'boolean'">
+                          <label class="db mb1">Value</label>
+                          <select class="w-100"
+                            v-bind:value="model.predefinedValue"
+                            v-on:change="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                        </div>
+                        <div class="form-input mb3" v-if="model.predefinedType === 'date'">
+                          <label class="db mb1">Value</label>
+                          <input type="date" class="w-100" v-bind:value="model.predefinedValue" v-on:input="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)" />
+                        </div>
                       </div>
+                      <div v-if="model.type === 'anotherResource'">
+                        <div class="form-input mb3">
+                          <label class="db mb1">Resource</label>
+                          <select class="w-100"
+                            v-bind:value="model.otherResourceName"
+                            v-on:change="updateModel(resourceIndex, modelIndex, 'otherResourceName', $event)">
+                            <option></option>
+                            <option v-for="nestedResource in project.resources"
+                              v-if="nestedResource.name !== resource.name"
+                              v-bind:value="nestedResource.name">
+                              {{nestedResource.name}}
+                            </option>
+                          </select>
+                        </div>
                     </div>
                   </transition-height>
                 </div>
