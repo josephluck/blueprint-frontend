@@ -33,8 +33,9 @@ const ProjectsModule = {
       state.saving = true
       state.saveError = null
     },
-    'project/SAVE_SUCCESSFUL' (state) {
+    'project/SAVE_SUCCESSFUL' (state, payload) {
       state.saving = false
+      state.project = payload
     },
     'project/SAVE_ERROR' (state, payload) {
       state.saving = false
