@@ -73,9 +73,6 @@
       }
     },
     methods: {
-      toggleMenuItem (name) {
-        this[name] = !this[name]
-      },
       logout () {
         this.$store.dispatch('logout/ON_SUBMIT').then(() => {
           this.$router.replace({

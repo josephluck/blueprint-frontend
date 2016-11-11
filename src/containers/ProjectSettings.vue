@@ -28,18 +28,14 @@
       <div class="mt3 flex">
         <div class="flex-1"></div>
         <a class="button --bad"
-          v-on:click.prevent="showDeleteConfirmation()">
+          v-on:click.prevent="toggleDeleteConfirmation">
           Delete project
         </a>
       </div>
-
-
-
-      <form v-on:submit.prevent="deleteProject">
-        <modal v-if="newProjectFormShowing"
-          v-on:close="newProjectFormShowing = false">
-        </modal>
-      </form>
+      <confirmation-modal v-bind:showing="deleteConfirmationShowing"
+        v-on:confirmed="deleteProject()"
+        v-on:close="deleteConfirmationShowing = false">
+      </confirmation-modal>
     </div>
   </div>
 </template>
@@ -48,7 +44,13 @@
   const Utils = require('../utils')
   export default {
     components: {
-      TransitionHeight: require('../components/TransitionHeight.vue')
+      TransitionHeight: require('../components/TransitionHeight.vue'),
+      ConfirmationModal: require('../components/ConfirmationModal.vue')
+    },
+    data () {
+      return {
+        deleteConfirmationShowing: false
+      }
     },
     computed: {
       project () {
@@ -76,6 +78,9 @@
       },
       deleteProject () {
         console.log('Delete project')
+      },
+      toggleDeleteConfirmation () {
+        this.deleteConfirmationShowing = !this.deleteConfirmationShowing
       }
     }
   }
