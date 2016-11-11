@@ -6,6 +6,8 @@ const ProjectsModule = {
   state: {
     project: {},
     loading: false,
+    saving: false,
+    deleting: false,
     saveError: null,
     hiddenResources: {},
     hiddenModels: {},
@@ -41,6 +43,16 @@ const ProjectsModule = {
     'project/SAVE_ERROR' (state, payload) {
       state.saving = false
       state.saveError = payload
+    },
+    'project/DELETE_STARTED' (state) {
+      state.deleting = true
+    },
+    'project/DELETE_SUCCESSFUL' (state, projectId) {
+      state.deleting = false
+      state.project = {}
+    },
+    'project/DELETE_ERROR' (state, projectId) {
+      state.deleting = false
     },
     'project/form/TOGGLE_USERS_HIDDEN' (state) {
       // We have to use Vue.set here since the resourceIndex may not exist in the store
@@ -115,6 +127,18 @@ const ProjectsModule = {
         }).catch(response => {
           commit('project/SAVE_ERROR', response.body)
           reject(response.body)
+        })
+      })
+    },
+    'project/DELETE' ({state, commit}, projectId) {
+      commit('project/DELETE_STARTED')
+      return new Promise((resolve, reject) => {
+        Vue.http.delete(Urls.project(projectId)).then(response => {
+          commit('project/DELETE_SUCCESSFUL', projectId)
+          resolve(projectId)
+        }).catch(response => {
+          commit('project/DELETE_ERROR', projectId)
+          reject(projectId)
         })
       })
     }

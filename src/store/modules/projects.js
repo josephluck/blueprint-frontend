@@ -38,6 +38,9 @@ const ProjectsModule = {
         }
         return proj
       })
+    },
+    'project/DELETE_SUCCESSFUL' (state, projectId) {
+      state.projects = state.projects.filter((proj) => proj._id !== projectId)
     }
   },
   actions: {

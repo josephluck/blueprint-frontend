@@ -77,7 +77,10 @@
         this.$store.commit('project/form/TOGGLE_USERS_HIDDEN')
       },
       deleteProject () {
-        console.log('Delete project')
+        this.$store.dispatch('project/DELETE', this.$route.params.projectId).then(() => {
+          this.toggleDeleteConfirmation()
+          this.$router.push('/')
+        })
       },
       toggleDeleteConfirmation () {
         this.deleteConfirmationShowing = !this.deleteConfirmationShowing
