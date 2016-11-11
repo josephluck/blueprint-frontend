@@ -223,9 +223,6 @@
         return this.$store.state.project.hiddenModels
       }
     },
-    created () {
-      this.$store.dispatch('project/SETUP_SOCKETS', this.$route.params.projectId)
-    },
     methods: {
       toggleResourceHidden (resourceIndex) {
         this.$store.commit('project/form/TOGGLE_RESOURCE_HIDDEN', resourceIndex)

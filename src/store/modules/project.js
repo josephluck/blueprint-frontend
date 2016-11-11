@@ -8,7 +8,8 @@ const ProjectsModule = {
     loading: false,
     saveError: null,
     hiddenResources: {},
-    hiddenModels: {}
+    hiddenModels: {},
+    usersHidden: false
   },
   mutations: {
     'project/GET_PROJECT' (state) {
@@ -41,6 +42,10 @@ const ProjectsModule = {
       state.saving = false
       state.saveError = payload
     },
+    'project/form/TOGGLE_USERS_HIDDEN' (state) {
+      // We have to use Vue.set here since the resourceIndex may not exist in the store
+      Vue.set(state, 'usersHidden', !state.usersHidden)
+    },
     'project/form/TOGGLE_RESOURCE_HIDDEN' (state, resourceIndex) {
       // We have to use Vue.set here since the resourceIndex may not exist in the store
       Vue.set(state.hiddenResources, resourceIndex, !state.hiddenResources[resourceIndex])
@@ -49,6 +54,9 @@ const ProjectsModule = {
       // We have to use Vue.set here since the resourceIndex / modelIndex may not exist in the store
       const key = `${resourceIndex}-${modelIndex}`
       Vue.set(state.hiddenModels, key, !state.hiddenModels[key])
+    },
+    'project/form/UPDATE_PROJECT' (state, {name, value}) {
+      Vue.set(state.project, name, value)
     },
     'project/form/UPDATE_RESOURCE' (state, {resourceIndex, name, value}) {
       let objToUpdate = state.project.resources[resourceIndex]
