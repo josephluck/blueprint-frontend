@@ -13,16 +13,16 @@
             </div>
           </span>
         </div>
-        <router-link class="b--black-20 dib ml3" active-class="gray"
+        <router-link class="f6 ttu tracked dib ba b--white-0125 br-pill pv1 ph2" active-class="gray b--black-20 bg-near-white"
           :to="{ name: 'projectEdit', params: {projectId: this.project._id} }">
           Resources
         </router-link>
-        <router-link class="b--black-20 dib ml3" active-class="gray"
+        <router-link class="f6 ttu tracked dib ba b--white-0125 br-pill pv1 ph2" active-class="gray b--black-20 bg-near-white"
           :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
           Docs
         </router-link>
-        <router-link class="b--black-20 dib ml3" active-class="gray"
-          :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">
+        <router-link class="f6 ttu tracked dib ba b--white-0125 br-pill pv1 ph2" active-class="gray b--black-20 bg-near-white"
+          :to="{ name: 'projectSettings', params: {projectId: this.project._id} }">
           Settings
         </router-link>
       </div>

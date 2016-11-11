@@ -27,6 +27,11 @@ export default [
             name: 'projectDocs',
             path: 'docs',
             component: require('../containers/ProjectDocs.vue')
+          },
+          {
+            name: 'projectSettings',
+            path: 'settings',
+            component: require('../containers/ProjectSettings.vue')
           }
         ]
       },

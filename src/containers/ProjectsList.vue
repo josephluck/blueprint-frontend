@@ -6,16 +6,14 @@
         class="list-transition-item pb3">
         <router-link class="gray db pb0 transition pointer"
           v-bind:to="getProjectLink(project._id)"
-          v-bind:class="{
-            'pb2': projectMenuItemOpen === project._id
-          }">
+          active-class="pb2 orange fw5">
           {{ project.name }}
         </router-link>
         <transition-height
           v-if="projectMenuItemOpen === project._id">
           <div class="light-silver">
             <transition-group name="list-transition">
-              <div class="list-transition-item"
+              <div class="list-transition-item fw3"
                 v-for="(resource, resourceIndex) in project.resources"
                 v-bind:key="resourceIndex">
                 {{resource.name}}
@@ -51,6 +49,9 @@
         if (this.$route.matched.length > 1) {
           if (this.$route.matched[2].name === 'projectDocs') {
             currentTab = 'docs'
+          }
+          if (this.$route.matched[2].name === 'projectSettings') {
+            currentTab = 'settings'
           }
         }
         return currentTab
