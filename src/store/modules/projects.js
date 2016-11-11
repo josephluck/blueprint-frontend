@@ -53,6 +53,7 @@ const ProjectsModule = {
     'projects/ADD_NEW' ({commit}, payload) {
       return new Promise((resolve, reject) => {
         Vue.http.post(Urls.projects(), payload).then((response) => {
+          commit('projects/RECEIVE_PROJECT', response.body)
           resolve(response.body._id)
         }).catch((response) => {
           reject()
