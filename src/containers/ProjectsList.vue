@@ -10,7 +10,7 @@
           {{ project.name }}
         </router-link>
         <transition-height
-          v-if="projectMenuItemOpen === project._id">
+          v-if="projectMenuItemOpen === project._id && currentTab !== 'settings'">
           <div class="light-silver">
             <transition-group name="list-transition">
               <div class="list-transition-item fw3"

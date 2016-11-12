@@ -29,7 +29,7 @@
         <div class="flex-1"></div>
         <a class="button --bad"
           v-on:click.prevent="toggleDeleteModal(true)">
-          Delete project
+          Delete
         </a>
       </div>
       <confirmation-modal
