@@ -28,14 +28,14 @@
       <div class="mt3 flex">
         <div class="flex-1"></div>
         <a class="button --bad"
-          v-on:click.prevent="toggleDeleteConfirmation">
+          v-on:click.prevent="toggleDeleteModal(true)">
           Delete project
         </a>
       </div>
       <confirmation-modal
-        v-bind:showing="deleteConfirmationShowing"
+        v-bind:showing="deleteModalShowing"
         v-on:confirmed="deleteProject()"
-        v-on:close="deleteConfirmationShowing = false"
+        v-on:close="toggleDeleteModal(false)"
         v-bind:headerText="`Delete ` + project.name + `'s blueprint`">
         <div slot="message">
           <p class="mt0">Are you sure you want to delete {{project.name}}'s blueprint?</p>
@@ -55,14 +55,12 @@
       TransitionHeight: require('../components/TransitionHeight.vue'),
       ConfirmationModal: require('../components/ConfirmationModal.vue')
     },
-    data () {
-      return {
-        deleteConfirmationShowing: false
-      }
-    },
     computed: {
       project () {
         return this.$store.state.project.project
+      },
+      deleteModalShowing () {
+        return this.$store.state.ui.currentModal === 'deleteProject' && this.$store.state.ui.modalShowing
       },
       throttledSaveProject () {
         return Utils.throttle(this.saveProject, 500)
@@ -86,12 +84,15 @@
       },
       deleteProject () {
         this.$store.dispatch('project/DELETE', this.$route.params.projectId).then(() => {
-          this.toggleDeleteConfirmation()
+          this.toggleDeleteModal(false)
           this.$router.push('/')
         })
       },
-      toggleDeleteConfirmation () {
-        this.deleteConfirmationShowing = !this.deleteConfirmationShowing
+      toggleDeleteModal (showing) {
+        this.$store.commit('ui/TOGGLE_MODAL', {
+          name: 'deleteProject',
+          showing
+        })
       }
     }
   }

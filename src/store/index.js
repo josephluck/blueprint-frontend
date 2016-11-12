@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import PersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -13,9 +14,13 @@ const Store = new Vuex.Store({
     resources: require('./modules/resources').default,
     signup: require('./modules/signup').default,
     todos: require('./modules/todos').default,
-    user: require('./modules/user').default
+    user: require('./modules/user').default,
+    ui: require('./modules/ui').default
   },
-  strict: true
+  strict: true,
+  plugins: [
+    PersistedState()
+  ]
 })
 
 // process.env.NODE_ENV !== 'production'
