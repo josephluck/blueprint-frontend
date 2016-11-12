@@ -12,23 +12,20 @@
         </div>
         <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
-            <div v-if="resource.supportedMethods.post">
+            <div v-if="resource.supportedMethods.post" class="mb5">
               <div class="f3">Create {{resource.name}}</div>
-
               <div class="mt3">
                 <label class="dib mb1">Request URL</label>
                 <div class="code pa3 ba b--black-10 br2">
                   {{apiRoot}}/api/{{project._id}}/{{resource.name}}
                 </div>
               </div>
-
               <div class="mt3">
                 <label class="dib mb1">Method</label>
                 <div class="code pa3 ba b--black-10 br2">
                   POST
                 </div>
               </div>
-
               <div class="mt3">
                 <label class="dib mb1">Request body</label>
                 <div class="ph3 ba b--black-10 br2">
@@ -45,7 +42,120 @@
                       </div>
                       <div v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'"
                         class="mt2">
-                        <div class="i">Used for <code class="dib bg-near-white pv1 ph2 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code> query in GET methods</div>
+                        <div class="i">You can add the <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code> query in the {{resource.name}} GET method</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="resource.supportedMethods.get" class="mb5">
+              <div>
+                <div class="f3">Retrieve {{resource.name}}</div>
+                <div class="mt3">
+                  <label class="dib mb1">Request URL</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    {{apiRoot}}/api/{{project._id}}/{{resource.name}}
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Method</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    GET
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Query parameters</label>
+                  <div class="ph3 ba b--black-10 br2">
+                    <div class="pv3 b--black-10 bb"
+                      v-for="(model, modelIndex) in resource.model"
+                      v-bind:key="modelIndex"
+                      v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'">
+                      <div class="fw5 mb2 code">Include {{model.otherResourceName | deplural}}</div>
+                      <div class="silver">
+                        Include {{model.otherResourceName | deplural}} in the {{resource.name}} response. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Exact search</div>
+                      <div class="silver">
+                        Search {{resource.name}} by attribute. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}=lorem</code>
+                        Note that the query has to be an exact match for the attribute.
+                        You can access deeply nested properties, for example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}.name=lorem</code>
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Partial search</div>
+                      <div class="silver">
+                        Search {{resource.name}} by attributes. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_like=lorem</code>
+                        Note that this is a partial search (so will return an array of {{resource.name}} that contain
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">lorem</code>
+                        in the {{resource.model[0].key}} attribute).
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Paginate</div>
+                      <div class="silver">
+                        Paginate {{resource.name}}. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_page=3</code>
+                        Note that you can adjust the number of records returned per page using the
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_limit</code>
+                        query. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_page=3&limit=15</code>
+                        The default limit is 10.
+                        Note that you'll get
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">first</code>
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">prev</code>
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">next</code>
+                        and
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">last</code>
+                        links in the
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">Link</code>
+                        response header.
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Sort</div>
+                      <div class="silver">
+                        Sort {{resource.name}} by attribute. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}</code>
+                        You can choose between ascending or descending order using the
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_order</code>
+                        query. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}&order=DESC</code>
+                        The default order is ASC.
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Slice</div>
+                      <div class="silver">
+                        Slice {{resource.name}} for pagination. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_end=20</code>
+                        You can use
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_limit</code>
+                        instead of
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_end</code>
+                        for example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_limit=20</code>
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Less / greater than</div>
+                      <div class="silver">
+                        Query {{resource.name}} by attribute greater / less than. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_gte=10&{{resource.model[0].key}}_lte=50</code>
+                      </div>
+                    </div>
+                    <div class="pv3 b--black-10 bb">
+                      <div class="fw5 mb2 code">Exclude</div>
+                      <div class="silver">
+                        Exclude {{resource.name}} that contain a particular attribute value. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_ne=lorem</code>
                       </div>
                     </div>
                   </div>
