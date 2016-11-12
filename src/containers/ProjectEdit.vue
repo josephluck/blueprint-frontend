@@ -85,7 +85,6 @@
                           <option></option>
                           <option value="random">Random</option>
                           <option value="predefined">Pre defined</option>
-                          <option value="nestedJson">JSON</option>
                           <option value="anotherResource">From another resource</option>
                         </select>
                       </div>
