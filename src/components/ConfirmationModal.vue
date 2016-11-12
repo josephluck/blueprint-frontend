@@ -3,11 +3,13 @@
     <modal v-if="showing">
       <div slot="header"
         class="pa3 bb b--black-20 bg-white">
-        Confirm
+        {{headerText || "Confirm"}}
       </div>
       <div slot="content"
         class="pa3">
-        Are you sure... ?
+        <slot name="message">
+          Are you sure?
+        </slot>
       </div>
 
       <div slot="footer"
@@ -19,7 +21,7 @@
         </a>
         <button type="submit"
           class="button">
-          Yes, I'm sure
+          {{buttonText || "Yes, I'm sure"}}
         </button>
       </div>
     </modal>
@@ -29,7 +31,10 @@
 <script>
   export default {
     props: [
-      'showing'
+      'showing',
+      'headerText',
+      'withConfirmationInput',
+      'buttonText'
     ],
     components: {
       Modal: require('./Modal.vue')

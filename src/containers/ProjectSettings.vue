@@ -32,9 +32,17 @@
           Delete project
         </a>
       </div>
-      <confirmation-modal v-bind:showing="deleteConfirmationShowing"
+      <confirmation-modal
+        v-bind:showing="deleteConfirmationShowing"
         v-on:confirmed="deleteProject()"
-        v-on:close="deleteConfirmationShowing = false">
+        v-on:close="deleteConfirmationShowing = false"
+        v-bind:headerText="`Delete ` + project.name + `'s blueprint`">
+        <div slot="message">
+          <p class="mt0">Are you sure you want to delete {{project.name}}'s blueprint?</p>
+          <p>After this there's no going back. {{project.name}}'s blueprint will be
+          cast in to the abyss never to be seen again.</p>
+          <p class="mb0">This'll break any apps using {{project.name}}'s blueprint. <b>You've been warned!</b></p>
+        </div>
       </confirmation-modal>
     </div>
   </div>
