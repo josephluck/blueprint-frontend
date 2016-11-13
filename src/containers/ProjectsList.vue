@@ -13,25 +13,42 @@
           v-if="projectMenuItemOpen === project._id && currentTab !== 'settings'">
           <div class="light-silver">
             <transition-group name="list-transition">
-              <div class="list-transition-item mb2"
+              <div class="list-transition-item mb2 ml2"
                 v-for="(resource, resourceIndex) in project.resources"
                 v-bind:key="resourceIndex">
-                {{resource.name}}
+                <div class="transition"
+                  v-bind:class="{
+                    'fw5 orange': currentlyViewing.includes(resource.name)
+                  }">
+                  {{resource.name}}
+                </div>
                 <transition-height v-if="currentTab === 'docs'">
                   <div>
-                    <div class="mt1 fw2 ml2"
+                    <div class="mt1 fw2 ml2 transition"
+                      v-bind:class="{
+                        'fw5 orange': currentlyViewing === resource.name + '_get'
+                      }"
                       v-if="resource.supportedMethods.get">
                       GET
                     </div>
-                    <div class="fw2 ml2"
+                    <div class="fw2 ml2 transition"
+                      v-bind:class="{
+                        'fw5 orange': currentlyViewing === resource.name + '_post'
+                      }"
                       v-if="resource.supportedMethods.post">
                       POST
                     </div>
-                    <div class="fw2 ml2"
+                    <div class="fw2 ml2 transition"
+                      v-bind:class="{
+                        'fw5 orange': currentlyViewing === resource.name + '_put'
+                      }"
                       v-if="resource.supportedMethods.put">
                       PUT
                     </div>
-                    <div class="fw2 ml2"
+                    <div class="fw2 ml2 transition"
+                      v-bind:class="{
+                        'fw5 orange': currentlyViewing === resource.name + '_delete'
+                      }"
                       v-if="resource.supportedMethods.delete">
                       DELETE
                     </div>
@@ -75,6 +92,9 @@
           }
         }
         return currentTab
+      },
+      currentlyViewing () {
+        return this.$store.state.ui.currentlyViewing
       }
     },
     created () {
