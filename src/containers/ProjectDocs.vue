@@ -12,44 +12,6 @@
         </div>
         <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
-            <div v-if="resource.supportedMethods.post" class="mb5">
-              <div class="f3">Create {{resource.name}}</div>
-              <div class="mt3">
-                <label class="dib mb1">Request URL</label>
-                <div class="code pa3 ba b--black-10 br2">
-                  {{apiRoot}}/api/{{project._id}}/{{resource.name}}
-                </div>
-              </div>
-              <div class="mt3">
-                <label class="dib mb1">Method</label>
-                <div class="code pa3 ba b--black-10 br2">
-                  POST
-                </div>
-              </div>
-              <div class="mt3">
-                <label class="dib mb1">Request body</label>
-                <div class="ph3 ba b--black-10 br2">
-                  <div v-for="(model, modelIndex) in resource.model"
-                    class="pv3 b--black-10"
-                    v-bind:class="{
-                      'bb': modelIndex !== resource.model.length - 1
-                    }"
-                    v-bind:key="modelIndex">
-                    <div class="fw5 mb2 code">{{model.key}}</div>
-                    <div class="silver">
-                      <div>
-                        {{model.documentation || "No description provided for this key"}}
-                      </div>
-                      <div v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'"
-                        class="mt2">
-                        <div class="i">You can add the <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code> query in the {{resource.name}} GET method</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div v-if="resource.supportedMethods.get" class="mb5">
               <div>
                 <div class="f3">Retrieve {{resource.name}}</div>
@@ -72,9 +34,9 @@
                       v-for="(model, modelIndex) in resource.model"
                       v-bind:key="modelIndex"
                       v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'">
-                      <div class="fw5 mb2 code">Include {{model.otherResourceName | deplural}}</div>
+                      <div class="fw5 mb2 code">Include parent {{model.otherResourceName | deplural}}</div>
                       <div class="silver">
-                        Include {{model.otherResourceName | deplural}} in the {{resource.name}} response. For example
+                        Include parent {{model.otherResourceName | deplural}} object in the {{resource.name}} response. For example
                         <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
                       </div>
                     </div>
@@ -151,13 +113,145 @@
                         <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_gte=10&{{resource.model[0].key}}_lte=50</code>
                       </div>
                     </div>
-                    <div class="pv3 b--black-10 bb">
+                    <div class="pv3">
                       <div class="fw5 mb2 code">Exclude</div>
                       <div class="silver">
                         Exclude {{resource.name}} that contain a particular attribute value. For example
                         <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_ne=lorem</code>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="resource.supportedMethods.get"
+              v-bind:class="{
+                'mb5': resource.supportedMethods.put || resource.supportedMethods.delete
+              }">
+              <div>
+                <div class="f3">Retrieve a {{resource.name | deplural}}</div>
+                <div class="mt3">
+                  <label class="dib mb1">Request URL</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    {{apiRoot}}/api/{{project._id}}/{{resource.name}}/1
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Method</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    GET
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Query parameters</label>
+                  <div class="ph3 ba b--black-10 br2">
+                    <div class="pv3 b--black-10"
+                      v-for="(model, modelIndex) in resource.model"
+                      v-bind:key="modelIndex"
+                      v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'"
+                      v-bind:class="{
+                        'bb': modelIndex !== resource.model.length - 1
+                      }">
+                      <div class="fw5 mb2 code">Include parent {{model.otherResourceName | deplural}}</div>
+                      <div class="silver">
+                        Include parent {{model.otherResourceName | deplural}} object in the {{resource.name}} response. For example
+                        <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div v-if="resource.supportedMethods.post"
+              v-bind:class="{
+                'mb5': resource.supportedMethods.get || resource.supportedMethods.put || resource.supportedMethods.delete
+              }">
+              <div>
+                <div class="f3">Create a {{resource.name | deplural}}</div>
+                <div class="mt3">
+                  <label class="dib mb1">Request URL</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    {{apiRoot}}/api/{{project._id}}/{{resource.name}}
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Method</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    POST
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Request body</label>
+                  <div class="ph3 ba b--black-10 br2">
+                    <div v-for="(model, modelIndex) in resource.model"
+                      class="pv3 b--black-10"
+                      v-bind:class="{
+                        'bb': modelIndex !== resource.model.length - 1
+                      }"
+                      v-bind:key="modelIndex">
+                      <div class="fw5 mb2 code">{{model.key}}</div>
+                      <div class="silver">
+                        {{model.documentation || "No description provided for this key."}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="resource.supportedMethods.put"
+              v-bind:class="{
+                'mb5': resource.supportedMethods.delete
+              }">
+              <div>
+                <div class="f3">Update a {{resource.name | deplural}}</div>
+                <div class="mt3">
+                  <label class="dib mb1">Request URL</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    {{apiRoot}}/api/{{project._id}}/{{resource.name}}/1
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Method</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    PUT
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Request body</label>
+                  <div class="ph3 ba b--black-10 br2">
+                    <div v-for="(model, modelIndex) in resource.model"
+                      class="pv3 b--black-10"
+                      v-bind:class="{
+                        'bb': modelIndex !== resource.model.length - 1
+                      }"
+                      v-bind:key="modelIndex">
+                      <div class="fw5 mb2 code">{{model.key}}</div>
+                      <div class="silver">
+                        {{model.documentation || "No description provided for this key."}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="resource.supportedMethods.delete">
+              <div>
+                <div class="f3">Delete a {{resource.name | deplural}}</div>
+                <div class="mt3">
+                  <label class="dib mb1">Request URL</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    {{apiRoot}}/api/{{project._id}}/{{resource.name}}/1
+                  </div>
+                </div>
+                <div class="mt3">
+                  <label class="dib mb1">Method</label>
+                  <div class="code pa3 ba b--black-10 br2">
+                    DELETE
                   </div>
                 </div>
               </div>

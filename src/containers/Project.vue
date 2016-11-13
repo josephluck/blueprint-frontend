@@ -15,7 +15,7 @@
         </div>
         <router-link class="dib ml3" active-class="orange fw5"
           :to="{ name: 'projectEdit', params: {projectId: this.project._id} }">
-          Resources
+          Edit
         </router-link>
         <router-link class="dib ml3" active-class="orange fw5"
           :to="{ name: 'projectDocs', params: {projectId: this.project._id} }">

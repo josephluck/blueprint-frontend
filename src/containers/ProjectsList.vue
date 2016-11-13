@@ -13,10 +13,30 @@
           v-if="projectMenuItemOpen === project._id && currentTab !== 'settings'">
           <div class="light-silver">
             <transition-group name="list-transition">
-              <div class="list-transition-item fw3"
+              <div class="list-transition-item mb2"
                 v-for="(resource, resourceIndex) in project.resources"
                 v-bind:key="resourceIndex">
                 {{resource.name}}
+                <transition-height v-if="currentTab === 'docs'">
+                  <div>
+                    <div class="mt1 fw2 ml2"
+                      v-if="resource.supportedMethods.get">
+                      GET
+                    </div>
+                    <div class="fw2 ml2"
+                      v-if="resource.supportedMethods.post">
+                      POST
+                    </div>
+                    <div class="fw2 ml2"
+                      v-if="resource.supportedMethods.put">
+                      PUT
+                    </div>
+                    <div class="fw2 ml2"
+                      v-if="resource.supportedMethods.delete">
+                      DELETE
+                    </div>
+                  </div>
+                </transition-height>
               </div>
             </transition-group>
           </div>
