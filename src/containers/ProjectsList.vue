@@ -3,7 +3,7 @@
     <transition-group name="list-transition">
       <div v-for="project in projects"
         v-bind:key="project._id"
-        class="list-transition-item pb3">
+        class="list-transition-item">
         <router-link class="gray db pb0 transition pointer"
           v-bind:to="getProjectLink(project._id)"
           active-class="pb2 orange fw5">

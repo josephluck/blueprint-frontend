@@ -5,9 +5,6 @@
         <!-- <span class="icon blue ss-compasstool dib mr1"></span> -->
         <span class="ttu tracked fw5 blue">Blueprint</span>
       </div>
-      <a class="db ml3" v-on:click="newProjectFormShowing = true">
-        New project
-      </a>
       <a class="db ml3" v-on:click.prevent="logout">
         Logout
       </a>
@@ -16,6 +13,9 @@
       <div class="mt1 flex flex-column overflow-auto">
         <div class="flex-1 pa3 pl4">
           <projects-list></projects-list>
+          <a class="db" v-on:click="newProjectFormShowing = true">
+            New project
+          </a>
         </div>
       </div>
       <div class="flex flex-column flex-1 pt3 overflow-auto">
