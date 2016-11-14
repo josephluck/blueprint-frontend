@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-1 flex-column">
-    <div v-if="!loading"
+    <div v-if="!loading && project._id"
       class="flex flex-1 flex-column">
       <div class="flex-0 ph4 flex items-center">
         <div class="flex flex-1 items-center">
@@ -60,11 +60,10 @@
     },
     methods: {
       getProject (projectId) {
-        this.$store.dispatch('project/GET_PROJECT', projectId).then((project) => {
-          this.$store.dispatch('breadcrumbs/SET', [
-            { name: 'Projects', to: '/projects' },
-            { name: project.name }
-          ])
+        this.$store.dispatch('project/GET_PROJECT', projectId).then(() => {}, () => {
+          this.$router.replace({
+            path: '/'
+          })
         })
       },
       setUpSockets (projectId) {

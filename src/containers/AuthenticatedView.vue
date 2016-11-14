@@ -84,7 +84,7 @@
       logout () {
         this.$store.dispatch('logout/ON_SUBMIT').then(() => {
           this.$router.replace({
-            path: 'login'
+            path: '/login'
           })
         })
       },

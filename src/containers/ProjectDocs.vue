@@ -197,7 +197,10 @@
                           'bb': modelIndex !== resource.model.length - 1
                         }"
                         v-bind:key="modelIndex">
-                        <div class="fw5 mb2 code">{{model.key}}</div>
+                        <div class="flex items-center mb2">
+                          <div class="flex-1 fw5 code">{{model.key}}</div>
+                          <span v-if="model.required" class="ml2 red">Required</span>
+                        </div>
                         <div class="silver">
                           {{model.documentation || "No description provided for this key."}}
                         </div>
@@ -237,7 +240,10 @@
                           'bb': modelIndex !== resource.model.length - 1
                         }"
                         v-bind:key="modelIndex">
-                        <div class="fw5 mb2 code">{{model.key}}</div>
+                        <div class="flex items-center mb2">
+                          <div class="flex-1 fw5 code">{{model.key}}</div>
+                          <span v-if="model.required" class="ml2 red">Required</span>
+                        </div>
                         <div class="silver">
                           {{model.documentation || "No description provided for this key."}}
                         </div>

@@ -31,6 +31,7 @@ const ProjectsModule = {
     },
     'project/ERROR' (state, error) {
       state.loading = false
+      state.project = {}
     },
     'project/SAVE_STARTED' (state) {
       state.saving = true
@@ -102,6 +103,15 @@ const ProjectsModule = {
     },
     'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
       state.project.resources.splice(resourceIndex, 1)
+    },
+    'project/ADD_NEW_COLLABORATOR_STARTED' (state) {
+      state.project.newCollaboratorSubmitting = true
+    },
+    'project/ADD_NEW_COLLABORATOR_SUCCESSFUL' (state) {
+      state.project.newCollaboratorSubmitting = false
+    },
+    'project/ADD_NEW_COLLABORATOR_ERROR' (state) {
+      state.project.newCollaboratorSubmitting = false
     }
   },
   actions: {
@@ -146,6 +156,15 @@ const ProjectsModule = {
           commit('project/DELETE_ERROR', projectId)
           reject(projectId)
         })
+      })
+    },
+    'project/ADD_NEW_COLLABORATOR' ({state, commit}, {projectId, collaborator}) {
+      commit('project/ADD_NEW_COLLABORATOR_STARTED')
+      return new Promise((resolve, reject) => {
+        commit('project/ADD_NEW_COLLABORATOR_SUCCESSFUL')
+        resolve()
+        commit('project/ADD_NEW_COLLABORATOR_ERROR')
+        reject()
       })
     }
   }

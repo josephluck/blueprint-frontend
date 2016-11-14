@@ -11,15 +11,6 @@
         </div>
 
         <label class="mb1">
-          Company name
-        </label>
-        <input
-          class="w-100 mb3"
-          type="text"
-          v-model="company_name"
-        />
-
-        <label class="mb1">
           Your name
         </label>
         <input
@@ -66,8 +57,7 @@
       return {
         email: 'joseph@local.co',
         name: 'Joseph Luck',
-        password: '12345678',
-        company_name: 'Joseph Luck LTD'
+        password: '12345678'
       }
     },
     computed: {
@@ -80,11 +70,10 @@
         this.$store.dispatch('signup/ON_SUBMIT', {
           email: this.email,
           password: this.password,
-          name: this.name,
-          company_name: this.company_name
+          name: this.name
         }).then(() => {
           this.$router.replace({
-            path: 'login'
+            path: '/login'
           })
         })
       }
