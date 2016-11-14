@@ -89,6 +89,7 @@
                             <option value="anotherResource">From another resource</option>
                           </select>
                         </div>
+
                         <div v-if="model.type === 'random'">
                           <div class="form-input mb3">
                             <label class="db mb1">Category</label>
@@ -106,13 +107,27 @@
                                 v-bind:value="subcategory.value">{{subcategory.name}}</option>
                             </select>
                           </div>
+
+                          <div class="form-input mb3"
+                            v-if="model.randomSubcategory"
+                            v-for="param in lookupRandomSubcategoryParams(model)">
+                            <label class="db mb1">{{param.name}}</label>
+                            <select class="w-100" v-if="param.type === 'select'" v-bind:value="model.randomParams[param.param]">
+                              <option></option>
+                              <option v-for="option in param.options" v-bind:value="option.value">
+                                {{option.description}}
+                              </option>
+                            </select>
+                          </div>
                         </div>
+
                         <div v-if="model.type === 'predefined'">
                           <div class="form-input mb3">
                             <label class="db mb1">Type</label>
                             <select class="w-100"
                               v-bind:value="model.predefinedType"
                               v-on:change="updateModel(resourceIndex, modelIndex, 'predefinedType', $event)">
+                              <option></option>
                               <option value="string">String</option>
                               <option value="number">Number</option>
                               <option value="boolean">Boolean</option>
@@ -132,6 +147,7 @@
                             <select class="w-100"
                               v-bind:value="model.predefinedValue"
                               v-on:change="updateModel(resourceIndex, modelIndex, 'predefinedValue', $event)">
+                              <option></option>
                               <option value="true">True</option>
                               <option value="false">False</option>
                             </select>
@@ -217,7 +233,7 @@
         return this.$store.state.project.project
       },
       throttledSaveProject () {
-        return Utils.throttle(this.saveProject, 500)
+        return Utils.debounce(this.saveProject, 1500)
       },
       hiddenResources () {
         return this.$store.state.project.hiddenResources
@@ -284,6 +300,20 @@
       },
       setCurrentlyViewing (elm) {
         this.$store.commit('ui/SET_CURRENTLY_VIEWING', elm)
+      },
+      lookupRandomSubcategoryParams (model) {
+        if (model.randomCategory && model.randomSubcategory) {
+          const category = this.randomSubcategories[model.randomCategory]
+          if (category) {
+            const subCategory = category.find(subCategory => subCategory.value === model.randomSubcategory)
+            if (subCategory) {
+              return subCategory.params
+            }
+            return []
+          }
+          return []
+        }
+        return []
       }
     }
   }

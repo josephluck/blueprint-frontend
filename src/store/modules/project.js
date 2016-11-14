@@ -83,7 +83,9 @@ const ProjectsModule = {
       Vue.set(objToUpdate, name, value)
     },
     'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
-      state.project.resources[resourceIndex].model.push({})
+      state.project.resources[resourceIndex].model.push({
+        randomParams: {}
+      })
     },
     'project/form/REMOVE_MODEL_KEY' (state, {resourceIndex, modelIndex}) {
       state.project.resources[resourceIndex].model.splice(modelIndex, 1)
