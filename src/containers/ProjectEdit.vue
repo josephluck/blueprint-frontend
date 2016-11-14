@@ -93,7 +93,9 @@
                         <div v-if="model.type === 'random'">
                           <div class="form-input mb3">
                             <label class="db mb1">Category</label>
-                            <select class="w-100" v-bind:value="model.randomCategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomCategory', $event)">
+                            <select class="w-100"
+                              v-bind:value="model.randomCategory"
+                              v-on:change="updateModelSelectedCategory(resourceIndex, modelIndex, 'randomCategory', $event)">
                               <option></option>
                               <option v-for="category in randomCategories"
                                 v-bind:value="category.value">{{category.name}}</option>
@@ -101,7 +103,9 @@
                           </div>
                           <div class="form-input mb3">
                             <label class="db mb1">Sub category</label>
-                            <select class="w-100" v-bind:value="model.randomSubcategory" v-on:change="updateModel(resourceIndex, modelIndex, 'randomSubcategory', $event)">
+                            <select class="w-100"
+                              v-bind:value="model.randomSubcategory"
+                              v-on:change="updateModelSelectedSubcategory(resourceIndex, modelIndex, 'randomSubcategory', $event)">
                               <option></option>
                               <option v-for="subcategory in randomSubcategories[model.randomCategory]"
                                 v-bind:value="subcategory.value">{{subcategory.name}}</option>
@@ -118,6 +122,20 @@
                                 {{option.description}}
                               </option>
                             </select>
+                            <input type="date" v-if="param.type === 'input' && param.inputType === 'date'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
+
+                            <div v-if="param.type === 'editor'">
+                              <code-editor
+                                v-bind:code="model.randomParams[param.param]"
+                                v-on:changed="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)"
+                                v-bind:options="{
+                                  tabSize: 2,
+                                  mode: 'text/javascript',
+                                  theme: 'eclipse',
+                                  lineNumbers: false,
+                                  line: true
+                                }"></code-editor>
+                            </div>
                           </div>
                         </div>
 
@@ -220,7 +238,8 @@
   export default {
     components: {
       TransitionHeight: require('../components/TransitionHeight.vue'),
-      ScrollContainer: require('../components/ScrollContainer.vue')
+      ScrollContainer: require('../components/ScrollContainer.vue'),
+      CodeEditor: require('vue-codemirror').codemirror
     },
     data () {
       return {
@@ -276,9 +295,27 @@
         })
         this.throttledSaveProject()
       },
+      updateModelSelectedCategory (resourceIndex, modelIndex, name, e) {
+        this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name: 'randomSubcategory', value: e.target.value
+        })
+        this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name, value: e.target.value
+        })
+        this.throttledSaveProject()
+      },
+      updateModelSelectedSubcategory (resourceIndex, modelIndex, name, e) {
+        this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name: 'randomParams', value: {}
+        })
+        this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name, value: e.target.value
+        })
+        this.throttledSaveProject()
+      },
       updateModelRandomParams (resourceIndex, modelIndex, name, e) {
         this.$store.commit('project/form/UPDATE_MODEL_RANDOM_PARAMS', {
-          resourceIndex, modelIndex, name, value: e.target.value
+          resourceIndex, modelIndex, name, value: typeof e === 'string' ? e : e.target.value
         })
         this.throttledSaveProject()
       },
