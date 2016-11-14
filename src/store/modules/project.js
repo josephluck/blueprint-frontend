@@ -82,6 +82,10 @@ const ProjectsModule = {
       let objToUpdate = state.project.resources[resourceIndex].model[modelIndex]
       Vue.set(objToUpdate, name, value)
     },
+    'project/form/UPDATE_MODEL_RANDOM_PARAMS' (state, {resourceIndex, modelIndex, name, value}) {
+      let objToUpdate = state.project.resources[resourceIndex].model[modelIndex].randomParams
+      Vue.set(objToUpdate, name, value)
+    },
     'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
       state.project.resources[resourceIndex].model.push({
         randomParams: {}

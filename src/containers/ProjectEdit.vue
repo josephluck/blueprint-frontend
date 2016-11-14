@@ -112,7 +112,7 @@
                             v-if="model.randomSubcategory"
                             v-for="param in lookupRandomSubcategoryParams(model)">
                             <label class="db mb1">{{param.name}}</label>
-                            <select class="w-100" v-if="param.type === 'select'" v-bind:value="model.randomParams[param.param]">
+                            <select class="w-100" v-if="param.type === 'select'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
                               <option></option>
                               <option v-for="option in param.options" v-bind:value="option.value">
                                 {{option.description}}
@@ -272,6 +272,12 @@
       },
       updateModel (resourceIndex, modelIndex, name, e) {
         this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name, value: e.target.value
+        })
+        this.throttledSaveProject()
+      },
+      updateModelRandomParams (resourceIndex, modelIndex, name, e) {
+        this.$store.commit('project/form/UPDATE_MODEL_RANDOM_PARAMS', {
           resourceIndex, modelIndex, name, value: e.target.value
         })
         this.throttledSaveProject()
