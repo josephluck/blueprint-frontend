@@ -76,11 +76,19 @@
                     </div>
                     <transition-height v-if="!isModelHidden(resourceIndex, modelIndex)">
                       <div>
-                        <div class="mt3 form-input mb3">
+                        <div class="mt3 form-input">
                           <label class="db mb1">Key</label>
                           <input type="text" class="w-100" v-bind:value="model.key" v-on:input="updateModel(resourceIndex, modelIndex, 'key', $event)" />
                         </div>
-                        <div class="form-input mb3">
+
+                        <div class="mt3 form-input flex">
+                          <label class="db">
+                            <input type="checkbox" class="mr1" v-bind:checked="model.required" v-on:change="updateModelRequired(resourceIndex, modelIndex, $event)" />
+                            Required
+                          </label>
+                        </div>
+
+                        <div class="mt3 form-input mb3">
                           <label class="db mb1">Type</label>
                           <select class="w-100" v-bind:value="model.type" v-on:input="updateModel(resourceIndex, modelIndex, 'type', $event)">
                             <option></option>
@@ -122,7 +130,7 @@
                                 {{option.description}}
                               </option>
                             </select>
-                            <input type="date" v-if="param.type === 'input' && param.inputType === 'date'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
+                            <input type="date" class="w-100" v-if="param.type === 'input' && param.inputType === 'date'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
 
                             <div v-if="param.type === 'editor'">
                               <code-editor
@@ -292,6 +300,12 @@
       updateModel (resourceIndex, modelIndex, name, e) {
         this.$store.commit('project/form/UPDATE_MODEL', {
           resourceIndex, modelIndex, name, value: e.target.value
+        })
+        this.throttledSaveProject()
+      },
+      updateModelRequired (resourceIndex, modelIndex, e) {
+        this.$store.commit('project/form/UPDATE_MODEL', {
+          resourceIndex, modelIndex, name: 'required', value: e.target.checked
         })
         this.throttledSaveProject()
       },
