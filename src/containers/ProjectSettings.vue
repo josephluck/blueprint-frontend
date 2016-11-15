@@ -11,19 +11,21 @@
           <div class="flex">
             <label class="db mb1">Collaborators</label>
           </div>
-          <div>
-            <div class="ba b--black-20 br2"
-              v-for="collaborator in project.collaborators">
+          <div class="ba b--black-20 br2">
+            <div v-for="(collaborator, collaboratorIndex) in project.collaborators"
+              v-bind:class="{
+                'bb b--black-20': collaboratorIndex !== project.collaborators.length - 1
+              }">
               <div class="pa2">
                 {{collaborator.user.name}}
               </div>
             </div>
-            <div class="flex mt3">
-              <div class="flex-1"></div>
-              <a class="button" v-on:click.prevent="toggleNewCollaboratorModal(true)">
-                Add new collaborator
-              </a>
-            </div>
+          </div>
+          <div class="flex mt3">
+            <div class="flex-1"></div>
+            <a class="button" v-on:click.prevent="toggleNewCollaboratorModal(true)">
+              Add new collaborator
+            </a>
           </div>
         </div>
       </div>

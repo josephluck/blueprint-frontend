@@ -102,7 +102,8 @@ const ProjectsModule = {
     'project/ADD_NEW_COLLABORATOR_STARTED' (state) {
       state.project.newCollaboratorSubmitting = true
     },
-    'project/ADD_NEW_COLLABORATOR_SUCCESSFUL' (state) {
+    'project/ADD_NEW_COLLABORATOR_SUCCESSFUL' (state, collaborator) {
+      state.project.collaborators.push(collaborator)
       state.project.newCollaboratorSubmitting = false
     },
     'project/ADD_NEW_COLLABORATOR_ERROR' (state) {
@@ -153,14 +154,14 @@ const ProjectsModule = {
         })
       })
     },
-    'project/ADD_NEW_COLLABORATOR' ({state, commit}, {projectId, collaborator}) {
+    'project/ADD_NEW_COLLABORATOR' ({state, commit, dispatch}, {projectId, collaborator}) {
       commit('project/ADD_NEW_COLLABORATOR_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.post(Urls.collaborators(), {
           projectId,
           email: collaborator.email
         }).then(response => {
-          commit('project/ADD_NEW_COLLABORATOR_SUCCESSFUL')
+          commit('project/ADD_NEW_COLLABORATOR_SUCCESSFUL', response.body)
           resolve(response.body)
         }).catch(response => {
           commit('project/ADD_NEW_COLLABORATOR_ERROR')
