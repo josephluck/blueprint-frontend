@@ -5,11 +5,11 @@
       <div class="flex-0 ph4 flex items-center">
         <div class="flex flex-1 items-center">
           <span class="f3 mr3">{{project.name}}</span>
-          <span class="f6 tooltip-bottom" v-if="project.updated_by"
-            v-bind:data-tooltip="project.updated_by.name + ` at ` + formatDate(project.updated_at, 'hh:mma on Do MMMM YYYY')">
+          <span class="f6 tooltip-bottom" v-if="project.updatedByUser"
+            v-bind:data-tooltip="project.updatedByUser.name + ` at ` + formatDate(project.updatedAtDateTime, 'hh:mma on Do MMMM YYYY')">
             <div class="green">
               <span class="icon ss-check"></span>
-              Last edit was {{formatDate(project.updated_at, 'MMM Do YY')}}
+              Last edit was {{formatDate(project.updatedAtDateTime, 'MMM Do YY')}}
             </div>
           </span>
         </div>

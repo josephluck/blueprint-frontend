@@ -5,22 +5,18 @@ import Sockets from '../../api/sockets'
 const ProjectsModule = {
   state: {
     projects: [],
-    count: 0,
-    page: 1,
     loading: false
   },
   mutations: {
-    'projects/GET_PROJECTS' (state, page) {
+    'projects/GET_PROJECTS_STARTED' (state) {
       state.loading = true
-      state.page = page
     },
     'projects/GET_PROJECTS_ERROR' (state, error) {
       state.loading = false
     },
-    'projects/RECEIVE_PROJECTS' (state, payload) {
-      state.projects = payload.data
-      state.count = payload.total
-      state.projectMenuItemOpen = payload.data[0]._id
+    'projects/GET_PROJECTS_SUCCESS' (state, projects) {
+      state.projects = projects
+      state.projectMenuItemOpen = projects[0]._id
       state.loading = false
     },
     'projects/RECEIVE_PROJECT' (state, project) {
@@ -44,10 +40,10 @@ const ProjectsModule = {
     }
   },
   actions: {
-    'projects/PAGINATE' ({commit}, page) {
-      commit('projects/GET_PROJECTS', page)
-      Vue.http.get(Urls.projects(page))
-        .then(response => commit('projects/RECEIVE_PROJECTS', response.body))
+    'projects/GET_PROJECTS' ({commit}) {
+      commit('projects/GET_PROJECTS_STARTED')
+      Vue.http.get(Urls.projects())
+        .then(response => commit('projects/GET_PROJECTS_SUCCESS', response.body))
         .catch(response => commit('projects/GET_PROJECTS_ERROR', response.body))
     },
     'projects/SETUP_SOCKETS' ({commit}) {

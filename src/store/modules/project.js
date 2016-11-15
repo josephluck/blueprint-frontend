@@ -10,8 +10,7 @@ const ProjectsModule = {
     deleting: false,
     saveError: null,
     hiddenResources: {},
-    hiddenModels: {},
-    usersHidden: false
+    hiddenModels: {}
   },
   mutations: {
     'project/GET_PROJECT' (state) {
@@ -55,9 +54,22 @@ const ProjectsModule = {
     'project/DELETE_ERROR' (state, projectId) {
       state.deleting = false
     },
-    'project/form/TOGGLE_USERS_HIDDEN' (state) {
-      // We have to use Vue.set here since the resourceIndex may not exist in the store
-      Vue.set(state, 'usersHidden', !state.usersHidden)
+    'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
+      state.project.resources[resourceIndex].model.push({
+        randomParams: {}
+      })
+    },
+    'project/form/REMOVE_MODEL_KEY' (state, {resourceIndex, modelIndex}) {
+      state.project.resources[resourceIndex].model.splice(modelIndex, 1)
+    },
+    'project/form/ADD_RESOURCE' (state) {
+      state.project.resources.push({
+        supportedMethods: {},
+        model: []
+      })
+    },
+    'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
+      state.project.resources.splice(resourceIndex, 1)
     },
     'project/form/TOGGLE_RESOURCE_HIDDEN' (state, resourceIndex) {
       // We have to use Vue.set here since the resourceIndex may not exist in the store
@@ -86,23 +98,6 @@ const ProjectsModule = {
     'project/form/UPDATE_MODEL_RANDOM_PARAMS' (state, {resourceIndex, modelIndex, name, value}) {
       let objToUpdate = state.project.resources[resourceIndex].model[modelIndex].randomParams
       Vue.set(objToUpdate, name, value)
-    },
-    'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
-      state.project.resources[resourceIndex].model.push({
-        randomParams: {}
-      })
-    },
-    'project/form/REMOVE_MODEL_KEY' (state, {resourceIndex, modelIndex}) {
-      state.project.resources[resourceIndex].model.splice(modelIndex, 1)
-    },
-    'project/form/ADD_RESOURCE' (state) {
-      state.project.resources.push({
-        supportedMethods: {},
-        model: []
-      })
-    },
-    'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
-      state.project.resources.splice(resourceIndex, 1)
     },
     'project/ADD_NEW_COLLABORATOR_STARTED' (state) {
       state.project.newCollaboratorSubmitting = true

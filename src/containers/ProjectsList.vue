@@ -106,7 +106,7 @@
         return `/${projectId}/${this.currentTab}`
       },
       getProjects () {
-        this.$store.dispatch('projects/PAGINATE', 1)
+        this.$store.dispatch('projects/GET_PROJECTS')
       },
       setUpSockets () {
         this.$store.dispatch('projects/SETUP_SOCKETS')

@@ -10,12 +10,16 @@
     mounted (el) {
       // Bind window scroll listener
       const elm = this.getScrollParent(this.$el)
-      elm.addEventListener('scroll', this.throttledOnScroll)
+      if (elm) {
+        elm.addEventListener('scroll', this.throttledOnScroll)
+      }
     },
     destroyed (el) {
       // Remove window scroll listener
       const elm = this.getScrollParent(this.$el)
-      elm.removeEventListener('scroll', this.throttledOnScroll)
+      if (elm) {
+        elm.removeEventListener('scroll', this.throttledOnScroll)
+      }
     },
     computed: {
       throttledOnScroll () {

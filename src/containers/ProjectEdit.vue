@@ -130,7 +130,12 @@
                                 {{option.description}}
                               </option>
                             </select>
+
                             <input type="date" class="w-100" v-if="param.type === 'input' && param.inputType === 'date'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
+
+                            <input type="number" class="w-100" v-if="param.type === 'input' && param.inputType === 'number'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
+
+                            <input type="text" class="w-100" v-if="param.type === 'input' && param.inputType !== 'number' && param.inputType !== 'date'" v-bind:value="model.randomParams[param.param]" v-on:change="updateModelRandomParams(resourceIndex, modelIndex, param.param, $event)">
 
                             <div v-if="param.type === 'editor'">
                               <code-editor

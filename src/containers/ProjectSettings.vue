@@ -10,26 +10,21 @@
         <div class="mb0">
           <div class="flex">
             <label class="db mb1">Collaborators</label>
-            <div class="flex-1"></div>
-            <a class="dib silver ml2 icon ss-hyphen pointer"
-              v-on:click.prevent="toggleUsersHidden()"></a>
           </div>
-          <transition-height v-if="!usersHidden">
-            <div>
-              <div class="ba b--black-20 br2"
-                v-for="collaborator in project.collaborators">
-                <div class="pa2">
-                  {{collaborator.name}}
-                </div>
-              </div>
-              <div class="flex mt3">
-                <div class="flex-1"></div>
-                <a class="button" v-on:click.prevent="toggleNewCollaboratorModal(true)">
-                  Add new collaborator
-                </a>
+          <div>
+            <div class="ba b--black-20 br2"
+              v-for="collaborator in project.collaborators">
+              <div class="pa2">
+                {{collaborator.name}}
               </div>
             </div>
-          </transition-height>
+            <div class="flex mt3">
+              <div class="flex-1"></div>
+              <a class="button" v-on:click.prevent="toggleNewCollaboratorModal(true)">
+                Add new collaborator
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mt3 flex">
@@ -101,8 +96,7 @@
       deleteModalShowing () { return this.$store.state.ui.currentModal === 'deleteProject' && this.$store.state.ui.modalShowing },
       newCollaboratorSubmitting () { return this.$store.state.project.newCollaboratorSubmitting },
       addNewCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'addNewCollaborator' && this.$store.state.ui.modalShowing },
-      throttledSaveProject () { return Utils.throttle(this.saveProject, 500) },
-      usersHidden () { return this.$store.state.project.usersHidden }
+      throttledSaveProject () { return Utils.throttle(this.saveProject, 500) }
     },
     methods: {
       saveProject () {
@@ -113,9 +107,6 @@
           name, value: e.target.value
         })
         this.throttledSaveProject()
-      },
-      toggleUsersHidden () {
-        this.$store.commit('project/form/TOGGLE_USERS_HIDDEN')
       },
       deleteProject () {
         this.$store.dispatch('project/DELETE', this.$route.params.projectId).then(() => {
