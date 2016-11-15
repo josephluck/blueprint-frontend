@@ -15,7 +15,7 @@
             <div class="ba b--black-20 br2"
               v-for="collaborator in project.collaborators">
               <div class="pa2">
-                {{collaborator.name}}
+                {{collaborator.user.name}}
               </div>
             </div>
             <div class="flex mt3">
