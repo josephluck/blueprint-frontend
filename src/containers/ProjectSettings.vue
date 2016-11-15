@@ -16,14 +16,18 @@
               v-bind:class="{
                 'bb b--black-20': collaboratorIndex !== project.collaborators.length - 1
               }">
-              <div class="pa2">
-                {{collaborator.user.name}}
+              <div class="flex pa2">
+                <div class="flex-1">
+                  {{collaborator.user.name}}
+                </div>
+                <a class="dib silver ml2 icon ss-delete pointer"
+                  v-on:click.prevent="setDeleteCollaboratorModalShowing(true, collaborator._id)"></a>
               </div>
             </div>
           </div>
           <div class="flex mt3">
             <div class="flex-1"></div>
-            <a class="button" v-on:click.prevent="toggleNewCollaboratorModal(true)">
+            <a class="button" v-on:click.prevent="setNewCollaboratorModalShowing(true)">
               Add new collaborator
             </a>
           </div>
@@ -32,13 +36,13 @@
       <div class="mt3 flex">
         <div class="flex-1"></div>
         <a class="button --bad"
-          v-on:click.prevent="toggleDeleteModal(true)">
+          v-on:click.prevent="setDeleteProjectModalShowing(true)">
           Delete
         </a>
       </div>
       <form v-on:submit.prevent="addNewCollaborator">
         <modal v-if="addNewCollaboratorModalShowing"
-          v-on:close="toggleNewCollaboratorModal(false)">
+          v-on:close="setNewCollaboratorModalShowing(false)">
           <div slot="header" class="pa3 bb b--black-20 bg-white">
             Add new collaborator
           </div>
@@ -65,13 +69,23 @@
       <confirmation-modal
         v-bind:showing="deleteModalShowing"
         v-on:confirmed="deleteProject()"
-        v-on:close="toggleDeleteModal(false)"
+        v-on:close="setDeleteProjectModalShowing(false)"
         v-bind:headerText="`Delete ` + project.name + `'s blueprint`">
         <div slot="message">
           <p class="mt0">Are you sure you want to delete {{project.name}}'s blueprint?</p>
           <p>After this there's no going back. {{project.name}}'s blueprint will be
           cast in to the abyss never to be seen again.</p>
           <p class="mb0">This'll break any apps using {{project.name}}'s blueprint. <b>You've been warned!</b></p>
+        </div>
+      </confirmation-modal>
+      <confirmation-modal
+        v-bind:showing="deleteCollaboratorModalShowing"
+        v-on:confirmed="deleteCollaborator(currentlyDeletingCollaborator._id)"
+        v-on:close="setDeleteCollaboratorModalShowing(false)"
+        v-bind:headerText="`Remove ` + currentlyDeletingCollaborator.user.name + ` from ` + project.name + `'s blueprint`">
+        <div slot="message">
+          <p class="mt0">Are you sure you want to remove {{currentlyDeletingCollaborator.user.name}} from {{project.name}}'s blueprint?</p>
+          <p class="mb0">{{currentlyDeletingCollaborator.user.name}} will no longer be able to edit {{project.name}}'s blueprint.</p>
         </div>
       </confirmation-modal>
     </div>
@@ -98,6 +112,8 @@
       deleteModalShowing () { return this.$store.state.ui.currentModal === 'deleteProject' && this.$store.state.ui.modalShowing },
       newCollaboratorSubmitting () { return this.$store.state.project.newCollaboratorSubmitting },
       addNewCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'addNewCollaborator' && this.$store.state.ui.modalShowing },
+      currentlyDeletingCollaborator () { return this.$store.state.project.currentlyDeletingCollaborator },
+      deleteCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'deleteCollaborator' && this.$store.state.ui.modalShowing },
       throttledSaveProject () { return Utils.throttle(this.saveProject, 500) }
     },
     methods: {
@@ -110,10 +126,22 @@
         })
         this.throttledSaveProject()
       },
+      setDeleteProjectModalShowing (showing) {
+        this.$store.commit('ui/TOGGLE_MODAL', {
+          name: 'deleteProject',
+          showing
+        })
+      },
       deleteProject () {
         this.$store.dispatch('project/DELETE', this.$route.params.projectId).then(() => {
-          this.toggleDeleteModal(false)
+          this.setDeleteProjectModalShowing(false)
           this.$router.push('/')
+        })
+      },
+      setNewCollaboratorModalShowing (showing) {
+        this.$store.commit('ui/TOGGLE_MODAL', {
+          name: 'addNewCollaborator',
+          showing
         })
       },
       addNewCollaborator () {
@@ -121,19 +149,23 @@
           projectId: this.$route.params.projectId,
           collaborator: this.collaborator
         }).then(() => {
-          this.toggleNewCollaboratorModal(false)
+          this.setNewCollaboratorModalShowing(false)
         })
       },
-      toggleDeleteModal (showing) {
+      setDeleteCollaboratorModalShowing (showing, collaboratorId) {
+        if (showing === true) {
+          this.$store.commit('project/form/SET_CURRENT_DELETE_COLLABORATOR', collaboratorId)
+        }
         this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'deleteProject',
+          name: 'deleteCollaborator',
           showing
         })
       },
-      toggleNewCollaboratorModal (showing) {
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'addNewCollaborator',
-          showing
+      deleteCollaborator (collaboratorId) {
+        this.$store.dispatch('project/DELETE_COLLABORATOR', {
+          collaboratorId
+        }).then(() => {
+          this.setDeleteCollaboratorModalShowing(false)
         })
       }
     }

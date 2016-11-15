@@ -10,7 +10,10 @@ const ProjectsModule = {
     deleting: false,
     saveError: null,
     hiddenResources: {},
-    hiddenModels: {}
+    hiddenModels: {},
+    currentlyDeletingCollaborator: {
+      user: {}
+    }
   },
   mutations: {
     'project/GET_PROJECT' (state) {
@@ -108,6 +111,12 @@ const ProjectsModule = {
     },
     'project/ADD_NEW_COLLABORATOR_ERROR' (state) {
       state.project.newCollaboratorSubmitting = false
+    },
+    'project/form/SET_CURRENT_DELETE_COLLABORATOR' (state, collaboratorId) {
+      let collaborator = state.project.collaborators.find((collaborator) => {
+        return collaborator._id === collaboratorId
+      })
+      state.currentlyDeletingCollaborator = collaborator
     }
   },
   actions: {
@@ -154,7 +163,7 @@ const ProjectsModule = {
         })
       })
     },
-    'project/ADD_NEW_COLLABORATOR' ({state, commit, dispatch}, {projectId, collaborator}) {
+    'project/ADD_NEW_COLLABORATOR' ({state, commit}, {projectId, collaborator}) {
       commit('project/ADD_NEW_COLLABORATOR_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.post(Urls.collaborators(), {
@@ -165,6 +174,15 @@ const ProjectsModule = {
           resolve(response.body)
         }).catch(response => {
           commit('project/ADD_NEW_COLLABORATOR_ERROR')
+          reject(response.body)
+        })
+      })
+    },
+    'project/DELETE_COLLABORATOR' ({state, commit}, {collaboratorId}) {
+      return new Promise((resolve, reject) => {
+        Vue.http.delete(Urls.collaborator(collaboratorId)).then(response => {
+          resolve(response.body)
+        }).catch(response => {
           reject(response.body)
         })
       })

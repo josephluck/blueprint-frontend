@@ -5,5 +5,6 @@ export default {
   signup () { return `${API_ROOT}/signup` },
   projects () { return `${API_ROOT}/projects` },
   project (projectId) { return `${API_ROOT}/projects/${projectId}` },
-  collaborators () { return `${API_ROOT}/collaborators` }
+  collaborators () { return `${API_ROOT}/collaborators` },
+  collaborator (collaboratorId) { return `${API_ROOT}/collaborators/${collaboratorId}` }
 }
