@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Urls from '../../api/urls'
-import Sockets from '../../api/sockets'
 
 const ProjectsModule = {
   state: {
@@ -42,11 +41,6 @@ const ProjectsModule = {
         }, () => {
           reject()
         })
-      })
-    },
-    'projects/SETUP_SOCKETS' ({commit}) {
-      Sockets.on('projects created', (project) => {
-        commit('projects/RECEIVE_PROJECT', project)
       })
     },
     'projects/ADD_NEW' ({commit}, payload) {

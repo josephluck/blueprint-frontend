@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Urls from '../../api/urls'
-import Sockets from '../../api/sockets'
 
 const ProjectsModule = {
   state: {
@@ -96,13 +95,6 @@ const ProjectsModule = {
           commit('project/ERROR')
           reject()
         })
-      })
-    },
-    'project/SETUP_SOCKETS' ({commit}, projectId) {
-      Sockets.on('projects updated', project => {
-        if (project._id === projectId) {
-          commit('project/RECEIVE_PROJECT_UPDATE', project)
-        }
       })
     },
     'project/SAVE' ({state, commit}, projectId) {

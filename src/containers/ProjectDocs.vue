@@ -2,6 +2,7 @@
   <div class="flex flex-1 flex-column">
     <div class="flex-1 overflow-auto">
       <div v-for="(resource, resourceIndex) in project.resources"
+        v-if="resource.supportedMethods.get || resource.supportedMethods.post || resource.supportedMethods.put || resource.supportedMethods.delete"
         class="mb3 pa3 ba b--black-20 bg-white br2">
         <div class="flex items-center">
           <div class="flex-1">

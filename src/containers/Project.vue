@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-1 flex-column">
-    <div v-if="!loading && project._id"
+    <div v-if="project._id"
       class="flex flex-1 flex-column">
       <div class="flex-0 ph4 flex items-center">
         <div class="flex flex-1 items-center">
@@ -46,13 +46,11 @@
       '$route' (to, from) {
         if (to.matched[1].name === 'project' && to.params.projectId !== from.params.projectId) {
           this.getProject(to.params.projectId)
-          this.setUpSockets(to.params.projectId)
         }
       }
     },
     created () {
       this.getProject(this.$route.params.projectId)
-      this.setUpSockets(this.$route.params.projectId)
     },
     methods: {
       getProject (projectId) {
@@ -61,9 +59,6 @@
             path: '/'
           })
         })
-      },
-      setUpSockets (projectId) {
-        this.$store.dispatch('project/SETUP_SOCKETS', projectId)
       },
       formatDate (date, format) {
         return moment(date).format(format)

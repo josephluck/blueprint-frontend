@@ -93,7 +93,6 @@
     },
     created () {
       this.getProjects()
-      this.setUpSockets()
     },
     methods: {
       getProjectLink (projectId) {
@@ -101,9 +100,6 @@
       },
       getProjects () {
         this.$store.dispatch('projects/GET_PROJECTS')
-      },
-      setUpSockets () {
-        this.$store.dispatch('projects/SETUP_SOCKETS')
       }
     }
   }
