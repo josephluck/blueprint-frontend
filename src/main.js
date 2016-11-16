@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
-import VuePagination from 'vue-pagination-2'
 import Interceptors from './api/interceptors'
 import Routes from './routes'
 import { sync } from 'vuex-router-sync'
@@ -13,7 +12,6 @@ require('./less/index.less')
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
-Vue.use(VuePagination, true)
 
 const AppRouter = new VueRouter({
   mode: 'history',
