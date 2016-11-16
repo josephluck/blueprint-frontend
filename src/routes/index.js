@@ -34,10 +34,6 @@ export default [
             component: require('../containers/ProjectSettings.vue')
           }
         ]
-      },
-      {
-        path: '/resources',
-        component: require('../containers/Resources.vue')
       }
     ]
   }

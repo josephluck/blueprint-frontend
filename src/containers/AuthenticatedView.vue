@@ -2,7 +2,6 @@
   <div class="flex flex-column h-100">
     <div class="flex items-center bg-white ph4 pv3 bb b--black-10">
       <div class="flex-1">
-        <!-- <span class="icon blue ss-compasstool dib mr1"></span> -->
         <span class="ttu tracked fw5 blue">Blueprint</span>
       </div>
       <a class="db ml3" v-on:click.prevent="logout">
@@ -64,8 +63,7 @@
       return {
         transitionName: 'slide-left',
         newProjectFormShowing: false,
-        newProjectName: '',
-        showProjectsList: true
+        newProjectName: ''
       }
     },
     components: {

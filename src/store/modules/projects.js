@@ -5,24 +5,18 @@ import Sockets from '../../api/sockets'
 const ProjectsModule = {
   state: {
     projects: [],
-    loading: false
+    projectMenuItemOpen: null
   },
   mutations: {
-    'projects/GET_PROJECTS_STARTED' (state) {
-      state.loading = true
-    },
-    'projects/GET_PROJECTS_ERROR' (state, error) {
-      state.loading = false
-    },
     'projects/GET_PROJECTS_SUCCESS' (state, projects) {
       state.projects = projects
-      state.projectMenuItemOpen = projects[0]._id
-      state.loading = false
+      if (projects.length) {
+        state.projectMenuItemOpen = projects[0]._id
+      }
     },
     'projects/RECEIVE_PROJECT' (state, project) {
       const projectAlreadyExists = state.projects.find((proj) => proj._id === project._id)
       state.projectMenuItemOpen = project._id
-      state.loading = false
       if (!projectAlreadyExists) {
         state.projects.unshift(project)
       }
@@ -41,13 +35,19 @@ const ProjectsModule = {
   },
   actions: {
     'projects/GET_PROJECTS' ({commit}) {
-      commit('projects/GET_PROJECTS_STARTED')
-      Vue.http.get(Urls.projects())
-        .then(response => commit('projects/GET_PROJECTS_SUCCESS', response.body))
-        .catch(response => commit('projects/GET_PROJECTS_ERROR', response.body))
+      return new Promise((resolve, reject) => {
+        Vue.http.get(Urls.projects()).then(response => {
+          commit('projects/GET_PROJECTS_SUCCESS', response.body)
+          resolve()
+        }, () => {
+          reject()
+        })
+      })
     },
     'projects/SETUP_SOCKETS' ({commit}) {
-      Sockets.on('projects created', project => commit('projects/RECEIVE_PROJECT', project))
+      Sockets.on('projects created', (project) => {
+        commit('projects/RECEIVE_PROJECT', project)
+      })
     },
     'projects/ADD_NEW' ({commit}, payload) {
       return new Promise((resolve, reject) => {

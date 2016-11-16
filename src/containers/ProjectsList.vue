@@ -72,12 +72,6 @@
       projects () {
         return this.$store.state.projects.projects
       },
-      count () {
-        return this.$store.state.projects.count
-      },
-      loading () {
-        return this.$store.state.projects.loading
-      },
       projectMenuItemOpen () {
         return this.$route.params.projectId
       },

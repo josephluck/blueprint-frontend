@@ -5,10 +5,6 @@ import Sockets from '../../api/sockets'
 const ProjectsModule = {
   state: {
     project: {},
-    loading: false,
-    saving: false,
-    deleting: false,
-    saveError: null,
     hiddenResources: {},
     hiddenModels: {},
     currentlyDeletingCollaborator: {
@@ -16,46 +12,20 @@ const ProjectsModule = {
     }
   },
   mutations: {
-    'project/GET_PROJECT' (state) {
-      state.loading = true
-    },
     'project/RECEIVE_PROJECT' (state, project) {
-      state.project = {
-        ...project
-      }
-      state.loading = false
+      state.project = { ...project }
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
-      state.project = {
-        ...project
-      }
-      state.loading = false
+      state.project = { ...project }
     },
     'project/ERROR' (state, error) {
-      state.loading = false
       state.project = {}
-    },
-    'project/SAVE_STARTED' (state) {
-      state.saving = true
-      state.saveError = null
     },
     'project/SAVE_SUCCESSFUL' (state, payload) {
-      state.saving = false
       state.project = payload
     },
-    'project/SAVE_ERROR' (state, payload) {
-      state.saving = false
-      state.saveError = payload
-    },
-    'project/DELETE_STARTED' (state) {
-      state.deleting = true
-    },
     'project/DELETE_SUCCESSFUL' (state, projectId) {
-      state.deleting = false
       state.project = {}
-    },
-    'project/DELETE_ERROR' (state, projectId) {
-      state.deleting = false
     },
     'project/form/ADD_MODEL_KEY' (state, {resourceIndex}) {
       state.project.resources[resourceIndex].model.push({
@@ -70,6 +40,13 @@ const ProjectsModule = {
         supportedMethods: {},
         model: []
       })
+    },
+    'project/ADD_NEW_COLLABORATOR_SUCCESSFUL' (state, collaborator) {
+      state.project.collaborators.push(collaborator)
+    },
+    'project/DELETE_COLLABORATOR_SUCCESSFUL' (state, collaboratorId) {
+      let collaboratorIndex = state.project.collaborators.findIndex((collaborator) => collaborator._id === collaboratorId)
+      state.project.collaborators.splice(collaboratorIndex, 1)
     },
     'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
       state.project.resources.splice(resourceIndex, 1)
@@ -102,16 +79,6 @@ const ProjectsModule = {
       let objToUpdate = state.project.resources[resourceIndex].model[modelIndex].randomParams
       Vue.set(objToUpdate, name, value)
     },
-    'project/ADD_NEW_COLLABORATOR_STARTED' (state) {
-      state.project.newCollaboratorSubmitting = true
-    },
-    'project/ADD_NEW_COLLABORATOR_SUCCESSFUL' (state, collaborator) {
-      state.project.collaborators.push(collaborator)
-      state.project.newCollaboratorSubmitting = false
-    },
-    'project/ADD_NEW_COLLABORATOR_ERROR' (state) {
-      state.project.newCollaboratorSubmitting = false
-    },
     'project/form/SET_CURRENT_DELETE_COLLABORATOR' (state, collaboratorId) {
       let collaborator = state.project.collaborators.find((collaborator) => {
         return collaborator._id === collaboratorId
@@ -121,14 +88,13 @@ const ProjectsModule = {
   },
   actions: {
     'project/GET_PROJECT' ({commit}, projectId) {
-      commit('project/GET_PROJECT')
       return new Promise((resolve, reject) => {
         Vue.http.get(Urls.project(projectId)).then(response => {
           commit('project/RECEIVE_PROJECT', response.body)
           resolve(response.body)
-        }).catch(response => {
-          commit('project/ERROR', response.body)
-          reject(response.body)
+        }).catch(() => {
+          commit('project/ERROR')
+          reject()
         })
       })
     },
@@ -140,31 +106,26 @@ const ProjectsModule = {
       })
     },
     'project/SAVE' ({state, commit}, projectId) {
-      commit('project/SAVE_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.put(Urls.project(projectId), state.project).then(response => {
           commit('project/SAVE_SUCCESSFUL', response.body)
           resolve(response.body)
-        }).catch(response => {
-          commit('project/SAVE_ERROR', response.body)
-          reject(response.body)
+        }).catch(() => {
+          reject()
         })
       })
     },
     'project/DELETE' ({state, commit}, projectId) {
-      commit('project/DELETE_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.delete(Urls.project(projectId)).then(response => {
           commit('project/DELETE_SUCCESSFUL', projectId)
           resolve(projectId)
-        }).catch(response => {
-          commit('project/DELETE_ERROR', projectId)
+        }).catch(() => {
           reject(projectId)
         })
       })
     },
     'project/ADD_NEW_COLLABORATOR' ({state, commit}, {projectId, collaborator}) {
-      commit('project/ADD_NEW_COLLABORATOR_STARTED')
       return new Promise((resolve, reject) => {
         Vue.http.post(Urls.collaborators(), {
           projectId,
@@ -172,18 +133,18 @@ const ProjectsModule = {
         }).then(response => {
           commit('project/ADD_NEW_COLLABORATOR_SUCCESSFUL', response.body)
           resolve(response.body)
-        }).catch(response => {
-          commit('project/ADD_NEW_COLLABORATOR_ERROR')
-          reject(response.body)
+        }).catch(() => {
+          reject()
         })
       })
     },
     'project/DELETE_COLLABORATOR' ({state, commit}, {collaboratorId}) {
       return new Promise((resolve, reject) => {
         Vue.http.delete(Urls.collaborator(collaboratorId)).then(response => {
+          commit('project/DELETE_COLLABORATOR_SUCCESSFUL', collaboratorId)
           resolve(response.body)
-        }).catch(response => {
-          reject(response.body)
+        }).catch(() => {
+          reject()
         })
       })
     }

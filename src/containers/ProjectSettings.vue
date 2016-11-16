@@ -60,7 +60,7 @@
 
           <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
             <div class="flex-1"></div>
-            <button type="submit" class="button" v-bind:disabled="newCollaboratorSubmitting">
+            <button type="submit" class="button">
               Add collaborator
             </button>
           </div>
@@ -110,7 +110,6 @@
     computed: {
       project () { return this.$store.state.project.project },
       deleteModalShowing () { return this.$store.state.ui.currentModal === 'deleteProject' && this.$store.state.ui.modalShowing },
-      newCollaboratorSubmitting () { return this.$store.state.project.newCollaboratorSubmitting },
       addNewCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'addNewCollaborator' && this.$store.state.ui.modalShowing },
       currentlyDeletingCollaborator () { return this.$store.state.project.currentlyDeletingCollaborator },
       deleteCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'deleteCollaborator' && this.$store.state.ui.modalShowing },

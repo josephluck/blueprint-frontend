@@ -3,10 +3,10 @@ const UserModule = {
     details: {}
   },
   mutations: {
-    'user/ON_LOGIN' (state, details) {
+    'user/ON_LOGIN_SUCCESSFUL' (state, details) {
       state.details = details
     },
-    'user/ON_LOGOUT' (state) {
+    'user/ON_LOGOUT_SUCCESSFUL' (state) {
       state.details = {}
     }
   },

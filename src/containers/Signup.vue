@@ -6,10 +6,6 @@
       </div>
 
       <div slot="content" class="pa3">
-        <div v-if="error">
-          {{ errorMessage }}
-        </div>
-
         <label class="mb1">
           Your name
         </label>
@@ -40,7 +36,7 @@
 
       <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
         <div class="flex-1"></div>
-        <button type="submit" class="button" v-bind:disabled="submitting">
+        <button type="submit" class="button">
           Sign up
         </button>
       </div>
@@ -60,11 +56,7 @@
         password: '12345678'
       }
     },
-    computed: {
-      submitting () { return this.$store.state.signup.submitting },
-      error () { return this.$store.state.signup.error },
-      errorMessage () { return this.$store.state.signup.errorMessage }
-    },
+    computed: {},
     methods: {
       submitLogin () {
         this.$store.dispatch('signup/ON_SUBMIT', {

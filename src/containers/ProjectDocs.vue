@@ -293,17 +293,11 @@
       }
     },
     filters: {
-      deplural (val) {
-        return Inflection.singularize(val)
-      }
+      deplural (val) { return Inflection.singularize(val) }
     },
     computed: {
-      project () {
-        return this.$store.state.project.project
-      },
-      hiddenResources () {
-        return this.$store.state.project.hiddenResources
-      }
+      project () { return this.$store.state.project.project },
+      hiddenResources () { return this.$store.state.project.hiddenResources }
     },
     methods: {
       toggleResourceHidden (resourceIndex) {

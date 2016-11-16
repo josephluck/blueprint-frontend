@@ -39,12 +39,8 @@
   const moment = require('moment')
   export default {
     computed: {
-      project () {
-        return this.$store.state.project.project
-      },
-      loading () {
-        return this.$store.state.project.loading
-      }
+      project () { return this.$store.state.project.project },
+      loading () { return this.$store.state.project.loading }
     },
     watch: {
       '$route' (to, from) {
