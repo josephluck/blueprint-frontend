@@ -1,4 +1,7 @@
-const API_ROOT = 'http://localhost:3030/admin'
+let API_ROOT = 'http://localhost:3030/admin'
+if (process.env.NODE_ENV === 'production') {
+  API_ROOT = 'https://blueprint-api.herokuapp.com/admin'
+}
 
 export default {
   login () { return `${API_ROOT}/auth/local` },
