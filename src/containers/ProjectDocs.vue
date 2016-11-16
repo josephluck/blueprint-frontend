@@ -290,7 +290,7 @@
     },
     data () {
       return {
-        apiRoot: 'http://localhost:3030'
+        apiRoot: require('../api/urls.js').publicApiRoot
       }
     },
     filters: {
