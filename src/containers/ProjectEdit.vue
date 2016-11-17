@@ -2,6 +2,7 @@
   <div class="flex flex-1 flex-column">
     <div class="flex-1 overflow-auto">
       <div v-for="(resource, resourceIndex) in project.resources"
+        v-bind:data-scroll-id="resource.name"
         class="mb3 pa3 ba b--black-20 bg-white br2">
         <scroll-container v-on:enter="setCurrentlyViewing(resource.name)">
           <div class="flex items-center">

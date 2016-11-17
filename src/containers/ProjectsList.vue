@@ -20,7 +20,10 @@
                   v-bind:class="{
                     'fw5 orange': currentlyViewing.includes(resource.name)
                   }">
-                  {{resource.name}}
+                  <router-link class="gray"
+                    v-bind:to="getProjectLink(project._id, [resource.name])">
+                    {{resource.name}}
+                  </router-link>
                 </div>
                 <transition-height v-if="currentTab === 'docs'">
                   <div>
@@ -29,28 +32,40 @@
                         'fw5 orange': currentlyViewing === resource.name + '_get'
                       }"
                       v-if="resource.supportedMethods.get">
-                      GET
+                      <router-link class="gray"
+                        v-bind:to="getProjectLink(project._id, [resource.name, 'get'])">
+                        GET
+                      </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
                       v-bind:class="{
                         'fw5 orange': currentlyViewing === resource.name + '_post'
                       }"
                       v-if="resource.supportedMethods.post">
-                      POST
+                      <router-link class="gray"
+                        v-bind:to="getProjectLink(project._id, [resource.name, 'post'])">
+                        POST
+                      </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
                       v-bind:class="{
                         'fw5 orange': currentlyViewing === resource.name + '_put'
                       }"
                       v-if="resource.supportedMethods.put">
-                      PUT
+                      <router-link class="gray"
+                        v-bind:to="getProjectLink(project._id, [resource.name, 'put'])">
+                        PUT
+                      </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
                       v-bind:class="{
                         'fw5 orange': currentlyViewing === resource.name + '_delete'
                       }"
                       v-if="resource.supportedMethods.delete">
-                      DELETE
+                      <router-link class="gray"
+                        v-bind:to="getProjectLink(project._id, [resource.name, 'delete'])">
+                        DELETE
+                      </router-link>
                     </div>
                   </div>
                 </transition-height>
@@ -95,8 +110,13 @@
       this.getProjects()
     },
     methods: {
-      getProjectLink (projectId) {
-        return `/${projectId}/${this.currentTab}`
+      getProjectLink (projectId, query) {
+        let hash = ''
+        if (query && query.length) {
+          hash = '#'
+          hash += query.join('-')
+        }
+        return `/${projectId}/${this.currentTab}${hash}`
       },
       getProjects () {
         this.$store.dispatch('projects/GET_PROJECTS')

@@ -8,9 +8,9 @@
     </div>
     <div class="flex flex-1 h-100 overflow-hidden">
       <div class="mt1 flex flex-column overflow-auto">
-        <div class="flex-1 pa3 pl4">
+        <div class="flex-1 pt3 pb3 pl4">
           <projects-list></projects-list>
-          <a class="pointer db" v-on:click="setNewProjectModalShowing(true)">
+          <a class="button pointer db mt3" v-on:click="openNewProjectModal">
             New project
           </a>
         </div>
@@ -20,7 +20,6 @@
           <router-view class="child-view"></router-view>
         </transition>
       </div>
-
       <new-project-modal></new-project-modal>
     </div>
   </div>
@@ -41,11 +40,8 @@
       TransitionHeight: require('../components/TransitionHeight.vue')
     },
     methods: {
-      setNewProjectModalShowing (showing) {
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'newProject',
-          showing
-        })
+      openNewProjectModal () {
+        this.$store.commit('ui/SET_MODAL_NAME', 'newProject')
       }
     }
   }

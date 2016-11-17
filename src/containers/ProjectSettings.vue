@@ -53,8 +53,13 @@
           </div>
 
           <div slot="content" class="pa3">
+            <div class="mb3 green">
+              To give someone access to edit {{project.name}}'s blueprint, please enter
+              their email address below. Note that they must have already signed up to blueprint before you add them. Here's the link to sign up:
+              <router-link to="/signup">{{signupUrl}}</router-link>
+            </div>
             <label class="mb1">
-              Collaborator's email address
+              Email address
             </label>
             <input
               class="w-100 mb3"
@@ -65,6 +70,10 @@
 
           <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
             <div class="flex-1"></div>
+            <a v-on:click.prevent="setNewCollaboratorModalShowing(false)"
+              class="mr3">
+              Close
+            </a>
             <button type="submit" class="button">
               Add collaborator
             </button>
@@ -87,7 +96,7 @@
         v-bind:showing="deleteCollaboratorModalShowing"
         v-on:confirmed="deleteCollaborator(currentlyDeletingCollaborator._id)"
         v-on:close="setDeleteCollaboratorModalShowing(false)"
-        v-bind:headerText="`Remove ` + currentlyDeletingCollaborator.user.name + ` from ` + project.name + `'s blueprint`">
+        v-bind:headerText="`Remove ` + currentlyDeletingCollaborator.user.name">
         <div slot="message">
           <p class="mt0">Are you sure you want to remove {{currentlyDeletingCollaborator.user.name}} from {{project.name}}'s blueprint?</p>
           <p class="mb0">{{currentlyDeletingCollaborator.user.name}} will no longer be able to edit {{project.name}}'s blueprint.</p>
@@ -109,15 +118,16 @@
       return {
         collaborator: {
           email: ''
-        }
+        },
+        signupUrl: `${window.location.origin}/signup`
       }
     },
     computed: {
       project () { return this.$store.state.project.project },
-      deleteModalShowing () { return this.$store.state.ui.currentModal === 'deleteProject' && this.$store.state.ui.modalShowing },
-      addNewCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'addNewCollaborator' && this.$store.state.ui.modalShowing },
+      deleteModalShowing () { return this.$store.state.ui.openModalName === 'deleteProject' },
+      addNewCollaboratorModalShowing () { return this.$store.state.ui.openModalName === 'addNewCollaborator' },
       currentlyDeletingCollaborator () { return this.$store.state.project.currentlyDeletingCollaborator },
-      deleteCollaboratorModalShowing () { return this.$store.state.ui.currentModal === 'deleteCollaborator' && this.$store.state.ui.modalShowing },
+      deleteCollaboratorModalShowing () { return this.$store.state.ui.openModalName === 'deleteCollaborator' },
       throttledSaveProject () { return Utils.throttle(this.saveProject, 500) }
     },
     methods: {
@@ -131,10 +141,7 @@
         this.throttledSaveProject()
       },
       setDeleteProjectModalShowing (showing) {
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'deleteProject',
-          showing
-        })
+        this.$store.commit('ui/SET_MODAL_NAME', showing === true ? 'deleteProject' : null)
       },
       deleteProject () {
         this.$store.dispatch('project/DELETE', this.$route.params.projectId).then(() => {
@@ -143,10 +150,7 @@
         })
       },
       setNewCollaboratorModalShowing (showing) {
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'addNewCollaborator',
-          showing
-        })
+        this.$store.commit('ui/SET_MODAL_NAME', showing === true ? 'addNewCollaborator' : null)
       },
       addNewCollaborator () {
         this.$store.dispatch('project/ADD_NEW_COLLABORATOR', {
@@ -160,10 +164,7 @@
         if (showing === true) {
           this.$store.commit('project/form/SET_CURRENT_DELETE_COLLABORATOR', collaboratorId)
         }
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'deleteCollaborator',
-          showing
-        })
+        this.$store.commit('ui/SET_MODAL_NAME', showing === true ? 'deleteCollaborator' : null)
       },
       deleteCollaborator (collaboratorId) {
         this.$store.dispatch('project/DELETE_COLLABORATOR', {

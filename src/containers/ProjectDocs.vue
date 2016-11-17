@@ -2,6 +2,7 @@
   <div class="flex flex-1 flex-column">
     <div class="flex-1 overflow-auto">
       <div v-for="(resource, resourceIndex) in project.resources"
+        v-bind:data-scroll-id="resource.name"
         v-if="resource.supportedMethods.get || resource.supportedMethods.post || resource.supportedMethods.put || resource.supportedMethods.delete"
         class="mb3 pa3 ba b--black-20 bg-white br2">
         <div class="flex items-center">
@@ -13,7 +14,7 @@
         </div>
         <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
-            <div v-if="resource.supportedMethods.get" class="mb5">
+            <div v-if="resource.supportedMethods.get" class="mb5" v-bind:data-scroll-id="resource.name + `-get`">
               <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_get')">
                 <div>
                   <div class="f3">Retrieve {{resource.name}}</div>
@@ -167,6 +168,7 @@
 
 
             <div v-if="resource.supportedMethods.post"
+              v-bind:data-scroll-id="resource.name + `-post`"
               v-bind:class="{
                 'mb5': resource.supportedMethods.get || resource.supportedMethods.put || resource.supportedMethods.delete
               }">
@@ -207,6 +209,7 @@
             </div>
 
             <div v-if="resource.supportedMethods.put"
+              v-bind:data-scroll-id="resource.name + `-put`"
               v-bind:class="{
                 'mb5': resource.supportedMethods.delete
               }">
@@ -247,7 +250,8 @@
               </scroll-container>
             </div>
 
-            <div v-if="resource.supportedMethods.delete">
+            <div v-if="resource.supportedMethods.delete"
+              v-bind:data-scroll-id="resource.name + `-delete`">
               <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_delete')">
                 <div>
                   <div class="f3">Delete a {{resource.name | deplural}}</div>

@@ -43,7 +43,7 @@
     },
     computed: {
       newProjectModalShowing () {
-        return this.$store.state.ui.currentModal === 'newProject' && this.$store.state.ui.modalShowing
+        return this.$store.state.ui.openModalName === 'newProject'
       }
     },
     methods: {
@@ -66,10 +66,7 @@
         }
       },
       setNewProjectModalShowing (showing) {
-        this.$store.commit('ui/TOGGLE_MODAL', {
-          name: 'newProject',
-          showing
-        })
+        this.$store.commit('ui/SET_MODAL_NAME', showing === true ? 'newProject' : null)
       }
     }
   }

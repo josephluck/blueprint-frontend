@@ -39,11 +39,16 @@
   const moment = require('moment')
   export default {
     computed: {
-      project () { return this.$store.state.project.project },
-      loading () { return this.$store.state.project.loading }
+      project () {
+        this.$nextTick(() => {
+          this.scrollToElm(this.$route.hash)
+        })
+        return this.$store.state.project.project
+      }
     },
     watch: {
       '$route' (to, from) {
+        this.scrollToElm(to.hash)
         if (to.matched[1].name === 'project' && to.params.projectId !== from.params.projectId) {
           this.getProject(to.params.projectId)
         }
@@ -53,6 +58,17 @@
       this.getProject(this.$route.params.projectId)
     },
     methods: {
+      scrollToElm (hash) {
+        if (hash) {
+          let elmScrollId = hash.substring(1)
+          let elm = this.$el.querySelectorAll(`[data-scroll-id='${elmScrollId}']`)
+          if (elm.length) {
+            elm[0].scrollIntoView({
+              behavior: 'smooth'
+            })
+          }
+        }
+      },
       getProject (projectId) {
         this.$store.dispatch('project/GET_PROJECT', projectId).then(() => {}, () => {
           this.$router.replace({

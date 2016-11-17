@@ -1,6 +1,6 @@
 <template>
   <form v-on:submit.prevent="handleSave">
-    <modal v-if="showing">
+    <modal v-if="showing" v-on:close="close">
       <div slot="header"
         class="pa3 bb b--black-20 bg-white">
         {{headerText || "Confirm"}}
