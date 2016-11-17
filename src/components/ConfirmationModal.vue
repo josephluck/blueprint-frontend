@@ -16,7 +16,7 @@
         class="pa3 flex items-center bt b--black-20 bg-white">
         <div class="flex-1"></div>
         <a v-on:click.prevent="close"
-          class="mr3">
+          class="mr3 pointer">
           Nope
         </a>
         <button type="submit"

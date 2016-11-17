@@ -8,10 +8,11 @@ if (process.env.NODE_ENV === 'production') {
 export const publicApiRoot = PUBLIC_API_ROOT
 
 export default {
+  collaborators () { return `${INTERNAL_API_ROOT}/collaborators` },
+  collaborator (collaboratorId) { return `${INTERNAL_API_ROOT}/collaborators/${collaboratorId}` },
   login () { return `${INTERNAL_API_ROOT}/auth/local` },
   signup () { return `${INTERNAL_API_ROOT}/signup` },
   projects () { return `${INTERNAL_API_ROOT}/projects` },
   project (projectId) { return `${INTERNAL_API_ROOT}/projects/${projectId}` },
-  collaborators () { return `${INTERNAL_API_ROOT}/collaborators` },
-  collaborator (collaboratorId) { return `${INTERNAL_API_ROOT}/collaborators/${collaboratorId}` }
+  user (userId) { return `${INTERNAL_API_ROOT}/users/${userId}` }
 }

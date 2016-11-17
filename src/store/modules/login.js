@@ -12,8 +12,7 @@ const LoginModule = {
           commit('user/ON_LOGIN_SUCCESSFUL', response.body.data)
           window.localStorage.setItem('token', response.body.token)
           resolve()
-        })
-        .catch((response) => {
+        }, () => {
           reject()
         })
       })
