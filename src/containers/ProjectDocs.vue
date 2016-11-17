@@ -20,14 +20,12 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/api/{{project._id}}/{{resource.name}}
+                      {{apiRoot}}/{{project._id}}/{{resource.name}}
                     </div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Method</label>
-                    <div class="code pa3 ba b--black-10 br2">
-                      GET
-                    </div>
+                    <div class="code pa3 ba b--black-10 br2">GET</div>
                   </div>
                   <div class="mt3" v-if="resource.type === 'collection'">
                     <label class="dib mb1">Query parameters</label>
@@ -138,14 +136,12 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/api/{{project._id}}/{{resource.name}}/1
+                      {{apiRoot}}/{{project._id}}/{{resource.name}}/1
                     </div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Method</label>
-                    <div class="code pa3 ba b--black-10 br2">
-                      GET
-                    </div>
+                    <div class="code pa3 ba b--black-10 br2">GET</div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Query parameters</label>
@@ -180,14 +176,12 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/api/{{project._id}}/{{resource.name}}
+                      {{apiRoot}}/{{project._id}}/{{resource.name}}
                     </div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Method</label>
-                    <div class="code pa3 ba b--black-10 br2">
-                      POST
-                    </div>
+                    <div class="code pa3 ba b--black-10 br2">POST</div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Request body</label>
@@ -223,14 +217,12 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/api/{{project._id}}/{{resource.name}}<span v-if="resource.type === 'collection'">/1</span>
+                      {{apiRoot}}/{{project._id}}/{{resource.name}}<span v-if="resource.type === 'collection'">/1</span>
                     </div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Method</label>
-                    <div class="code pa3 ba b--black-10 br2">
-                      PUT
-                    </div>
+                    <div class="code pa3 ba b--black-10 br2">PUT</div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Request body</label>
@@ -262,14 +254,12 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/api/{{project._id}}/{{resource.name}}/1
+                      {{apiRoot}}/{{project._id}}/{{resource.name}}/1
                     </div>
                   </div>
                   <div class="mt3">
                     <label class="dib mb1">Method</label>
-                    <div class="code pa3 ba b--black-10 br2">
-                      DELETE
-                    </div>
+                    <div class="code pa3 ba b--black-10 br2">DELETE</div>
                   </div>
                 </div>
               </scroll-container>

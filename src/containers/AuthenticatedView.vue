@@ -4,15 +4,13 @@
       <div class="flex-1">
         <span class="ttu tracked fw5 blue">Blueprint</span>
       </div>
-      <a class="db ml3" v-on:click.prevent="logout">
-        Logout
-      </a>
+      <profile-dropdown></profile-dropdown>
     </div>
     <div class="flex flex-1 h-100 overflow-hidden">
       <div class="mt1 flex flex-column overflow-auto">
         <div class="flex-1 pa3 pl4">
           <projects-list></projects-list>
-          <a class="db" v-on:click="newProjectFormShowing = true">
+          <a class="pointer db" v-on:click="newProjectFormShowing = true">
             New project
           </a>
         </div>
@@ -67,25 +65,12 @@
       }
     },
     components: {
+      ProfileDropdown: require('../containers/ProfileDropdown.vue'),
       ProjectsList: require('../containers/ProjectsList.vue'),
       Modal: require('../components/Modal.vue'),
       TransitionHeight: require('../components/TransitionHeight.vue')
     },
-    watch: {
-      '$route' (to, from) {
-        const toDepth = to.path.split('/').length
-        const fromDepth = from.path.split('/').length
-        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-      }
-    },
     methods: {
-      logout () {
-        this.$store.dispatch('logout/ON_SUBMIT').then(() => {
-          this.$router.replace({
-            path: '/login'
-          })
-        })
-      },
       saveNewProject () {
         if (this.newProjectName) {
           this.$store.dispatch('projects/ADD_NEW', {

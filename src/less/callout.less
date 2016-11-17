@@ -1,0 +1,31 @@
+.callout {
+  position: relative;
+  .callout-content {
+    position: absolute;
+    top: 100%;
+  }
+  &.on-right {
+    .callout-content {
+      right: 0px;
+    }
+  }
+  &.on-left {
+    .callout-content {
+      left: 0px;
+    }
+  }
+}
+
+.callout-content {
+  transition: @transition;
+  &.callout-enter {
+    opacity: 0;
+  }
+  &.callout-leave-active {
+    opacity: 0;
+  }
+  &.callout-enter,
+  &.callout-leave-active {
+    transform: translateY(-5px) scale(1.02);
+  }
+}

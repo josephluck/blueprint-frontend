@@ -16,7 +16,12 @@
               v-bind:class="{
                 'bb b--black-20': collaboratorIndex !== project.collaborators.length - 1
               }">
-              <div class="flex pa2">
+              <div class="flex pa2 items-center">
+                <div class="flex-0 mr2">
+                  <img v-bind:src="collaborator.user.avatar + `?s=30`"
+                    class="br-100"
+                  >
+                </div>
                 <div class="flex-1">
                   {{collaborator.user.name}}
                 </div>
