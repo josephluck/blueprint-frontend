@@ -21,7 +21,9 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/{{project._id}}/{{resource.name}}
+                      <a v-bind:href="projectApiUrl(resource)" target="_blank">
+                        {{projectApiUrl(resource)}}
+                      </a>
                     </div>
                   </div>
                   <div class="mt3">
@@ -37,7 +39,9 @@
                         <div class="fw5 mb2 code">Include parent {{model.otherResourceName | deplural}}</div>
                         <div class="silver">
                           Include parent {{model.otherResourceName | deplural}} object in the {{resource.name}} response. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_expand=' + deplural(model.otherResourceName)" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                          </a>
                         </div>
                       </div>
                       <div class="pv3 b--black-10 bb"
@@ -46,24 +50,32 @@
                         <div class="fw5 mb2 code">Include child {{childResource.name}}</div>
                         <div class="silver">
                           Include {{childResource.name}} that relate to {{childResource.name}} response. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_embed={{childResource.name}}</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_embed=' + childResource.name" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_embed={{childResource.name}}</code>
+                          </a>
                         </div>
                       </div>
                       <div class="pv3 b--black-10 bb">
                         <div class="fw5 mb2 code">Exact search</div>
                         <div class="silver">
                           Search {{resource.name}} by attribute. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}=lorem</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?' + resource.model[0].key + '=lorem'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}=lorem</code>
+                          </a>
                           Note that the query has to be an exact match for the attribute.
                           You can access deeply nested properties, for example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}.name=lorem</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?' + resource.model[0].key + '.name=lorem'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}.name=lorem</code>
+                          </a>
                         </div>
                       </div>
                       <div class="pv3 b--black-10 bb">
                         <div class="fw5 mb2 code">Partial search</div>
                         <div class="silver">
                           Search {{resource.name}} by attributes. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_like=lorem</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?' + resource.model[0].key + '_like=lorem'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_like=lorem</code>
+                          </a>
                           Note that this is a partial search (so will return an array of {{resource.name}} that contain
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">lorem</code>
                           in the {{resource.model[0].key}} attribute).
@@ -73,11 +85,15 @@
                         <div class="fw5 mb2 code">Paginate</div>
                         <div class="silver">
                           Paginate {{resource.name}}. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_page=3</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_page=3' " target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_page=3</code>
+                          </a>
                           Note that you can adjust the number of records returned per page using the
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">?_limit</code>
                           query. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_page=3&limit=15</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_page=3&_limit=15' " target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_page=3&_limit=15</code>
+                          </a>
                           The default limit is 10.
                           Note that you'll get
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">first</code>
@@ -94,11 +110,15 @@
                         <div class="fw5 mb2 code">Sort</div>
                         <div class="silver">
                           Sort {{resource.name}} by attribute. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_sort=' + resource.model[0].key" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}</code>
+                          </a>
                           You can choose between ascending or descending order using the
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">?_order</code>
                           query. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}&order=DESC</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_sort=' + resource.model[0].key + '&_order=DESC'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_sort={{resource.model[0].key}}&_order=DESC</code>
+                          </a>
                           The default order is ASC.
                         </div>
                       </div>
@@ -106,27 +126,35 @@
                         <div class="fw5 mb2 code">Slice</div>
                         <div class="silver">
                           Slice {{resource.name}} for pagination. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_end=20</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_start=10&_end=20'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_end=20</code>
+                          </a>
                           You can use
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">?_limit</code>
                           instead of
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">?_end</code>
                           for example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_limit=20</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_start=10&_limit=20'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_start=10&_limit=20</code>
+                          </a>
                         </div>
                       </div>
                       <div class="pv3 b--black-10 bb">
                         <div class="fw5 mb2 code">Less / greater than</div>
                         <div class="silver">
                           Query {{resource.name}} by attribute greater / less than. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_gte=10&{{resource.model[0].key}}_lte=50</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?' + resource.model[0].key + '_gte10&' + resource.model[0].key + '_lte=50'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_gte=10&{{resource.model[0].key}}_lte=50</code>
+                          </a>
                         </div>
                       </div>
                       <div class="pv3">
                         <div class="fw5 mb2 code">Exclude</div>
                         <div class="silver">
                           Exclude {{resource.name}} that contain a particular attribute value. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_ne=lorem</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?' + resource.model[0].key + '_ne=lorem'" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?{{resource.model[0].key}}_ne=lorem</code>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -145,7 +173,9 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/{{project._id}}/{{resource.name}}/1
+                      <a v-bind:href="projectApiUrl(resource) + '/1'" target="_blank">
+                        {{projectApiUrl(resource)}}/1
+                      </a>
                     </div>
                   </div>
                   <div class="mt3">
@@ -155,17 +185,26 @@
                   <div class="mt3">
                     <label class="dib mb1">Query parameters</label>
                     <div class="ph3 ba b--black-10 br2">
-                      <div class="pv3 b--black-10"
-                        v-for="(model, modelIndex) in resource.model"
-                        v-bind:key="modelIndex"
-                        v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'"
-                        v-bind:class="{
-                          'bb': modelIndex !== resource.model.length - 1
-                        }">
+                      <div class="pv3 b--black-10 bb"
+                        v-for="(model, modelIndex) in getParentResources(resource.model)"
+                        v-bind:key="modelIndex">
                         <div class="fw5 mb2 code">Include parent {{model.otherResourceName | deplural}}</div>
                         <div class="silver">
                           Include parent {{model.otherResourceName | deplural}} object in the {{resource.name}} response. For example
-                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                          <a v-bind:href="projectApiUrl(resource) + '?_expand=' + deplural(model.otherResourceName)" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="pv3 b--black-10 bb"
+                        v-for="(childResource, childResourceIndex) in getChildResources(resource, project.resources)"
+                        v-bind:key="childResourceIndex">
+                        <div class="fw5 mb2 code">Include child {{childResource.name}}</div>
+                        <div class="silver">
+                          Include {{childResource.name}} that relate to {{childResource.name}} response. For example
+                          <a v-bind:href="projectApiUrl(resource) + '?_embed=' + childResource.name" target="_blank">
+                            <code class="silver dib bg-near-white pa1 br2 ba b--black-10">?_embed={{childResource.name}}</code>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -186,7 +225,7 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/{{project._id}}/{{resource.name}}
+                      {{projectApiUrl(resource)}}
                     </div>
                   </div>
                   <div class="mt3">
@@ -228,7 +267,7 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/{{project._id}}/{{resource.name}}<span v-if="resource.type === 'collection'">/1</span>
+                      {{projectApiUrl(resource)}}<span v-if="resource.type === 'collection'">/1</span>
                     </div>
                   </div>
                   <div class="mt3">
@@ -266,7 +305,7 @@
                   <div class="mt3">
                     <label class="dib mb1">Request URL</label>
                     <div class="code pa3 ba b--black-10 br2">
-                      {{apiRoot}}/{{project._id}}/{{resource.name}}/1
+                      {{projectApiUrl(resource)}}/1
                     </div>
                   </div>
                   <div class="mt3">
@@ -329,7 +368,11 @@
           })
         })
         return childResources
-      }
+      },
+      projectApiUrl (resource) {
+        return this.apiRoot + `/` + this.project._id + `/` + resource.name
+      },
+      deplural (val) { return Inflection.singularize(val) }
     }
   }
 </script>
