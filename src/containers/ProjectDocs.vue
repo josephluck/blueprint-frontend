@@ -32,13 +32,21 @@
                     <label class="dib mb1">Query parameters</label>
                     <div class="ph3 ba b--black-10 br2">
                       <div class="pv3 b--black-10 bb"
-                        v-for="(model, modelIndex) in resource.model"
-                        v-bind:key="modelIndex"
-                        v-if="model.type === 'anotherResource' && model.anotherResourceMethod === 'id'">
+                        v-for="(model, modelIndex) in getParentResources(resource.model)"
+                        v-bind:key="modelIndex">
                         <div class="fw5 mb2 code">Include parent {{model.otherResourceName | deplural}}</div>
                         <div class="silver">
                           Include parent {{model.otherResourceName | deplural}} object in the {{resource.name}} response. For example
                           <code class="dib bg-near-white pa1 br2 ba b--black-10">?_expand={{model.otherResourceName | deplural}}</code>
+                        </div>
+                      </div>
+                      <div class="pv3 b--black-10 bb"
+                        v-for="(childResource, childResourceIndex) in getChildResources(resource, project.resources)"
+                        v-bind:key="childResourceIndex">
+                        <div class="fw5 mb2 code">Include child {{childResource.name}}</div>
+                        <div class="silver">
+                          Include {{childResource.name}} that relate to {{childResource.name}} response. For example
+                          <code class="dib bg-near-white pa1 br2 ba b--black-10">?_embed={{childResource.name}}</code>
                         </div>
                       </div>
                       <div class="pv3 b--black-10 bb">
@@ -300,6 +308,27 @@
       },
       setCurrentlyViewing (elm) {
         this.$store.commit('ui/SET_CURRENTLY_VIEWING', elm)
+      },
+      getParentResources (model) {
+        let parentResources = []
+        model.forEach((attr) => {
+          if (attr.type === 'anotherResource' && attr.anotherResourceMethod === 'id') {
+            parentResources.push(attr)
+          }
+        })
+        return parentResources
+      },
+      getChildResources (resource, resources) {
+        let childResources = []
+        let keyNameThatEmbedUsesInOtherResources = Inflection.singularize(resource.name) + 'Id'
+        resources.map((otherResource) => {
+          otherResource.model.map((otherResourceAttr) => {
+            if (otherResourceAttr.key === keyNameThatEmbedUsesInOtherResources) {
+              childResources.push(otherResource)
+            }
+          })
+        })
+        return childResources
       }
     }
   }
