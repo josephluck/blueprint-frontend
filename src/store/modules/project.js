@@ -49,9 +49,11 @@ const ProjectsModule = {
       state.project.collaborators.splice(collaboratorIndex, 1)
     },
     'user/UPDATE_SUCCESSFUL' (state, details) {
-      let foundCollaborator = state.project.collaborators.find((collaborator) => collaborator.userId === details._id)
-      if (foundCollaborator) {
-        Vue.set(foundCollaborator, 'user', details)
+      if (state.project && state.project.collaborators) {
+        let foundCollaborator = state.project.collaborators.find((collaborator) => collaborator.userId === details._id)
+        if (foundCollaborator) {
+          Vue.set(foundCollaborator, 'user', details)
+        }
       }
     },
     'project/form/REMOVE_RESOURCE' (state, {resourceIndex}) {
