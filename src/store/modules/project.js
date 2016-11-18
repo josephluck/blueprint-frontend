@@ -15,7 +15,8 @@ const ProjectsModule = {
       state.project = { ...project }
     },
     'project/RECEIVE_PROJECT_UPDATE' (state, project) {
-      state.project = { ...project }
+      // This shouldnt update the project if a PUT is pending
+      // state.project = { ...project }
     },
     'project/ERROR' (state, error) {
       state.project = {}

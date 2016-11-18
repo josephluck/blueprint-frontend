@@ -26,6 +26,9 @@
       </div>
 
       <div slot="footer" class="pa3 flex items-center bt b--black-20 bg-white">
+        <router-link to="/signup">
+          I don't have an account yet
+        </router-link>
         <div class="flex-1"></div>
         <button type="submit" class="button">
           Login

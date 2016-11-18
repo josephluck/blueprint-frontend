@@ -48,7 +48,8 @@
     },
     watch: {
       '$route' (to, from) {
-        this.scrollToElm(to.hash)
+        let elmScrollId = to.hash.substring(1)
+        this.$store.commit('ui/SET_CURRENTLY_VIEWING', elmScrollId)
         if (to.matched[1].name === 'project' && to.params.projectId !== from.params.projectId) {
           this.getProject(to.params.projectId)
         }
@@ -58,9 +59,8 @@
       this.getProject(this.$route.params.projectId)
     },
     methods: {
-      scrollToElm (hash) {
-        if (hash) {
-          let elmScrollId = hash.substring(1)
+      scrollToElm (elmScrollId) {
+        if (elmScrollId) {
           let elm = this.$el.querySelectorAll(`[data-scroll-id='${elmScrollId}']`)
           if (elm.length) {
             elm[0].scrollIntoView({

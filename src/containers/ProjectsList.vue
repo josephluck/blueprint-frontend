@@ -16,11 +16,11 @@
               <div class="list-transition-item mb2 ml2"
                 v-for="(resource, resourceIndex) in project.resources"
                 v-bind:key="resourceIndex">
-                <div class="transition"
-                  v-bind:class="{
-                    'fw5 orange': currentlyViewing.includes(resource.name)
-                  }">
+                <div class="transition">
                   <router-link class="gray"
+                    v-bind:class="{
+                      'fw5 orange': currentlyViewing.includes(resource.name)
+                    }"
                     v-bind:to="getProjectLink(project._id, [resource.name])">
                     {{resource.name}}
                   </router-link>
@@ -28,41 +28,41 @@
                 <transition-height v-if="currentTab === 'docs'">
                   <div>
                     <div class="mt1 fw2 ml2 transition"
-                      v-bind:class="{
-                        'fw5 orange': currentlyViewing === resource.name + '_get'
-                      }"
                       v-if="resource.supportedMethods.get">
                       <router-link class="gray"
+                        v-bind:class="{
+                          'fw5 orange': currentlyViewing === resource.name + '-get'
+                        }"
                         v-bind:to="getProjectLink(project._id, [resource.name, 'get'])">
                         GET
                       </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
-                      v-bind:class="{
-                        'fw5 orange': currentlyViewing === resource.name + '_post'
-                      }"
                       v-if="resource.supportedMethods.post">
                       <router-link class="gray"
+                        v-bind:class="{
+                          'fw5 orange': currentlyViewing === resource.name + '-post'
+                        }"
                         v-bind:to="getProjectLink(project._id, [resource.name, 'post'])">
                         POST
                       </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
-                      v-bind:class="{
-                        'fw5 orange': currentlyViewing === resource.name + '_put'
-                      }"
                       v-if="resource.supportedMethods.put">
                       <router-link class="gray"
+                        v-bind:class="{
+                          'fw5 orange': currentlyViewing === resource.name + '-put'
+                        }"
                         v-bind:to="getProjectLink(project._id, [resource.name, 'put'])">
                         PUT
                       </router-link>
                     </div>
                     <div class="fw2 ml2 transition"
-                      v-bind:class="{
-                        'fw5 orange': currentlyViewing === resource.name + '_delete'
-                      }"
                       v-if="resource.supportedMethods.delete">
                       <router-link class="gray"
+                        v-bind:class="{
+                          'fw5 orange': currentlyViewing === resource.name + '-delete'
+                        }"
                         v-bind:to="getProjectLink(project._id, [resource.name, 'delete'])">
                         DELETE
                       </router-link>

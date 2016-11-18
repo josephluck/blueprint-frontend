@@ -15,7 +15,7 @@
         <transition-height v-if="!hiddenResources[resourceIndex]">
           <div>
             <div v-if="resource.supportedMethods.get" class="mb5" v-bind:data-scroll-id="resource.name + `-get`">
-              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_get')">
+              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '-get')">
                 <div>
                   <div class="f3">Retrieve {{resource.name}}</div>
                   <div class="mt3">
@@ -131,7 +131,7 @@
               v-bind:class="{
                 'mb5': resource.supportedMethods.put || resource.supportedMethods.delete
               }">
-              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_get')">
+              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '-get')">
                 <div>
                   <div class="f3">Retrieve a {{resource.name | deplural}}</div>
                   <div class="mt3">
@@ -172,7 +172,7 @@
               v-bind:class="{
                 'mb5': resource.supportedMethods.get || resource.supportedMethods.put || resource.supportedMethods.delete
               }">
-              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_post')">
+              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '-post')">
                 <div>
                   <div class="f3">Create a {{resource.name | deplural}}</div>
                   <div class="mt3">
@@ -213,7 +213,7 @@
               v-bind:class="{
                 'mb5': resource.supportedMethods.delete
               }">
-              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_put')">
+              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '-put')">
                 <div>
                   <div class="f3" v-if="resource.type === 'collection'">Update a {{resource.name | deplural}}</div>
                   <div class="f3" v-else>Update {{resource.name}}</div>
@@ -252,7 +252,7 @@
 
             <div v-if="resource.supportedMethods.delete"
               v-bind:data-scroll-id="resource.name + `-delete`">
-              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '_delete')">
+              <scroll-container v-on:enter="setCurrentlyViewing(resource.name + '-delete')">
                 <div>
                   <div class="f3">Delete a {{resource.name | deplural}}</div>
                   <div class="mt3">

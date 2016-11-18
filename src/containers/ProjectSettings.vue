@@ -94,11 +94,14 @@
       </confirmation-modal>
       <confirmation-modal
         v-bind:showing="deleteCollaboratorModalShowing"
-        v-on:confirmed="deleteCollaborator(currentlyDeletingCollaborator._id)"
+        v-on:confirmed="deleteCollaborator(currentlyDeletingCollaborator._id, currentlyDeletingCollaborator.userId)"
         v-on:close="setDeleteCollaboratorModalShowing(false)"
         v-bind:headerText="`Remove ` + currentlyDeletingCollaborator.user.name">
         <div slot="message">
           <p class="mt0">Are you sure you want to remove {{currentlyDeletingCollaborator.user.name}} from {{project.name}}'s blueprint?</p>
+          <b v-if="user._id === currentlyDeletingCollaborator.userId">
+            You're about to remove yourself from {{project.name}}'s blueprint!
+          </b>
           <p class="mb0">{{currentlyDeletingCollaborator.user.name}} will no longer be able to edit {{project.name}}'s blueprint.</p>
         </div>
       </confirmation-modal>
@@ -128,7 +131,8 @@
       addNewCollaboratorModalShowing () { return this.$store.state.ui.openModalName === 'addNewCollaborator' },
       currentlyDeletingCollaborator () { return this.$store.state.project.currentlyDeletingCollaborator },
       deleteCollaboratorModalShowing () { return this.$store.state.ui.openModalName === 'deleteCollaborator' },
-      throttledSaveProject () { return Utils.throttle(this.saveProject, 500) }
+      throttledSaveProject () { return Utils.throttle(this.saveProject, 500) },
+      user () { return this.$store.state.user.details }
     },
     methods: {
       saveProject () {
@@ -166,10 +170,14 @@
         }
         this.$store.commit('ui/SET_MODAL_NAME', showing === true ? 'deleteCollaborator' : null)
       },
-      deleteCollaborator (collaboratorId) {
+      deleteCollaborator (collaboratorId, userId) {
         this.$store.dispatch('project/DELETE_COLLABORATOR', {
           collaboratorId
         }).then(() => {
+          // Check if the current user has been deleted
+          if (userId === this.user._id) {
+            this.$router.push('/')
+          }
           this.setDeleteCollaboratorModalShowing(false)
         })
       }
