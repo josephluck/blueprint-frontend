@@ -28,7 +28,8 @@
     "vue-router": "^2.0.1",
     "vuex": "^2.0.0",
     "vuex-persistedstate": "^0.3.0",
-    "vuex-router-sync": "^3.0.0"
+    "vuex-router-sync": "^3.0.0",
+    "zenscroll": "^3.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
