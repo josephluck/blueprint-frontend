@@ -9,14 +9,14 @@
   export default {
     mounted (el) {
       // Bind window scroll listener
-      const elm = this.getScrollParent(this.$el)
+      const elm = Utils.getScrollParent(this.$el)
       if (elm) {
         elm.addEventListener('scroll', this.throttledOnScroll)
       }
     },
     destroyed (el) {
       // Remove window scroll listener
-      const elm = this.getScrollParent(this.$el)
+      const elm = Utils.getScrollParent(this.$el)
       if (elm) {
         elm.removeEventListener('scroll', this.throttledOnScroll)
       }
@@ -47,16 +47,6 @@
           el.contains(efp(rect.right, rect.bottom)) ||
           el.contains(efp(rect.left, rect.bottom))
         )
-      },
-      getScrollParent (node) {
-        if (node === null) {
-          return null
-        }
-        if (node.scrollHeight > node.clientHeight) {
-          return node
-        } else {
-          return this.getScrollParent(node.parentNode)
-        }
       },
       onScroll (e) {
         if (!this.visible && this.isElementVisible(this.$el)) {

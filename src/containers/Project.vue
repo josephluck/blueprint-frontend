@@ -38,6 +38,7 @@
 <script>
   const moment = require('moment')
   const zenscroll = require('zenscroll')
+  const Utils = require('../utils')
   export default {
     computed: {
       project () {
@@ -62,24 +63,11 @@
       this.getProject(this.$route.params.projectId)
     },
     methods: {
-      getScrollParent (node) {
-        if (node === null) {
-          return null
-        }
-        if (node.scrollHeight > node.clientHeight) {
-          return node
-        } else {
-          return this.getScrollParent(node.parentNode)
-        }
-      },
       scrollToElm (elmScrollId) {
         if (elmScrollId) {
           let elm = this.$el.querySelectorAll(`[data-scroll-id='${elmScrollId}']`)
           if (elm.length) {
-            // elm[0].scrollIntoViewIfNeeded({
-            //   behavior: 'smooth'
-            // })
-            const scrollContainer = this.getScrollParent(elm[0])
+            const scrollContainer = Utils.getScrollParent(elm[0])
             const scroller = zenscroll.createScroller(scrollContainer, 300, 150)
             scroller.intoView(elm[0])
           }
