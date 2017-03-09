@@ -1,5 +1,7 @@
 # blueprint
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/josephluck/blueprint-frontend.svg)](https://greenkeeper.io/)
+
 > Fake JSON API for front-end developers
 
 ## Build Setup
